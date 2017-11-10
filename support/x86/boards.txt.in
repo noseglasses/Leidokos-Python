@@ -1,5 +1,5 @@
-virtual.name="Kaleidoscope Virtual Keyboard"
-virtual.build.usb_product="Kaleidoscope Virtual Keyboard"
+virtual.name="Kaleidoscope Python Interface"
+virtual.build.usb_product="Kaleidoscope Python Interface"
 virtual.build.usb_manufacturer="Kaleidoscope"
 virtual.build.board=VIRTUAL
 virtual.build.core=virtual
