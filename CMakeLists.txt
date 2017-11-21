@@ -170,5 +170,6 @@ set(support_link_name "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardi
 set(support_target "${CMAKE_SOURCE_DIR}/support/x86")
 generate_link("${support_target}" "${support_link_name}")
 
-set(libraries_link_name "${${CMAKE_SOURCE_DIR}/support/x86/libraries}")
+set(libraries_link_name "${CMAKE_SOURCE_DIR}/support/x86/libraries")
 set(libraries_target "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/avr/libraries")
+generate_link("${libraries_target}" "${libraries_link_name}")
