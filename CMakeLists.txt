@@ -142,7 +142,7 @@ endif()
 # and add an include directive that points to the boost header location.
 #
 set(KALEIDOSCOPE_PYTHON_WRAPPER_BUILD_FLAGS
-   "\"-I${Boost_INCLUDE_DIR}\" \"-I${PYTHON_INCLUDE_DIRS}\"")
+   "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS}")
    
 # The configure_file command reads a text file, scans it for occurences of
 # CMake variables, as the KALEIDOSCOPE_PYTHON_WRAPPER_BUILD_FLAGS
