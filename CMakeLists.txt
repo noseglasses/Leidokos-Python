@@ -62,7 +62,7 @@ endmacro()
 # module to be included in the firmware build.
 #
 set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
-   "${CMAKE_SOURCE_DIR}/src/IncludesHardwareVirtual.h" CACHE INTERNAL "")
+   "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python-Wrapper.h" CACHE INTERNAL "")
 
 # Include the Kaleidoscope-CMake build system
 #
