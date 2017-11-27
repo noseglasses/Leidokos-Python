@@ -1,0 +1,3 @@
+[submodule "3rd_party/Kaleidoscope-CMake"]
+	path = 3rd_party/Kaleidoscope-CMake
+	url = https://github.com/noseglasses/Kaleidoscope-CMake.git

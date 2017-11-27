@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+cmake_minimum_required(VERSION 2.8)
+
 # This configuration process can be passed a list of paths that 
 # point to Kaleidoscope components (git repos).
 #
@@ -34,9 +36,48 @@
 # The configuration checks for boost python to be available and
 # configures the Arduino build system accodingly.
 
-cmake_minimum_required(VERSION 2.8)
+# As we have to link some external libraries to the virtual
+# firmware, we cannot build it using kaleidoscope-builder.
+# Thus, we rely on Kaleidoscope-CMake to build.
+#
+set(KALEIDOSCOPE_CMAKE_SOURCE_DIR 
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake"
+   CACHE INTERNAL "")
 
-# Set policy to prevent file globbing through symlinks
+# kaleidoscope_set_binary_basename is called by Kaleidoscope_CMake 
+# during intialization.
+# The reason for its existence is that we cannot define the firmware 
+# executable basename here directly as we require 
+# variable CMAKE_SHARED_LIBRARY_SUFFIX
+# which is only set later on during initialization when project(...) 
+# is called.
+#
+macro(kaleidoscope_set_binary_basename 
+   basename_var_
+)
+   set(${basename_var_} "kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
+endmacro()
+
+# Adding a dummy header that forces the Kaleidoscope-Hardware-Virtual
+# module to be included in the firmware build.
+#
+set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
+   "${CMAKE_SOURCE_DIR}/src/IncludesHardwareVirtual.h" CACHE INTERNAL "")
+
+# Include the Kaleidoscope-CMake build system
+#
+include("${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake/CMakeLists.txt")
+
+# By convention, CMake requires a project(...) directive in the
+# toplevel CMakeLists.txt file to be present. Any following
+# project directives seem to be ignored. The following is only a dummy.
+# The actual project definition is done by the included Kaleidoscope-CMake
+# build system.
+#
+project(Kaleidoscope)
+
+# Set policy to prevent file globbing through symlinks. This must be
+# explicitly set to NEW to silencd warnings of recent CMake versions.
 #
 cmake_policy(SET CMP0009 NEW)
 
@@ -45,14 +86,20 @@ cmake_policy(SET CMP0009 NEW)
 # that is parent to a number of such repository. File search for 
 # .python-wrapper files is in any case recursive.
 #
-set(KALEIDOSCOPE_MODULE_REPO_PATHS "" CACHE STRING "A list of paths that are recursively searched for files with extension .python-wrapper")
+set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" 
+   CACHE STRING 
+   "A list of paths that are recursively searched for files with \
+extension .python-wrapper")
 
 set(repo_paths "${KALEIDOSCOPE_MODULE_REPO_PATHS}")
 
 # A list of repo paths can also be defined in a file whose filename
 # is provided through the variable KALEIDOSCOPE_MODULE_REPO_PATHS_FILE
 #
-set(KALEIDOSCOPE_MODULE_REPO_PATHS_FILE "" CACHE FILEPATH "A text file that contains a list of paths (one per line) that are recursively searched for files with extension .python-wrapper")
+set(KALEIDOSCOPE_MODULE_REPO_PATHS_FILE ""
+   CACHE FILEPATH 
+   "A text file that contains a list of paths (one per line) that \
+are recursively searched for files with extension .python-wrapper")
 
 if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
 
@@ -66,6 +113,10 @@ if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
    
    list(APPEND repo_paths "${contents}")
 endif()
+
+# The following scans all Kaleidoscope modules for python wrapper 
+# files and generates symbolic links with extension ".cpp". This enables
+# the files to be included in the firmware build process.
 
 function(generate_link 
    target_ 
@@ -120,7 +171,12 @@ find_package(Boost
 )
 
 if(NOT Boost_FOUND)
-   message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires boost-python library and headers to compile python wrappers. If you have installed boost in a non standard location, please configure the CMake build system accordingly. See the documentation about the FindBoost module at https://cmake.org/cmake/help/v3.0/module/FindBoost.html for additional build system variables that support the boost auto detection process.")
+   message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires boost-python \
+library and headers to compile python wrappers. If you have installed boost \
+in a non standard location, please configure the CMake build \
+system accordingly. See the documentation about the FindBoost module \
+at https://cmake.org/cmake/help/v3.0/module/FindBoost.html for additional \
+build system variables that support the boost auto detection process.")
    message(SEND_ERROR "Under Ubuntu linux boost python can be installed as")
    message(SEND_ERROR "sudo apt-get install libboost-python-dev")
    message(FATAL_ERROR "Aborting.")
@@ -131,14 +187,20 @@ endif()
 find_package(PythonLibs REQUIRED)
 
 if(NOT PYTHONLIBS_FOUND)
-   message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires python libraries and headers to compile python wrappers. If you have installed python in a non standard location, please configure the CMake build system accordingly. See the documentation about the FindPythonLibs module at https://cmake.org/cmake/help/v3.0/module/FindPythonLibs.html for additional build system variables that support the python auto detection process.")
+   message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires python \
+libraries and headers to compile python wrappers. If you have installed python \
+in a non standard location, please configure the CMake build \
+system accordingly. See the documentation about the FindPythonLibs module \
+at https://cmake.org/cmake/help/v3.0/module/FindPythonLibs.html for \
+additional build system variables that support the python auto \
+detection process.")
    message(SEND_ERROR "Under Ubuntu linux python can be installed as")
    message(SEND_ERROR "sudo apt-get install libboost-python-dev")
    message(FATAL_ERROR "Aborting.")
    
 endif()
    
-# Configure the boards.txt file used by the Arduino build process
+# Configures the boards.txt file used by the Arduino build process
 # and add an include directive that points to the boost header location.
 #
 set(KALEIDOSCOPE_PYTHON_WRAPPER_BUILD_FLAGS
@@ -154,22 +216,41 @@ configure_file(
    "${CMAKE_BINARY_DIR}/support/x86/boards.txt"
 )
 
+# Let the boost python and python libraries be linked with the 
+# firmware.
+#
+target_link_libraries("${kaleidoscope_firmware_target}"
+   PUBLIC
+   "${Boost_LIBRARIES}"
+   "${PYTHON_LIBRARY}"
+)
+
 # Setup symlinks that enable correct build for x86 using the
 # Arduino build system (inspired by the Hardware-Virtual plugin 
 #    https://github.com/cdisselkoen/Kaleidoscope-Hardware-Virtual)
 # Thanks to cdisselkoen for the inspiration.
 #
-set(KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR "" CACHE PATH "The Arduino sketchbook path")
+if(NOT "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" STREQUAL "")
+   get_filename_component(arduino_sketchbook_path_default
+      "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" PATH)
+endif()
+
+set(KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR "${arduino_sketchbook_path_default}" 
+   CACHE PATH "The Arduino sketchbook path")
+   
 if("${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}" EQUAL ""
    OR NOT EXISTS "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}")
    
-   message(FATAL_ERROR "Please define an existing KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR")
+   message(FATAL_ERROR 
+      "Please define an existing KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR")
 endif()
 
-set(support_link_name "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/x86")
+set(support_link_name 
+   "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/x86")
 set(support_target "${CMAKE_SOURCE_DIR}/support/x86")
 generate_link("${support_target}" "${support_link_name}")
 
 set(libraries_link_name "${CMAKE_SOURCE_DIR}/support/x86/libraries")
-set(libraries_target "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/avr/libraries")
+set(libraries_target 
+   "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/avr/libraries")
 generate_link("${libraries_target}" "${libraries_link_name}")
