@@ -25,6 +25,8 @@
 
 #include <string.h>
 
+#include <iostream>
+
 // Also defined by Kaleidoscope-Hardware-Virtual
 //
 void initVariant() __attribute__((weak));
@@ -105,7 +107,15 @@ void
    this->keyboardReport_.setReportData(reportData);
    
    if(this->keyboardReportCallback_) {
-      this->keyboardReportCallback_(this->keyboardReport_);
+      
+      std::cout << "Getting processReport" << std::endl;
+      boost::python::object processReport 
+         = this->keyboardReportCallback_.attr("processReport");
+      
+      if(processReport) {
+         std::cout << "Calling processReport" << std::endl;
+         processReport(this->keyboardReport_);
+      }   
    }
 }
 
@@ -161,9 +171,49 @@ FOR_ALL_MODIFIERS(DEFINE_MODIFIER_FUNCTIONS)
 FOR_ALL_HELD_MODIFIERS(DEFINE_HELD_MODIFIER_FUNCTIONS)
 
 #define DEFINE_KEY_FUNCTIONS(KEY) \
-   static Key_ k_##KEY() { return KEY; }
+   static Key_ k_##KEY() { return Key_##KEY; }
 
 FOR_ALL_KEYS(DEFINE_KEY_FUNCTIONS)
+
+static const char *keycodeToName(uint8_t keycode) {
+   
+   switch(keycode) {
+      
+#define DEFINE_KEY_CASE(KEY) \
+      case (Key_##KEY).keyCode: \
+         return #KEY; \
+         break;
+      
+   FOR_ALL_NORMAL_KEYS(DEFINE_KEY_CASE) 
+   
+   // Keycodes for some keys are redundant
+   //
+//    FOR_ALL_KEYMAP_KEYS(DEFINE_KEY_CASE) 
+   //FOR_ALL_SIGNAL_KEYS(DEFINE_KEY_CASE) 
+//    FOR_ALL_SPECIAL_KEYS(DEFINE_KEY_CASE)
+   }
+
+   return "";
+}
+
+static const char *keyToName(const Key &key) {
+   return keycodeToName(key.keyCode);
+}
+
+static const char *modifierToName(uint8_t modifier) {
+   
+   switch(modifier) {
+      
+#define DEFINE_MOD_CASE(MOD) \
+      case MOD: \
+         return #MOD; \
+         break;
+      
+      FOR_ALL_HELD_MODIFIERS(DEFINE_MOD_CASE)
+   }
+
+   return "";
+}
 
 BOOST_PYTHON_MODULE(kaleidoscope)
 {
@@ -229,11 +279,16 @@ BOOST_PYTHON_MODULE(kaleidoscope)
       .def(#KEY, &k_##KEY).staticmethod(#KEY)
       
       FOR_ALL_KEYS(EXPORT_KEY_FUNCTIONS)
-      ;
+   
+      .def("keyToName", &keyToName).staticmethod("keyToName")
+      .def("keycodeToName", &keycodeToName).staticmethod("keycodeToName");
+      
+   class_<Key_>("Modifier")
+      .def("toName", &modifierToName).staticmethod("toName");
    
    #define EXPORT_METHOD(NAME) \
       .def(#NAME, &kaleidoscope::python_wrapper::KeyboardReport::NAME)
-   
+      
    class_<kaleidoscope::python_wrapper::KeyboardReport>("KeyboardReport")
       EXPORT_METHOD(isKeycodeActive)
       EXPORT_METHOD(isKeyActive)
@@ -241,15 +296,17 @@ BOOST_PYTHON_MODULE(kaleidoscope)
    ;
       
    #define EXPORT_STATIC_METHOD(NAME) \
-      .def(#NAME, &kaleidoscope::python_wrapper::API::NAME).staticmethod(#NAME)
+      def(#NAME, &kaleidoscope::python_wrapper::API::NAME);
       
-   class_<kaleidoscope::python_wrapper::API>("API")
-      EXPORT_STATIC_METHOD(init)
-      EXPORT_STATIC_METHOD(loop)
-      EXPORT_STATIC_METHOD(tap)
-      EXPORT_STATIC_METHOD(keyDown)
-      EXPORT_STATIC_METHOD(keyUp)
-      EXPORT_STATIC_METHOD(clearAllKeys)
-      EXPORT_STATIC_METHOD(setKeyboardReportCallback)
-   ;
+   EXPORT_STATIC_METHOD(init)
+   EXPORT_STATIC_METHOD(loop)
+   EXPORT_STATIC_METHOD(tap)
+   EXPORT_STATIC_METHOD(setKeyboardReportCallback)
+   def("currentCycle", &currentCycle);
+   
+   #define EXPORT_STATIC_KEY_METHOD(NAME) \
+      def(#NAME, &kaleidoscope::python_wrapper::API::NAME);
+      EXPORT_STATIC_KEY_METHOD(keyDown)
+      EXPORT_STATIC_KEY_METHOD(keyUp)
+      EXPORT_STATIC_KEY_METHOD(clearAllKeys)
 }
