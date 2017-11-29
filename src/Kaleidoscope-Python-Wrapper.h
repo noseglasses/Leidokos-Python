@@ -28,6 +28,8 @@
 
 #include "key_defs.h"
 
+#include <string>
+
 namespace kaleidoscope {
 namespace python_wrapper {
    
@@ -38,6 +40,8 @@ class KeyboardReport {
       bool isKeycodeActive(uint8_t k) const;
       bool isKeyActive(const Key_ &k) const;
       bool isModifierActive(uint8_t modifier) const;
+      
+      std::string dump() const;
       
       void setReportData(const HID_KeyboardReport_Data_t &reportData);
       

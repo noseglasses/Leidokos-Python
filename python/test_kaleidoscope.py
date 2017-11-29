@@ -26,18 +26,32 @@ import sys
 
 test = Test()
 test.debug = True
+test.cycleDuration = 50
 
-kaleidoscope.keyDown(2, 1)
+test.keyDown(2, 1)
+
+assertions = [ 
+      ReportNthInCycle(1), 
+      ReportNthCycle(1),
+      ReportKeyActive(kaleidoscope.Key.A()),
+      ReportKeyActive(kaleidoscope.Key.B()),
+      ReportModifierActive(kaleidoscope.Key.SHIFT_HELD()),
+      DumpReport()
+   ]
+
+n = 3
+someAssertions = assertions[0:3]
 
 # The assertions are evaluated in the next loop cycle
 #
-test.addAssertions([NthReportInCycle(0), 
-               NthCycle(0),
-               KeyActive(kaleidoscope.Key.A()),
-               KeyActive(kaleidoscope.Key.B()),
-               ModifierActive(kaleidoscope.Key.SHIFT_HELD())
-               ])
+test.addPermanentReportAssertions(assertions)
 
-kaleidoscope.loop()
+test.loopCycle()
 
-test = None
+test.keyUp(2, 1)
+
+test.loopCycles(2)
+
+test.skipTime(200)
+
+test.removeReportAssertions(someAssertions)
