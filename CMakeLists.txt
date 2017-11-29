@@ -43,6 +43,10 @@ cmake_minimum_required(VERSION 2.8)
 set(KALEIDOSCOPE_CMAKE_SOURCE_DIR 
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake"
    CACHE INTERNAL "")
+   
+set(KALEIDOSCOPE_ARCHITECTURE_ID "x86" CACHE INTERNAL "")
+set(KALEIDOSCOPE_BOARD "virtual" CACHE INTERNAL "")
+set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 
 # kaleidoscope_set_binary_basename is called by Kaleidoscope_CMake 
 # during intialization.

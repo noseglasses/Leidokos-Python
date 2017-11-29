@@ -21,7 +21,7 @@ that creates the loadable Python module that makes all those modules accessible
 to Python that have specified directives for wrapper generation, see
 more about this below.
 
-# How to build
+# How to use
 
 The following explanation of the Python module build 
 assumes that a firmware setup has already been established in a directory `<sketchbook_dir>`, 
@@ -34,33 +34,41 @@ It also prepares the overall build system by generating symbolic links
 in specific places. The latter is necessary to allow for builds that
 can run on the host system (x86) rather than the keyboard.
 
-```
-cd <sketchbook_dir>/hardware/keyboardio/avr/libraries
+```bash
+SKETCHBOOK_DIR=<sketchbook_dir>
+BUILD_DIR=<build_dir>
+
+cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
+
 git clone https://github.com/noseglasses/Kaleidoscope-Python-Wrapper.git
-cd Kaleidoscope-Python-Wrapper
-cmake -DKALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR=<sketchbook_dir> \
-      -DKALEIDOSCOPE_MODULE_REPO_PATHS=<sketchbook_dir>/hardware/keyboardio/avr/libraries \
+git clone https://github.com/keyboardio/Kaleidoscope-Hardware-Virtual.git
+
+cd ${BUILD_DIR}
       
 cmake \
-   -DKALEIDOSCOPE_HARDWARE_BASE_PATH=<path to the firmware hardware directory> \
-   -DKALEIDOSCOPE_ARCHITECTURE_ID=x86 \
-   -DKALEIDOSCOPE_BOARD=virtual \
-   -DKALEIDOSCOPE_HOST_BUILD=TRUE \
-   -DKALEIDOSCOPE_LIBRARIES_DIR=<path to the firmware hardware directory>/keyboardio/avr/libraries \
-   -DKALEIDOSCOPE_FIRMWARE_SKETCH=<Path to the .ino file> \
-   <The path to the Kaleidoscope-Python-Wrapper repo>
-      .
+   -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$SKETCHBOOK_DIR/hardware \
+   -DKALEIDOSCOPE_LIBRARIES_DIR=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries \
+   -DKALEIDOSCOPE_FIRMWARE_SKETCH=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino \
+   $SKETCHBOOK_DIR/hardware//keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
 ```
 
 2. Build the Python model by running the build processed as described 
 for [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git), e.g.
 
-```
+```bash
 make
 ```
 
 This will create a library `kaleidoscope.so` or `kaleidoscope.dll` in 
 the build directory that is actually a Python module.
+
+3. Run an example firmware test
+
+```bash
+export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/python:$PYTHONPATH
+python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/test_kaleidoscope.py
+```
+
 
 # Prerequisites
 Python wrapping depends on [boost Python](http://www.boost.org) to auto-generate 
@@ -68,22 +76,22 @@ Python wrapper code for C++ classes, functions and global data. Appart from that
 needed to setup the plugin's build system.
 
 On Ubuntu Linux, the necessary packages can be installed as
-```
+```bash
 sudo apt-get install libboost-Python-dev cmake
 ```
 To configure the CMake build system manually, most Linux distributions allow 
 for a curses based CMake GUI to be installed. Install it as follows under Ubuntu Linux. 
-```
+```bash
 sudo apt-get install cmake-curses-gui
 ```
 This is how to execute the CMake GUI.
-```
+```bash
 cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
 ccmake .
 ```
 For the generation of the Python API generation, you will have to install 
 [http://www.sphinx-doc.org](Sphinx), under Ubuntu Linux e.g. as
-```
+```bash
 sudo apt-get install python-sphinx
 ```
 
@@ -102,6 +110,7 @@ it may be necessary to configure the system.
 | KALEIDOSCOPE_MODULE_REPO_PATHS  | The base below which Kaleidoscope module repos live that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_MODULE_REPO_PATHS_FILE | A text file that contains path names (linewise) of Kaleidoscope module repos that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
+| KALEIDOSCOPE_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
 
 Other variables are defined by [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git)
 and documented there.
@@ -120,11 +129,11 @@ For Python to find the generated firmware module and the the `kaleidoscope_testi
 module. Both files' paths must be made known to Python via the environment 
 variable `PYTHONPATH`, e.g. as
 
-```
+```bash
 export PYTHONPATH=<path to kaleidoscope.so>:<Kaleidoscope-Python-Wrapper repo path>/python:$PYTHONPATH
 ```
 You can then run one of the examples or your own python test script, e.g.
-```
+```bash
 <Kaleidoscope-Python-Wrapper repo path>/examples/test_kaleidoscope.py
 ```
 
@@ -135,9 +144,17 @@ Prerequisites section of this documentation for information about
 additional third party software that needs to be installed on you platform
 to generate the API documentation.
 
-When the GNU Makefile 
-generator is used (the default under Linux), this can be done as follows.
+Configure the build system as explained above but add the flag
+```bash
+cmake ... \
+   -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
 ```
+*Note:* You can also enable the variable `KALEIDOSCOPE_PYTHON_GENERATE_API_DOC`
+from the CMake curses GUI (ccmake) or other CMake GUIs.
+
+Then build the API documentation. When the GNU Makefile 
+generator is used (the default under Linux), this can e.g. be done as follows.
+```bash
 make doc
 ```
 The documentation is generated in the `doc/kaleidoscope` directory of 
