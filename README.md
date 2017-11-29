@@ -29,7 +29,7 @@ as described in the [Kaleidoscope Wiki](https://github.com/keyboardio/Kaleidosco
 
 1. The CMake setup process automatically detects Boost Python and a 
 Python installation and prepares all plugins that reside in one or more
-directories that are specified through the CMake variable `KALEIDOSCOPE_MODULE_REPO_PATHS`.
+directories that are specified through the CMake variable `KALEIDOSCOPE_HARDWARE_BASE_PATH`.
 It also prepares the overall build system by generating symbolic links
 in specific places. The latter is necessary to allow for builds that
 can run on the host system (x86) rather than the keyboard.
@@ -40,17 +40,27 @@ git clone https://github.com/noseglasses/Kaleidoscope-Python-Wrapper.git
 cd Kaleidoscope-Python-Wrapper
 cmake -DKALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR=<sketchbook_dir> \
       -DKALEIDOSCOPE_MODULE_REPO_PATHS=<sketchbook_dir>/hardware/keyboardio/avr/libraries \
+      
+cmake \
+   -DKALEIDOSCOPE_HARDWARE_BASE_PATH=<path to the firmware hardware directory> \
+   -DKALEIDOSCOPE_ARCHITECTURE_ID=x86 \
+   -DKALEIDOSCOPE_BOARD=virtual \
+   -DKALEIDOSCOPE_HOST_BUILD=TRUE \
+   -DKALEIDOSCOPE_LIBRARIES_DIR=<path to the firmware hardware directory>/keyboardio/avr/libraries \
+   -DKALEIDOSCOPE_FIRMWARE_SKETCH=<Path to the .ino file> \
+   <The path to the Kaleidoscope-Python-Wrapper repo>
       .
 ```
 
-2. Build the Python model by running the Arduino firmware build process for 
-the virtual hardware.
+2. Build the Python model by running the build processed as described 
+for [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git), e.g.
+
 ```
-cd <sketchbook_dir>/Model01-Firmware
-BOARD=virtual make
+make
 ```
 
-TODO: This will create a library ... in ... that can be used as a Python module.
+This will create a library `kaleidoscope.so` or `kaleidoscope.dll` in 
+the build directory that is actually a Python module.
 
 # Prerequisites
 Python wrapping depends on [boost Python](http://www.boost.org) to auto-generate 
@@ -71,6 +81,11 @@ This is how to execute the CMake GUI.
 cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
 ccmake .
 ```
+For the generation of the Python API generation, you will have to install 
+[http://www.sphinx-doc.org](Sphinx), under Ubuntu Linux e.g. as
+```
+sudo apt-get install python-sphinx
+```
 
 # CMake build setup configuration
 The CMake based setup of the plugin's Arduino build relies on a number of 
@@ -79,30 +94,80 @@ variables, run `ccmake .` as described above. Then look for build variables
 whose name starts with `KALEIDOSCOPE_`. A documentation of a variable
 is shown when the cursor is moved to the variable's line.
 
+Although, Kaleidoscope-Python-Wrapper is meant to be as auto-detecting and smart as possible,
+it may be necessary to configure the system.
+
+| CMake Variable                  | Purpose                                                           |
+|:------------------------------- |:----------------------------------------------------------------- |
+| KALEIDOSCOPE_MODULE_REPO_PATHS  | The base below which Kaleidoscope module repos live that might contain `.python-wrapper` files |
+| KALEIDOSCOPE_MODULE_REPO_PATHS_FILE | A text file that contains path names (linewise) of Kaleidoscope module repos that might contain `.python-wrapper` files |
+| KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
+
+Other variables are defined by [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git)
+and documented there.
+
+# Python module usage
+Kaleidoscope-Python-Wrapper provides a Python API that makes the generation
+of Kaleidoscope firmare tests pretty simple.
+
+The API lives in a python module `kaleidoscope_testing` that can be found 
+in the `python` directory of the Kaleidoscope-Python-Wrapper repository.
+
+Examples that exemplify the use of the testing API can be found in the `examples`
+directory.
+
+For Python to find the generated firmware module and the the `kaleidoscope_testing`
+module. Both files' paths must be made known to Python via the environment 
+variable `PYTHONPATH`, e.g. as
+
+```
+export PYTHONPATH=<path to kaleidoscope.so>:<Kaleidoscope-Python-Wrapper repo path>/python:$PYTHONPATH
+```
+You can then run one of the examples or your own python test script, e.g.
+```
+<Kaleidoscope-Python-Wrapper repo path>/examples/test_kaleidoscope.py
+```
+
+# Python API documentation
+HTML based documentation of the Python API supplied by Kaleidoscope-Python-Wrapper 
+can be auto-generated through the CMake `doc` target. Please see the 
+Prerequisites section of this documentation for information about 
+additional third party software that needs to be installed on you platform
+to generate the API documentation.
+
+When the GNU Makefile 
+generator is used (the default under Linux), this can be done as follows.
+```
+make doc
+```
+The documentation is generated in the `doc/kaleidoscope` directory of 
+the build tree. Open the file `kaleidoscope_testing.html` in a browser
+to see the API documentation.
+
 # Python export
 The plugin allows any Kaleidscope components to export classes, functions and 
 data to be accessible from Python scripts. The easiest way for this 
-to work is to add a file named `<your_module_name>.Python-wrapper` to the
+to work is to add a file named `<your_module_name>.python-wrapper` to the
 `src` directory of any Kaleidscope module that is meant to export symbols
 to python language. 
 
-The `.Python-wrapper` are actually C++ files. We use
+The `.python-wrapper` are actually C++ files. We use
 a different file extension to prevent them to be considered in any builds
 that are not targeted to the host system (x86). To make them accessible
-for the Python wrapper build, the plugin's CMake system detects any `.Python-wrapper` files
+for the Python wrapper build, the plugin's CMake system detects any `.python-wrapper` files
 in directories that reside below paths that are 
 specified in `KALEIDOSCOPE_MODULE_REPO_PATHS`. For all files found,
 alias files (symbolic links) are generated. To allow them to be
 found during the actual firmware build, we append the extension `.cpp`
-to the original `.Python-wrapper` filename.
+to the original `.python-wrapper` filename.
 
-An example `.Python-wrapper` file that exports the `Layer_` class of the
+An example `.python-wrapper` file that exports the `Layer_` class of the
 Kaleidoscope core could look the following way. See the [documentation
 of boost-Python](http://www.boost.org/doc/libs/1_58_0/libs/Python/doc/index.html)
 for more information.
 
 ```cpp
-// Content of Kaleidoscope/src/Kaleidoscope.Python-wrapper
+// Content of Kaleidoscope/src/Kaleidoscope.python-wrapper
 
 #include <boost/Python.hpp>
 
@@ -147,6 +212,3 @@ BOOST_PYTHON_MODULE(kaleidoscope)
     ;
 }
 ```
-
-# Python module usage
-TODO: Describe loading Python
