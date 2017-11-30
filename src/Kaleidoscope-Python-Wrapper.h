@@ -63,6 +63,9 @@ class API
       static void keyUp(byte row, byte col);
       static void clearAllKeys();
       
+      static void setMillis(unsigned long millis);
+      static unsigned long getMillis();
+      
       static void setKeyboardReportCallback(boost::python::object func);
       
    private:
@@ -84,6 +87,8 @@ class API
       };
       
       static KeyboardReportConsumer keyboardReportConsumer_;
+      
+      static unsigned long millis_;
 };
 
 } // namespace python_wrapper

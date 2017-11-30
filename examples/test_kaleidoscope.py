@@ -26,7 +26,6 @@ import sys
 
 test = Test()
 test.debug = True
-test.cycleDuration = 50
 
 test.keyDown(2, 1)
 

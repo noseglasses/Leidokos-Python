@@ -23,7 +23,13 @@ import os
 
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
-def __removeItemsFromList(fromList, removalList):
+nIndentChars = 3
+cycleIndent = " "*nIndentChars
+keyboardReportIndent = " "*(nIndentChars*2)
+assertionGroupIndent = " "*(nIndentChars*3)
+assertionIndent = " "*(nIndentChars*4)
+
+def _removeItemsFromList(fromList, removalList):
    """ Removes all items from a list
    
    Args:
@@ -41,7 +47,7 @@ class Assertion(object):
    def __init__(self):
       self.typeKeyword = ""
    
-   def __report(self, out):
+   def _report(self, out):
       
       """ Generates a verbose report of the assertion.
       
@@ -49,17 +55,17 @@ class Assertion(object):
          out (stream): A stream object that features a write(...) method.
       """
       if self.valid:
-         out.write("%s assertion passed: %s\n" % (self.typeKeyword, self.__description()))
+         out.write("%s assertion passed: %s\n" % (self.typeKeyword, self._description()), assertionIndent)
       else:
-         out.write("*** %s assertion failed: %s\n" % (self.typeKeyword, self.__description()))
-         theActualState = self.__actualState()
+         out.write("!!! %s assertion failed: %s\n" % (self.typeKeyword, self._description()), assertionIndent)
+         theActualState = self._actualState()
          if theActualState:
-            out.write("   actual: %s\n" % theActualState)
+            out.write("   actual: %s\n" % theActualState, assertionIndent)
             
-   def __description(self):
+   def _description(self):
       """ Returns a description string """
         
-   def __evalInternal(self, target):
+   def _evalInternal(self, target):
       """ The internal assertion evaluation method. This method may be overridden
          by derived assertion classes.
       
@@ -72,9 +78,9 @@ class Assertion(object):
       """
       return True
       
-   def __eval(self, target):
+   def _eval(self, target):
       """ The main assertion evaluation method. Do not override this method
-         but __evalInternal(...) instead.
+         but _evalInternal(...) instead.
       
       Args:
          target (undefined): The target object the assertion operates on.
@@ -84,24 +90,24 @@ class Assertion(object):
          bool: True if the assertion passed, False otherwise.
       """
       
-      if not self.__evalInternal(target):
+      if not self._evalInternal(target):
          self.valid = False
          return False
       
       self.valid = True
       return True
    
-   def __actualState(self):
+   def _actualState(self):
       """ Writes the actual state of the assertion to self.out.
          This method can be overridden.
       """
       return None
 
-   def __setTest(self, test):
+   def _setTest(self, test):
       """ Sets the associated Test object. """
       self.testWeak = weakref.ref(test)
 
-   def __getTest(self):
+   def _getTest(self):
       """ Returns a reference to the associated test object. """
       return self.testWeak()
    
@@ -116,24 +122,22 @@ class AssertionGroup(Assertion):
       Assertion.__init__(self)
       self.assertionList = assertionList
    
-   def __report(self, out):
+   def _report(self, out):
       """ Generates a report by letting all members report """
       for assertion in self.assertionList:
-         assertion.__report(out) 
+         assertion._report(out) 
          
-   def __evalInternal(self, keyReport):
-      
-      #sys.stdout.write("%s.__evalInternal()\n" % self.__class__.__name__)
+   def _evalInternal(self, keyReport):
       
       self.valid = True
       for assertion in self.assertionList:
-         self.valid &= assertion.__eval(keyReport)
+         self.valid &= assertion._eval(keyReport)
          
       return self.valid
    
-   def __setTest(self, test):
+   def _setTest(self, test):
       for assertion in self.assertionList:
-         assertion.__setTest(test)
+         assertion._setTest(test)
 
 ################################################################################
 # Key report assertions
@@ -150,10 +154,10 @@ class ReportKeyActive(Assertion):
       Assertion.__init__(self)
       self.key = key
       
-   def __description(self):
+   def _description(self):
       return "Key %s active" % str(kaleidoscope.Key.keyToName(self.key))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return keyReport.isKeyActive(self.key)
    
 class ReportKeyInactive(Assertion):
@@ -167,10 +171,10 @@ class ReportKeyInactive(Assertion):
       Assertion.__init__(self)
       self.key = key
       
-   def __description(self):
+   def _description(self):
       return "Key %s inactive" % str(kaleidoscope.Key.keyToName(self.key))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return not keyReport.isKeyActive(self.key)
    
 class ReportKeycodeActive(Assertion):
@@ -184,10 +188,10 @@ class ReportKeycodeActive(Assertion):
       Assertion.__init__(self)
       self.keycode = keycode
       
-   def __description(self):
+   def _description(self):
       return "Keycode %s active" % str(kaleidoscope.Key.keycodeToName(self.keycode))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return keyReport.isKeycodeActive(self.keycode)
    
 class ReportKeycodeInactive(Assertion):
@@ -201,10 +205,10 @@ class ReportKeycodeInactive(Assertion):
       Assertion.__init__(self)
       self.keycode = keycode
       
-   def __description(self):
+   def _description(self):
       return "Keycode %s inactive" % str(kaleidoscope.Key.keycodeToName(self.keycode))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return not keyReport.isKeycodeActive(self.keycode)
    
 class ReportModifierActive(Assertion):
@@ -218,10 +222,10 @@ class ReportModifierActive(Assertion):
       Assertion.__init__(self)
       self.modifier = modifier
       
-   def __description(self):
+   def _description(self):
       return "Modifier %s active" % str(kaleidoscope.Modifier.toName(self.modifier))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return keyReport.isModifierActive(self.modifier)
    
 class ReportModifierInactive(Assertion):
@@ -235,10 +239,10 @@ class ReportModifierInactive(Assertion):
       Assertion.__init__(self)
       self.modifier = modifier
       
-   def __description(self):
+   def _description(self):
       return "Modifier %s inactive" % str(kaleidoscope.Modifier.toName(self.modifier))
 
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       return not keyReport.isModifierActive(self.modifier)
    
 class ReportNthInCycle(Assertion):
@@ -252,14 +256,14 @@ class ReportNthInCycle(Assertion):
       Assertion.__init__(self)
       self.n = n
    
-   def __description(self):
+   def _description(self):
       return "Is %d. report in cycle" % self.n
 
-   def __evalInternal(self, keyReport):
-      return self.__getTest().nReportsInCycle == self.n
+   def _evalInternal(self, keyReport):
+      return self._getTest().nReportsInCycle == self.n
    
-   def __actualState(self):
-      return "%d. report in cycle" % self.__getTest().nReportsInCycle
+   def _actualState(self):
+      return "%d. report in cycle" % self._getTest().nReportsInCycle
    
 class ReportNthCycle(Assertion):
    """ Asserts that the current cycle is the nth.
@@ -272,23 +276,23 @@ class ReportNthCycle(Assertion):
       Assertion.__init__(self)
       self.cycle = cycle
    
-   def __description(self):
+   def _description(self):
       return "Is %d. cycle" % self.cycle
 
-   def __actualState(self):
-      return "%d. cycle" % self.__getTest().cycleId
+   def _actualState(self):
+      return "%d. cycle" % self._getTest().cycleId
    
-   def __evalInternal(self, dummy):
-      return self.__getTest().cycleId == self.cycle
+   def _evalInternal(self, dummy):
+      return self._getTest().cycleId == self.cycle
    
 class DumpReport(Assertion):
    """ Dumps the current keyboard report """
    
-   def __evalInternal(self, keyReport):
+   def _evalInternal(self, keyReport):
       self.keyReport = keyReport
       return True
    
-   def __description(self):
+   def _description(self):
       return "Dump report: %s" % self.keyReport.dump()
          
 ################################################################################
@@ -307,14 +311,14 @@ class CycleHasNReports(Assertion):
       Assertion.__init__(self)
       self.nReports = nReports
    
-   def __description(self):
-      return "There were %d. keyboard reports in cycle" % self.nReports
+   def _description(self):
+      return "There were %d keyboard reports in cycle" % self.nReports
 
-   def __actualState(self):
-      return "%d. keyboard reports" % self.__getTest().nReportsInCycle
+   def _actualState(self):
+      return "%d keyboard reports" % self._getTest().nReportsInCycle
    
-   def __evalInternal(self, dummy):
-      return self.__getTest().nReportsInCycle == self.nReports
+   def _evalInternal(self, dummy):
+      return self._getTest().nReportsInCycle == self.nReports
    
 class CycleIsNth(ReportNthCycle):
    """ Asserts that the current cycle is the nth.
@@ -335,13 +339,13 @@ class LayerIsActive(Assertion):
       Assertion.__init__(self)
       self.layer = layer
    
-   def __description(self):
+   def _description(self):
       return "Is %d. layer active" % self.layer
 
-   def __actualState(self):
+   def _actualState(self):
       return "%d. layer is active" % kaleidoscope.Layer.top()
    
-   def __evalInternal(self, dummy):
+   def _evalInternal(self, dummy):
       return kaleidoscope.top() == self.layer
    
 class LayerIsInactive(Assertion):
@@ -355,13 +359,13 @@ class LayerIsInactive(Assertion):
       Assertion.__init__(self)
       self.layer = layer
    
-   def __description(self):
+   def _description(self):
       return "Is %d. layer inactive" % self.layer
 
-   def __actualState(self):
+   def _actualState(self):
       return "%d. layer is active" % kaleidoscope.Layer.top()
    
-   def __evalInternal(self, dummy):
+   def _evalInternal(self, dummy):
       return kaleidoscope.top() != self.layer
    
 class TimeElapsedGreater(Assertion):
@@ -377,26 +381,39 @@ class TimeElapsedGreater(Assertion):
       self.startT = startT
       self.deltaT  = deltaT 
    
-   def __description(self):
+   def _description(self):
       return "Time elapsed greater %f ms" % self.layer
 
-   def __actualState(self):
+   def _actualState(self):
       return "Time elapsed is %f ms" % (test.time - self.startT)
    
-   def __evalInternal(self, dummy):
+   def _evalInternal(self, dummy):
       return test.time - self.startT > self.deltaT
    
 ################################################################################
 # Main test class
 ################################################################################
    
-class __KeyboardReportCallbackProxy(object):
+class _KeyboardReportCallbackProxy(object):
    
    def __init__(self, test):
       self.testWeak = weakref.ref(test)
    
-   def __processReport(self, keyboardReport):
-      self.testWeak().__processReport(keyboardReport)
+   def processReport(self, keyboardReport):
+      self.testWeak()._processReport(keyboardReport)
+      
+class _TimedStream(object):
+   
+   def __init__(self, test, out):
+      self.testWeak = weakref.ref(test)
+      self.out = out
+      self.indentChars = 3
+      
+   def write(self, string, indentationString = ""):
+      timeStr = ""
+      if(self.testWeak()):
+         timeStr = "%010d " % self.testWeak().time
+      self.out.write("%s%s%s" % (timeStr, indentationString, string))
    
 class Test(object):
    """ The main test object that controls everything.
@@ -414,13 +431,13 @@ class Test(object):
       
       # The cycle duration in ms
       #
-      self.cycleDuration = 0
+      self.cycleDuration = 5
       self.cycleId = 0
       self.time = 0
       
       # The preferred output
       #
-      self.out = sys.stdout
+      self.out = _TimedStream(self, sys.stdout)
       
       self.queuedReportAssertions = []
       self.permanentReportAssertions = []
@@ -429,46 +446,54 @@ class Test(object):
       
       self.debug = False
       
-      kaleidoscope.setKeyboardReportCallback(__KeyboardReportCallbackProxy(self))
+      kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
       
       kaleidoscope.init()
       
-      self.__headerText()
+      self._headerText()
       
    def __del__(self):
       
       kaleidoscope.setKeyboardReportCallback(None)
       
-      self.__footerText()
+      self._footerText()
       
-      if not self.__checkStatus():
-         self.__error("Terminating with exit code 1")
+      if not self._checkStatus():
+         self._error("Terminating with exit code 1")
          
-   def __error(self, msg):
+   def setOutputStream(self, out):
+      """ Sets an output stream that is used for all formatted output
+      
+      Args:
+         out (stream): An output stream
+      """
+      self.out = _TimedStream(self, out)
+         
+   def _error(self, msg):
       self.out.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-      self.out.write("*** Error: %s\n" % msg)
+      self.out.write("!!! Error: %s\n" % msg)
       self.out.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
         
       os._exit(1)
       
-   def __headerText(self):
+   def _headerText(self):
       self.out.write("################################################################################\n")
       self.out.write("Starting Kaleidoscope keyboard firmware testing\n")
       self.out.write("################################################################################\n")
       
-   def __footerText(self):
+   def _footerText(self):
       self.out.write("################################################################################\n")
       self.out.write("Kaleidoscope keyboard firmware testing done\n")
       self.out.write("################################################################################\n")
       
-   def __checkStatus(self):
+   def _checkStatus(self):
       success = True
       if len(self.queuedReportAssertions) > 0:
-         self.out.write("*** Error: There are %d left over assertions in the queue\n" % len(self.queuedReportAssertions))
+         self.out.write("!!! Error: There are %d left over assertions in the queue\n" % len(self.queuedReportAssertions))
          success = False
       
       if not self.assertionsPassed:
-         self.out.write("*** Error: Not all assertions passed\n")
+         self.out.write("!!! Error: Not all assertions passed\n")
          success = False
          
       if success:
@@ -477,12 +502,12 @@ class Test(object):
       
       return False
 
-   def __configureReportAssertions(self, assertionList):
+   def _configureReportAssertions(self, assertionList):
       for assertion in assertionList:
-         self.__configureReportAssertion(assertion)
+         self._configureReportAssertion(assertion)
          
-   def __configureReportAssertion(self, assertion):
-      assertion.__setTest(self)
+   def _configureReportAssertion(self, assertion):
+      assertion._setTest(self)
       assertion.typeKeyword = "Report"
       
    def queueReportAssertion(self, assertion):
@@ -493,14 +518,14 @@ class Test(object):
       Args:
          assertion (Assertion): The assertion to add to the queue.
       """
-      self.__configureReportAssertion(assertion)
+      self._configureReportAssertion(assertion)
       self.queuedReportAssertions.append(assertion)
       
-   def __generateAssertionGroup(self, assertionList):
+   def _generateAssertionGroup(self, assertionList):
       for assertion in assertionList:
-         self.__configureReportAssertion(assertion)
+         self._configureReportAssertion(assertion)
       assertionGroup = AssertionGroup(assertionList)
-      self.__configureReportAssertion(assertionGroup)
+      self._configureReportAssertion(assertionGroup)
       return assertionGroup
       
    def queueGroupedReportAssertions(self, assertionList):
@@ -512,7 +537,7 @@ class Test(object):
          assertionList (list): A list of assertions to group and queue.
       """
       self.queuedReportAssertions.append(
-         self.__generateAssertionGroup(assertionList))
+         self._generateAssertionGroup(assertionList))
       
    def removeQueuedReportAssertions(self, assertionList):
       """ Removes assertions from the report assertion queue (only if registered). 
@@ -522,7 +547,7 @@ class Test(object):
          assertionList (list): A list of assertions to be removed.
       """
       self.queuedReportAssertions = \
-         __removeItemsFromList(self.queuedReportAssertions, assertionList)
+         _removeItemsFromList(self.queuedReportAssertions, assertionList)
       
    def addPermanentReportAssertion(self, assertion):
       """ Adds a permanent report assertion. The assertions thus added will
@@ -531,7 +556,7 @@ class Test(object):
       Args:
          assertion (Assertion): An assertions to be used permanently.
       """
-      self.__configureReportAssertion(assertion)
+      self._configureReportAssertion(assertion)
       self.permanentReportAssertions.append(assertion)
       
    def addPermanentReportAssertions(self, assertionList):
@@ -541,7 +566,7 @@ class Test(object):
       Args:
          assertionList (list): A list of assertions to be used permanently.
       """
-      self.__configureReportAssertions(assertionList)
+      self._configureReportAssertions(assertionList)
       self.permanentReportAssertions.extend(assertionList)
       
    def removePermanentReportAssertions(self, assertionList):
@@ -552,7 +577,7 @@ class Test(object):
          assertionList (list): A list of assertions to be removed.
       """
       self.permanentReportAssertions = \
-         __removeItemsFromList(self.permanentReportAssertions, assertionList)
+         _removeItemsFromList(self.permanentReportAssertions, assertionList)
       
    def removeReportAssertions(self, assertionList):
       """ Removes a number of report assertions from both queued and permanent 
@@ -564,33 +589,33 @@ class Test(object):
       self.removeQueuedReportAssertions(assertionList)
       self.removePermanentReportAssertions(assertionList)
       
-   def __processReport(self, keyReport):
+   def _processReport(self, keyReport):
       
       self.nKeyboardReports += 1
          
       self.nReportsInCycle += 1
       
-      self.out.write("Processing %d. keyboard report (%d. in cycle)\n"
-                     % (self.nKeyboardReports, self.nReportsInCycle))
+      self.out.write("Processing keyboard report %d (%d. in cycle)\n"
+                     % (self.nKeyboardReports, self.nReportsInCycle), keyboardReportIndent)
       
-      self.out.write("%d report assertions in queue\n" % len(self.queuedReportAssertions))
+      self.out.write("%d queued report assertions\n" % len(self.queuedReportAssertions), assertionGroupIndent)
       
       if len(self.queuedReportAssertions) > 0:
-         self.__processReportAssertion(self.queuedReportAssertions[0], keyReport)
+         self._processReportAssertion(self.queuedReportAssertions[0], keyReport)
          self.queuedReportAssertions.pop(0)
          
       if len(self.permanentReportAssertions) > 0:
          
-         self.out.write("%d permanent report assertions\n" % len(self.permanentReportAssertions))
+         self.out.write("%d permanent report assertions\n" % len(self.permanentReportAssertions), assertionGroupIndent)
          for assertion in self.permanentReportAssertions:
-            self.__processReportAssertion(assertion, keyReport)
+            self._processReportAssertion(assertion, keyReport)
          
-   def __processReportAssertion(self, assertion, keyReport):
+   def _processReportAssertion(self, assertion, keyReport):
       
-      assertionPassed = assertion.__eval(keyReport)
+      assertionPassed = assertion._eval(keyReport)
       
       if not assertionPassed or self.debug:
-         assertion.__report(self.out)
+         assertion._report(self.out)
       
       self.assertionsPassed &= assertionPassed
          
@@ -628,12 +653,12 @@ class Test(object):
       """ Clears all keys that are currently active (down). """
       kaleidoscope.clearAllKeys()
       
-   def __configureCycleAssertion(self, assertion):
-      assertion.__setTest(self)
+   def _configureCycleAssertion(self, assertion):
+      assertion._setTest(self)
       assertion.typeKeyword = "Cycle"
       
-   def __configureTemporaryAssertion(self, assertion):
-      assertion.__setTest(self)
+   def _configureTemporaryAssertion(self, assertion):
+      assertion._setTest(self)
       assertion.typeKeyword = "Temporary cycle"
       
    def queueCycleAssertions(self, assertionList):
@@ -644,7 +669,7 @@ class Test(object):
          assertionList (list): A list of assertions to be queued.
       """
       for assertion in assertionList:
-         self.__configureReportAssertion(assertion)
+         self._configureReportAssertion(assertion)
       
       self.queuedCycleAssertions.extend(assertionList)
       
@@ -656,7 +681,7 @@ class Test(object):
          assertionList (list): A list of assertions to be removed.
       """
       self.queuedCycleAssertions = \
-         __removeItemsFromList(self.queuedCycleAssertions, assertionList)
+         _removeItemsFromList(self.queuedCycleAssertions, assertionList)
       
    def registerPermanentCycleAssertions(self, assertionList):
       """ Registers a number of cycle assertions that are 
@@ -666,7 +691,7 @@ class Test(object):
          assertionList (list): A list of assertions to be registered.
       """
       for assertion in assertionList:
-         self.__configureReportAssertion(assertion)
+         self._configureReportAssertion(assertion)
       
       self.permanentCycleAssertions.extend(assertionList)
       
@@ -678,7 +703,7 @@ class Test(object):
          assertionList (list): A list of assertions to be removed.
       """
       self.queuedCycleAssertions = \
-         __removeItemsFromList(self.permanentCycleAssertions, assertionList)
+         _removeItemsFromList(self.permanentCycleAssertions, assertionList)
       
    def removeCycleAssertions(self, assertionList):
       """ Removes a number of cycle assertions, both from queued
@@ -698,38 +723,45 @@ class Test(object):
          onStopAssertionList (list): A list of assertions to be executed after
             the next cycle and to be discarded afterwards. Defaults to None.
       """
+      self.out.write("Single cycle\n")
+      self._loopCycle(onStopAssertionList)
+      self.out.write("\n")
+      
+   def _loopCycle(self, onStopAssertionList = None):
       
       self.cycleId += 1
       self.nReportsInCycle = 0
       
-      self.out.write("Loop cycle %d\n" % self.cycleId)
+      self.out.write("Loop cycle %d\n" % self.cycleId, cycleIndent)
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:
-            self.__configureTemporaryAssertion(assertion)
+            self._configureTemporaryAssertion(assertion)
       
       kaleidoscope.loop()
       
       if self.nReportsInCycle == 0:
-         self.out.write("   no keyboard reports\n")
+         self.out.write("No keyboard reports processed\n", keyboardReportIndent)
       else:
-         self.out.write("   %d keyboard reports\n" % self.nReportsInCycle)
+         self.out.write("%d keyboard reports processed\n" % self.nReportsInCycle, keyboardReportIndent)
       
       self.time += self.cycleDuration
       
+      kaleidoscope.setMillis(self.time)
+      
       if onStopAssertionList and len(onStopAssertionList) > 0:
-         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList))
-         self.__processCycleAssertions(onStopAssertionList)
+         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), assertionGroupIndent)
+         self._processCycleAssertions(onStopAssertionList)
       
       if len(self.queuedCycleAssertions) > 0:
-         self.out.write("Processing %d queued cycle assertions\n" % len(self.queuedCycleAssertions))
-         self.__processCycleAssertions(self.queuedCycleAssertions)
+         self.out.write("Processing %d queued cycle assertions\n" % len(self.queuedCycleAssertions), assertionGroupIndent)
+         self._processCycleAssertions(self.queuedCycleAssertions)
          
          self.queuedCycleAssertions = []
       
       if len(self.permanentCycleAssertions) > 0:
-         self.out.write("Processing %d permanent cycle assertions\n" % len(self.permanentCycleAssertions))
-         self.__processCycleAssertions(self.permanentCycleAssertions)
+         self.out.write("Processing %d permanent cycle assertions\n" % len(self.permanentCycleAssertions), assertionGroupIndent)
+         self._processCycleAssertions(self.permanentCycleAssertions)
       
    def loopCycles(self, n, onStopAssertionList = None):
       """ Executes a number of loop cycles and processes assertions afterwards.
@@ -745,14 +777,16 @@ class Test(object):
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:
-            self.__configureTemporaryAssertion(assertion)
+            self._configureTemporaryAssertion(assertion)
             
       for i in range(0, n):
-         self.loopCycle()
+         self._loopCycle()
          
       if onStopAssertionList and len(onStopAssertionList) > 0:
-         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList))
-         self.__processCycleAssertions(onStopAssertionList)
+         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), cycleIndent)
+         self._processCycleAssertions(onStopAssertionList)
+         
+      self.out.write("\n")
          
    def skipTime(self, deltaT , onStopAssertionList = None):
       """ Skips a given amount of time by executing cycles and processes assertions afterwards.
@@ -768,33 +802,37 @@ class Test(object):
             to None.
       """
       
-      self.__checkCycleDurationSet()
+      self._checkCycleDurationSet()
+      
+      startCycle = self.cycleId
       
       self.out.write("Skipping dt >= %f ms\n" % deltaT)
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:
-            assertion.__setTest(self)
+            assertion._setTest(self)
             
       startTime = self.time
       
       elapsedTime = 0
       while elapsedTime < deltaT:
-         self.loopCycle()
+         self._loopCycle()
          elapsedTime = self.time - startTime
          
-      self.out.write("%f ms skipped\n" % elapsedTime)
+      self.out.write("%f ms (%d cycles) skipped\n" % (elapsedTime, self.cycleId - startCycle), cycleIndent)
          
       if onStopAssertionList and len(onStopAssertionList) > 0:
-         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList))
-         self.__processCycleAssertions(onStopAssertionList)
+         self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), cycleIndent)
+         self._processCycleAssertions(onStopAssertionList)
          
-   def __checkCycleDurationSet(self):
+      self.out.write("\n")
+         
+   def _checkCycleDurationSet(self):
       if self.cycleDuration == 0:
-         self.__error("Please set test.cycleDuration to a value in "
+         self._error("Please set test.cycleDuration to a value in "
             "[ms] greater zero before using time based testing")
          
-   def __processCycleAssertions(self, assertionList):
+   def _processCycleAssertions(self, assertionList):
       
       if not assertionList:
          return
@@ -804,14 +842,14 @@ class Test(object):
       
       for assertion in assertionList:
          
-         assertion.__setTest(self)
+         assertion._setTest(self)
          
-         assertionPassed = assertion.__eval(self)
+         assertionPassed = assertion._eval(self)
          
          if not assertionPassed:
-            self.assertion.__report(self.out)
+            self.assertion._report(self.out)
          elif self.debug:
-            self.assertion.__report(self.out)
+            self.assertion._report(self.out)
          
          self.assertionsPassed &= assertionPassed
    

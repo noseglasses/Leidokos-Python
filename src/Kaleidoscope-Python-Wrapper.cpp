@@ -34,10 +34,16 @@
 void initVariant() __attribute__((weak));
 void setup(void);
 
+unsigned long millis(void) {
+   return kaleidoscope::python_wrapper::API::getMillis();
+}
+
 extern Virtual KeyboardHardware;
 
 namespace kaleidoscope {
 namespace python_wrapper {
+   
+unsigned long API::millis_ = 0;
    
 API::KeyboardReportConsumer API::keyboardReportConsumer_;
    
@@ -92,6 +98,20 @@ void
          KeyboardHardware.setKeystate(row, col, Virtual::NOT_PRESSED);
       }
    }
+}
+
+void   
+   API
+      ::setMillis(unsigned long millis)
+{
+   millis_ = millis;
+}
+
+unsigned long   
+   API
+      ::getMillis()
+{
+   return millis_;
 }
       
 void   
@@ -391,6 +411,8 @@ BOOST_PYTHON_MODULE(kaleidoscope)
    EXPORT_STATIC_METHOD(init)
    EXPORT_STATIC_METHOD(loop)
    EXPORT_STATIC_METHOD(tap)
+   EXPORT_STATIC_METHOD(getMillis)
+   EXPORT_STATIC_METHOD(setMillis)
    EXPORT_STATIC_METHOD(setKeyboardReportCallback)
    
    // Cycles are handled on the python side
