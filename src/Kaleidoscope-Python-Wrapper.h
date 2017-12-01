@@ -56,7 +56,7 @@ class API
       
       static void init();
       
-      static void loop();
+      static void scanCycle();
       
       static void tap(byte row, byte col);
       static void keyDown(byte row, byte col);

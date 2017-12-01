@@ -18,6 +18,14 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+# Generate version information. This initializes a CMake variable
+#   kaleidoscope_python_wrapper_git_version
+#   version_cpp_file
+#
+include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
+
+include("${CMAKE_SOURCE_DIR}/cmake/generate_symlink.macros.cmake")
+
 # This configuration process can be passed a list of paths that 
 # point to Kaleidoscope components (git repos).
 #
@@ -59,7 +67,7 @@ set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 macro(kaleidoscope_set_binary_basename 
    basename_var_
 )
-   set(${basename_var_} "kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
+   set(${basename_var_} "_kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
 endmacro()
 
 # Adding a dummy header that forces the Kaleidoscope-Hardware-Virtual
@@ -117,23 +125,6 @@ if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
    
    list(APPEND repo_paths "${contents}")
 endif()
-
-# The following scans all Kaleidoscope modules for python wrapper 
-# files and generates symbolic links with extension ".cpp". This enables
-# the files to be included in the firmware build process.
-
-function(generate_link 
-   target_ 
-   link_
-)
-   if(NOT EXISTS "${link_}")
-   
-      message("Generating symbolic link ${link_} -> ${target_}")
-      execute_process(
-         COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
-      )
-   endif()
-endfunction()
 
 function(scan_repo 
    repo_path_
@@ -230,125 +221,10 @@ target_link_libraries("${kaleidoscope_firmware_target}"
 )
 
 # Setup symlinks that enable correct build for x86 using the
-# Arduino build system (inspired by the Hardware-Virtual plugin 
-#    https://github.com/cdisselkoen/Kaleidoscope-Hardware-Virtual)
-# Thanks to cdisselkoen for the inspiration.
+# Arduino build system
 #
-if(NOT "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" STREQUAL "")
-   get_filename_component(arduino_sketchbook_path_default
-      "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" PATH)
-endif()
+include("${CMAKE_SOURCE_DIR}/cmake/arduino_symlinks.include.cmake")
 
-set(KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR "${arduino_sketchbook_path_default}" 
-   CACHE PATH "The Arduino sketchbook path")
-   
-if("${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}" EQUAL ""
-   OR NOT EXISTS "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}")
-   
-   message(FATAL_ERROR 
-      "Please define an existing KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR")
-endif()
-
-set(support_link_name 
-   "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/x86")
-set(support_target "${CMAKE_SOURCE_DIR}/support/x86")
-generate_link("${support_target}" "${support_link_name}")
-
-set(libraries_link_name "${CMAKE_SOURCE_DIR}/support/x86/libraries")
-set(libraries_target 
-   "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/avr/libraries")
-generate_link("${libraries_target}" "${libraries_link_name}")
-
-# Generate API documentation with sphinx
+# Setup Python API documentation
 #
-set(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC FALSE CACHE BOOL 
-   "Enable creation of the python API documentation. This requires Sphinx to be installed")
-   
-if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
-
-   find_program(SPHINX_EXECUTABLE NAMES sphinx-build
-      HINTS
-      $ENV{SPHINX_DIR}
-      PATH_SUFFIXES bin
-      DOC "Sphinx documentation generator"
-   )
-   
-   include(FindPackageHandleStandardArgs)
-   
-   find_package_handle_standard_args(Sphinx DEFAULT_MSG
-      SPHINX_EXECUTABLE
-   )
-   
-   mark_as_advanced(SPHINX_EXECUTABLE)
-   
-   if(NOT EXISTS "${SPHINX_EXECUTABLE}")
-      message("Please specify a valid SPHINX_EXECUTABLE")
-   endif()
-   
-   find_program(SPHINX_APIDOC_EXECUTABLE NAMES sphinx-apidoc
-      HINTS
-      $ENV{SPHINX_DIR}
-      PATH_SUFFIXES bin
-      DOC "Sphinx apidoc documentation generator"
-   )
-   
-   include(FindPackageHandleStandardArgs)
-   
-   find_package_handle_standard_args(Sphinx_Apidoc DEFAULT_MSG
-      SPHINX_APIDOC_EXECUTABLE
-   )
-   
-   mark_as_advanced(SPHINX_APIDOC_EXECUTABLE)
-   
-   if(NOT EXISTS "${SPHINX_APIDOC_EXECUTABLE}")
-      message("Please specify a valid SPHINX_APIDOC_EXECUTABLE")
-   endif()
-   
-   set(python_sources
-      "${CMAKE_SOURCE_DIR}/python/kaleidoscope_testing.py"
-   )
-   
-   set(sphinx_configuration_dir "${CMAKE_BINARY_DIR}/doc/sphinx")
-
-   # Copy the Sphinx configuration to the target location
-   #
-   set(sphinx_conf_file_target_location "${sphinx_configuration_dir}/source/conf.py")
-   add_custom_command(
-      OUTPUT "${sphinx_conf_file_target_location}"
-      COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/doc/sphinx"
-         "${sphinx_configuration_dir}"
-      COMMENT "Copying Sphinx configuration"
-   )
-   add_custom_target(copy_sphinx_configuration DEPENDS "${sphinx_conf_file_target_location}")
-   
-   # Auto-generate Sphinx input from python sources
-   #
-   set(kaleidoscope_testing_target_location "${sphinx_configuration_dir}/source/kaleidoscope_testing.rst")
-   add_custom_command(
-      OUTPUT "${kaleidoscope_testing_target_location}"
-      COMMAND "${SPHINX_APIDOC_EXECUTABLE}" -f -o "${sphinx_configuration_dir}/source" "${CMAKE_SOURCE_DIR}/python"
-      DEPENDS ${python_sources}
-      COMMENT "Generating Sphinx input files"
-   )
-   add_custom_target(generate_sphinx_input_files DEPENDS "${kaleidoscope_testing_target_location}")
-   add_dependencies(generate_sphinx_input_files copy_sphinx_configuration)
-   
-   # Generate documentation
-   
-   set(sphinx_build_dir "${CMAKE_BINARY_DIR}/doc/kaleidoscope")
-   set(kaleidoscope_doc_file "${sphinx_build_dir}/modules.html")
-   add_custom_command(
-      OUTPUT "${kaleidoscope_doc_file}"
-      COMMAND "${CMAKE_COMMAND}" 
-         "-Dkaleidoscope_module_path=${CMAKE_BINARY_DIR}"
-         "-Dkaleidoscope_testing_module_path=${CMAKE_SOURCE_DIR}/python"
-         "-Dsphinx_build_dir=${sphinx_build_dir}"
-         "-Dsphinx_executable=${SPHINX_EXECUTABLE}"
-         "-Dsphinx_configuration_dir=${sphinx_configuration_dir}"
-         -P "${CMAKE_SOURCE_DIR}/cmake/build_sphinx_doc.script.cmake"
-      DEPENDS "${kaleidoscope_testing_target_location}"
-      COMMENT "Generating Sphinx python documentation"
-   )
-   add_custom_target(doc DEPENDS "${kaleidoscope_doc_file}")
-   add_dependencies(doc generate_sphinx_input_files)
-endif()
+include("${CMAKE_SOURCE_DIR}/cmake/api_doc.include.cmake")

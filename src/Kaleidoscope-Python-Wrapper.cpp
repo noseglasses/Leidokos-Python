@@ -18,7 +18,7 @@
  */
 
 #include "Kaleidoscope-Python-Wrapper.h"
-#include "Key_Alias.h"
+#include "KPV_Key_Alias.h"
 
 #include "layers.h"
 #include "virtual_io.h"
@@ -46,6 +46,8 @@ namespace python_wrapper {
 unsigned long API::millis_ = 0;
    
 API::KeyboardReportConsumer API::keyboardReportConsumer_;
+
+extern std::string getVersionString();
    
 void 
    API
@@ -62,7 +64,7 @@ void
 
 void 
    API
-      ::loop()
+      ::scanCycle()
 {
    ::loop();
    nextCycle();
@@ -324,26 +326,109 @@ static const char *modifierToName(uint8_t modifier) {
    return "";
 }
 
-BOOST_PYTHON_MODULE(kaleidoscope)
+BOOST_PYTHON_MODULE(_kaleidoscope)
 {
-   #define EXPORT_LAYER_STATIC_METHOD(NAME) \
-      .def(#NAME, &Layer_::NAME).staticmethod(#NAME)
+   #define EXPORT_LAYER_STATIC_METHOD(NAME, DOCSTRING) \
+      .def(#NAME, &Layer_::NAME, DOCSTRING).staticmethod(#NAME)
       
-   class_<Layer_>("Layer")
-      EXPORT_LAYER_STATIC_METHOD(lookup)
-      EXPORT_LAYER_STATIC_METHOD(lookupOnActiveLayer)
-      EXPORT_LAYER_STATIC_METHOD(on)
-      EXPORT_LAYER_STATIC_METHOD(off)
-      EXPORT_LAYER_STATIC_METHOD(move)
-      EXPORT_LAYER_STATIC_METHOD(top)
-      EXPORT_LAYER_STATIC_METHOD(next)
-      EXPORT_LAYER_STATIC_METHOD(previous)
-      EXPORT_LAYER_STATIC_METHOD(isOn)
-      EXPORT_LAYER_STATIC_METHOD(getLayerState)
-      EXPORT_LAYER_STATIC_METHOD(eventHandler)
-      EXPORT_LAYER_STATIC_METHOD(getKeyFromPROGMEM)
-      EXPORT_LAYER_STATIC_METHOD(updateLiveCompositeKeymap)
-      EXPORT_LAYER_STATIC_METHOD(updateActiveLayers)
+   class_<Layer_>("Layer",
+      "Provides access to layered keymaps."
+   )
+      EXPORT_LAYER_STATIC_METHOD(
+         lookup,
+         "Lookup a Key at a given position in the overall keymap.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap col.\n\n"
+         "Returns:\n"
+         "   Key: The key present at that the given position in the keymap.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         lookupOnActiveLayer,
+         "Lookup a Key at a given position in the current layer mapping.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap col.\n\n"
+         "Returns:\n"
+         "   Key: The key present at that the given position in the active layer.")
+         
+      EXPORT_LAYER_STATIC_METHOD(
+         on,
+         "Enables a layer.\n\n"
+         "Args:\n"
+         "   layer (int): The layer to enable.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         off,
+         "Disables a layer.\n\n"
+         "Args:\n"
+         "   layer (int): The layer to disable.")
+      
+      EXPORT_LAYER_STATIC_METHOD(move,
+         "Enables a single layer (while disabling all others).\n\n"
+         "Args:\n"
+         "   layer (int): The layer to enable.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         top,
+         "Retreives the id of the current highest layer.\n\n"
+         "Returns:\n"
+         "   int: The id of the current highest layer.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         next,
+         "Turns the next higher layer into the highest layer and activates it.\n\n")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         previous,
+         "Turns the next lower layer into the highest layer and disables the "
+         "foremost highest layer.\n\n")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         isOn,
+         "Checks it a given layer is currently enabled.\n\n"
+         "Args:\n"
+         "   layer (int): The layer to check.\n\n"
+         "Returns:\n"
+         "   boolean: True if the given layer is enabled, False otherwise.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         getLayerState,
+         "Retreives the current layer state.\n\n"
+         "Returns:\n"
+         "   unsigned int: The current layer state coded as a 32 bit value.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         eventHandler,
+         "Calls the event handler for a mapped key.\n\n"
+         "Args:\n"
+         "   mappedKey (Key): The mapped key to pass to the event handler.\n"
+         "   row (int): The keymap row associated with the mapped key.\n"
+         "   col (int): The keymap column associated with the mapped key.\n"
+         "   keyState (int): The key state to pass to the event handler.\n\n"
+         "Returns:\n"
+         "   Key: Key_NoKey if the event handler was called, mappedKey otherwise.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         getKeyFromPROGMEM,
+         "Reads a Key at a given position on a given layer.\n\n"
+         "Args:\n"
+         "   layer (int): The layer id\n"
+         "   row (int): The keymap row associated with the mapped key.\n"
+         "   col (int): The keymap column associated with the mapped key.\n"
+         "Returns:\n"
+         "   Key: The key found in the keymap")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         updateLiveCompositeKeymap,
+         "Updates the live composite keymap at a given position.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap column.\n")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         updateActiveLayers,
+         "Updates the active layers.")
       
       // As there are two overloaded versions of 
       // defaultLayer that are actually a getter and a setter, we have 
@@ -352,15 +437,24 @@ BOOST_PYTHON_MODULE(kaleidoscope)
       //
       .def("getDefaultLayer", static_cast< 
             uint8_t(*)()
-         >(&Layer_::defaultLayer)
+         >(&Layer_::defaultLayer),
+         "Returns the default layer.\n\n"
+         "Returns:\n"
+         "   int: The default layer ID"
       ).staticmethod("getDefaultLayer")
+      
       .def("setDefaultLayer", static_cast< 
             void(*)(uint8_t)
-         >(&Layer_::defaultLayer)
+         >(&Layer_::defaultLayer),
+         "Sets the default layer.\n\n"
+         "Args:\n"
+         "   layer (int): The new default layer ID"
       ).staticmethod("setDefaultLayer")
     ;
     
-   class_<Key_>("Key")
+   class_<Key_>("Key",
+      "Provides functionality to deal with and to represent keys."
+   )
       .def(self == uint16_t())
       .def(self == Key_())
 //       .def(self = uint16_t())
@@ -373,54 +467,167 @@ BOOST_PYTHON_MODULE(kaleidoscope)
       .def(self <= Key_())
       .def(self > Key_())
       .def(self < Key_())
+     ;
+      
+     def("keyToName", &keyToName,
+         "Maps a key to its associated key name.\n\n"
+         "Args:\n"
+         "   key (Key): The key to map.\n\n"
+         "Returns:\n"
+         "   string: The key name.");
+      
+      def("keycodeToName", &keycodeToName,
+         "Maps a keycode to its associated key name.\n\n"
+         "Args:\n"
+         "   keycode (int): The keycode to map.\n\n"
+         "Returns:\n"
+         "   string: The keycode name.");
       
    #define REGISTER_MODIFIER_FUNCTIONS(MOD) \
-      .def(#MOD, &m_##MOD).staticmethod(#MOD)
+      def("add"#MOD, &m_##MOD, \
+         "Adds modifier \"" #MOD "\" to a key.\n\n" \
+         "Returns:\n" \
+         "   Key: The key with modifier \"" #MOD "\" enabled.");
       
       FOR_ALL_MODIFIERS(REGISTER_MODIFIER_FUNCTIONS)
       
    #define REGISTER_HELD_MODIFIER_FUNCTIONS(MOD) \
-      .def(#MOD, &hm_##MOD).staticmethod(#MOD)
+      def("mod"#MOD, &hm_##MOD, \
+         "Returns the modifier identifier \"" #MOD "\".\n\n" \
+         "Returns:\n" \
+         "   int: The key modifier identifier \"" #MOD "\"." \
+      );
       
       FOR_ALL_HELD_MODIFIERS(REGISTER_HELD_MODIFIER_FUNCTIONS)
       
    #define EXPORT_KEY_FUNCTIONS(KEY) \
-      .def(#KEY, &k_##KEY).staticmethod(#KEY)
+      def("key"#KEY, &k_##KEY, \
+         "Returns the key \"" #KEY "\".\n\n" \
+         "Returns:\n" \
+         "   Key: The key \"" #KEY "\"." \
+      );
       
       FOR_ALL_KEYS(EXPORT_KEY_FUNCTIONS)
-   
-      .def("keyToName", &keyToName).staticmethod("keyToName")
-      .def("keycodeToName", &keycodeToName).staticmethod("keycodeToName");
       
-   class_<Key_>("Modifier")
-      .def("toName", &modifierToName).staticmethod("toName");
+   def("modifierToName", &modifierToName,
+         "Maps a modifier ID to its associated name.\n\n"
+         "Args:\n"
+         "   modifier (int): The modifier ID to map.\n\n"
+         "Returns:\n"
+         "   string: The modifier name.");
    
-   #define EXPORT_METHOD(NAME) \
-      .def(#NAME, &kaleidoscope::python_wrapper::KeyboardReport::NAME)
+   #define EXPORT_METHOD(NAME, DOCSTRING) \
+      .def(#NAME, &kaleidoscope::python_wrapper::KeyboardReport::NAME, DOCSTRING)
       
-   class_<kaleidoscope::python_wrapper::KeyboardReport>("KeyboardReport")
-      EXPORT_METHOD(isKeycodeActive)
-      EXPORT_METHOD(isKeyActive)
-      EXPORT_METHOD(isModifierActive)
-      EXPORT_METHOD(dump)
+   class_<kaleidoscope::python_wrapper::KeyboardReport>("KeyboardReport",
+      "Provides access to a USB HID key report."
+   )
+      EXPORT_METHOD(
+         isKeycodeActive,
+         "Checks it a keycode is active in the key report.\n\n"
+         "Args:\n"
+         "   keycode (int): The keycode to check.\n\n"
+         "Returns:\n"
+         "   boolean: True if the given keycode is active in the key report."
+      )
+      
+      EXPORT_METHOD(
+         isKeyActive,
+         "Checks if a key is active in the key report.\n\n"
+         "Args:\n"
+         "   key (Key): The key to check.\n\n"
+         "Returns:\n"
+         "   boolean: True if the given key is active in the key report."
+      )
+      
+      EXPORT_METHOD(
+         isModifierActive,
+         "Checks if a modifier is active in the key report.\n\n"
+         "Args:\n"
+         "   modifier (int): The modifier to check.\n\n"
+         "Returns:\n"
+         "   boolean: True if the given modifier is active in the key report."
+      )
+      
+      EXPORT_METHOD(
+         dump,
+         "Dumps the key report to stdout."
+      )
    ;
       
-   #define EXPORT_STATIC_METHOD(NAME) \
-      def(#NAME, &kaleidoscope::python_wrapper::API::NAME);
+   #define EXPORT_STATIC_METHOD(NAME, DOCSTRING) \
+      def(#NAME, &kaleidoscope::python_wrapper::API::NAME, DOCSTRING);
       
-   EXPORT_STATIC_METHOD(init)
-   EXPORT_STATIC_METHOD(loop)
-   EXPORT_STATIC_METHOD(tap)
-   EXPORT_STATIC_METHOD(getMillis)
-   EXPORT_STATIC_METHOD(setMillis)
-   EXPORT_STATIC_METHOD(setKeyboardReportCallback)
+   EXPORT_STATIC_METHOD(
+      init,
+      "Initializes Kaleidoscope."
+   )
+
+   EXPORT_STATIC_METHOD(
+      scanCycle,
+      "Performs a keyboard scan cycle."
+   )
+   
+   EXPORT_STATIC_METHOD(
+      tap,
+      "Taps a key at a given position.\n\n"
+      "Args:\n"
+      "   row (int): The keymap row.\n"
+      "   col (int): The keymap column.\n"
+   )
+   
+   EXPORT_STATIC_METHOD(
+      getMillis,
+      "Returns the current state of the milliseconds timer.\n\n"
+      "Returns:\n"
+      "   long unsigned: The current state of the milliseconds timer."
+   )
+   
+   EXPORT_STATIC_METHOD(
+      setMillis,
+      "Sets the current state of the milliseconds timer.\n\n"
+      "Args:\n"
+      "   millis (long unsigned): The new state of the milliseconds timer."
+   )
+   
+   EXPORT_STATIC_METHOD(
+      setKeyboardReportCallback,
+      "Allows to set a keyboard report callback.\n\n"
+      "Args:\n"
+      "   object (python object): A python class object that provides a "
+      "processReport(keyboardReport) method that can be passed KeyboardReport class object"
+   )
+   
+   def("getVersionString", &kaleidoscope::python_wrapper::getVersionString,
+      "Returns the current version of Kaleidoscope-Python-Wrapper.\n\n"
+      "Returns:\n"
+      "   string: The version string."
+   )
+   ;
    
    // Cycles are handled on the python side
 //    def("currentCycle", &currentCycle);
    
-   #define EXPORT_STATIC_KEY_METHOD(NAME) \
-      def(#NAME, &kaleidoscope::python_wrapper::API::NAME);
-      EXPORT_STATIC_KEY_METHOD(keyDown)
-      EXPORT_STATIC_KEY_METHOD(keyUp)
-      EXPORT_STATIC_KEY_METHOD(clearAllKeys)
+   #define EXPORT_STATIC_KEY_METHOD(NAME, DOCSTRING) \
+      def(#NAME, &kaleidoscope::python_wrapper::API::NAME, DOCSTRING);
+      EXPORT_STATIC_KEY_METHOD(
+         keyDown,
+         "Registeres a key being pressed at a given position.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap column.\n"
+      )
+         
+      EXPORT_STATIC_KEY_METHOD(
+         keyUp,
+         "Registeres a key being released at a given position.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap column.\n"
+      )
+      
+      EXPORT_STATIC_KEY_METHOD(
+         clearAllKeys,
+         "Releases all keys that are currently pressed."
+      )
 }

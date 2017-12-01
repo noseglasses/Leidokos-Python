@@ -16,9 +16,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-set(ENV{PYTHONPATH} "${kaleidoscope_module_path}:${kaleidoscope_testing_module_path}:$ENV{PYTHONPATH}")
-
-set(kaleidoscope_doc_file "${sphinx_build_dir}/html/modules.html")
-execute_process(
-   COMMAND "${sphinx_executable}" -b html "${sphinx_configuration_dir}/source" "${sphinx_build_dir}"
+function(generate_link 
+   target_ 
+   link_
 )
+   if(NOT EXISTS "${link_}")
+   
+      message("Generating symbolic link ${link_} -> ${target_}")
+      execute_process(
+         COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
+      )
+   endif()
+endfunction()

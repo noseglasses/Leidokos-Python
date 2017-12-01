@@ -18,9 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import kaleidoscope_testing
+import kaleidoscope
 
-from kaleidoscope_testing import *
+from kaleidoscope import *
 
 import sys
 
@@ -32,9 +32,9 @@ test.keyDown(2, 1)
 assertions = [ 
       ReportNthInCycle(1), 
       ReportNthCycle(1),
-      ReportKeyActive(kaleidoscope.Key.A()),
-      ReportKeyActive(kaleidoscope.Key.B()),
-      ReportModifierActive(kaleidoscope.Key.SHIFT_HELD()),
+      ReportKeyActive(Key.A()),
+      ReportKeyActive(Key.B()),
+      ReportModifierActive(Key.SHIFT_HELD()),
       DumpReport()
    ]
 

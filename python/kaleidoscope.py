@@ -16,7 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import kaleidoscope
+import _kaleidoscope
+from _kaleidoscope import *
 import sys
 import weakref
 import os
@@ -29,8 +30,12 @@ keyboardReportIndent = " "*(nIndentChars*2)
 assertionGroupIndent = " "*(nIndentChars*3)
 assertionIndent = " "*(nIndentChars*4)
 
+#class Key(_kaleidoscope.Key): pass
+
+#class Layer(_kaleidoscope.Layer): pass
+
 def _removeItemsFromList(fromList, removalList):
-   """ Removes all items from a list
+   """ Removes all items from a list.
    
    Args:
       fromList (list): The list to remove entries from.
@@ -63,7 +68,7 @@ class Assertion(object):
             out.write("   actual: %s\n" % theActualState, assertionIndent)
             
    def _description(self):
-      """ Returns a description string """
+      """ Returns a description string. """
         
    def _evalInternal(self, target):
       """ The internal assertion evaluation method. This method may be overridden
@@ -71,7 +76,7 @@ class Assertion(object):
       
       Args:
          target (undefined): The target object the assertion operates on.
-            This can either be a KeyboardReport object, the Test object or others
+            This can either be a KeyboardReport object, the Test object or others.
             
       Returns:
          bool: True if the assertion passed, False otherwise.
@@ -84,7 +89,7 @@ class Assertion(object):
       
       Args:
          target (undefined): The target object the assertion operates on.
-            This can either be a KeyboardReport object, the Test object or others
+            This can either be a KeyboardReport object, the Test object or others.
             
       Returns:
          bool: True if the assertion passed, False otherwise.
@@ -115,7 +120,7 @@ class AssertionGroup(Assertion):
    """ Groups several assertions.
    
       Args:
-         assertionList (list): A list of assertions
+         assertionList (list): A list of assertions.
    """
 
    def __init__(self, assertionList):
@@ -123,7 +128,7 @@ class AssertionGroup(Assertion):
       self.assertionList = assertionList
    
    def _report(self, out):
-      """ Generates a report by letting all members report """
+      """ Generates a report by letting all members report. """
       for assertion in self.assertionList:
          assertion._report(out) 
          
@@ -147,7 +152,7 @@ class ReportKeyActive(Assertion):
    """ Asserts that a specific key is active in the keyboard report.
    
       Args:
-         key (Key): The key tested for being active
+         key (Key): The key tested for being active.
    """
    
    def __init__(self, key):
@@ -155,7 +160,7 @@ class ReportKeyActive(Assertion):
       self.key = key
       
    def _description(self):
-      return "Key %s active" % str(kaleidoscope.Key.keyToName(self.key))
+      return "Key %s active" % str(_kaleidoscope.Key.keyToName(self.key))
 
    def _evalInternal(self, keyReport):
       return keyReport.isKeyActive(self.key)
@@ -164,7 +169,7 @@ class ReportKeyInactive(Assertion):
    """ Asserts that a specific key is inactive in the keyboard report.
    
       Args:
-         key (Key): The key tested for being inactive
+         key (Key): The key tested for being inactive.
    """
    
    def __init__(self, key):
@@ -172,7 +177,7 @@ class ReportKeyInactive(Assertion):
       self.key = key
       
    def _description(self):
-      return "Key %s inactive" % str(kaleidoscope.Key.keyToName(self.key))
+      return "Key %s inactive" % str(_kaleidoscope.Key.keyToName(self.key))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isKeyActive(self.key)
@@ -181,7 +186,7 @@ class ReportKeycodeActive(Assertion):
    """ Asserts that a specific keycode is active in the keyboard report.
    
       Args:
-         keycode (int): The keycode tested for being active
+         keycode (int): The keycode tested for being active.
    """
    
    def __init__(self, keycode):
@@ -189,7 +194,7 @@ class ReportKeycodeActive(Assertion):
       self.keycode = keycode
       
    def _description(self):
-      return "Keycode %s active" % str(kaleidoscope.Key.keycodeToName(self.keycode))
+      return "Keycode %s active" % str(_kaleidoscope.Key.keycodeToName(self.keycode))
 
    def _evalInternal(self, keyReport):
       return keyReport.isKeycodeActive(self.keycode)
@@ -198,7 +203,7 @@ class ReportKeycodeInactive(Assertion):
    """ Asserts that a specific key is inactive in the keyboard report.
    
       Args:
-         keycode (int): The key tested for being inactive
+         keycode (int): The key tested for being inactive.
    """
    
    def __init__(self, keycode):
@@ -206,7 +211,7 @@ class ReportKeycodeInactive(Assertion):
       self.keycode = keycode
       
    def _description(self):
-      return "Keycode %s inactive" % str(kaleidoscope.Key.keycodeToName(self.keycode))
+      return "Keycode %s inactive" % str(_kaleidoscope.Key.keycodeToName(self.keycode))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isKeycodeActive(self.keycode)
@@ -215,7 +220,7 @@ class ReportModifierActive(Assertion):
    """ Asserts that a specific modifier is active in the keyboard report.
    
       Args:
-         modifier (int): The modifier tested for being active
+         modifier (int): The modifier tested for being active.
    """
    
    def __init__(self, modifier):
@@ -223,7 +228,7 @@ class ReportModifierActive(Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s active" % str(kaleidoscope.Modifier.toName(self.modifier))
+      return "Modifier %s active" % str(_kaleidoscope.Modifier.toName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return keyReport.isModifierActive(self.modifier)
@@ -232,7 +237,7 @@ class ReportModifierInactive(Assertion):
    """ Asserts that a specific modifier is inactive in the keyboard report.
    
       Args:
-         modifier (int): The modifier tested for being inactive
+         modifier (int): The modifier tested for being inactive.
    """
    
    def __init__(self, modifier):
@@ -240,7 +245,7 @@ class ReportModifierInactive(Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s inactive" % str(kaleidoscope.Modifier.toName(self.modifier))
+      return "Modifier %s inactive" % str(_kaleidoscope.Modifier.toName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isModifierActive(self.modifier)
@@ -286,7 +291,7 @@ class ReportNthCycle(Assertion):
       return self._getTest().cycleId == self.cycle
    
 class DumpReport(Assertion):
-   """ Dumps the current keyboard report """
+   """ Dumps the current keyboard report. """
    
    def _evalInternal(self, keyReport):
       self.keyReport = keyReport
@@ -343,10 +348,10 @@ class LayerIsActive(Assertion):
       return "Is %d. layer active" % self.layer
 
    def _actualState(self):
-      return "%d. layer is active" % kaleidoscope.Layer.top()
+      return "%d. layer is active" % _kaleidoscope.Layer.top()
    
    def _evalInternal(self, dummy):
-      return kaleidoscope.top() == self.layer
+      return _kaleidoscope.top() == self.layer
    
 class LayerIsInactive(Assertion):
    """ Asserts that a given layer is currently not active (not the current top layer).
@@ -363,10 +368,10 @@ class LayerIsInactive(Assertion):
       return "Is %d. layer inactive" % self.layer
 
    def _actualState(self):
-      return "%d. layer is active" % kaleidoscope.Layer.top()
+      return "%d. layer is active" % _kaleidoscope.Layer.top()
    
    def _evalInternal(self, dummy):
-      return kaleidoscope.top() != self.layer
+      return _kaleidoscope.top() != self.layer
    
 class TimeElapsedGreater(Assertion):
    """ Asserts that that time that elapsed is greater than a given time in [ms].
@@ -409,11 +414,17 @@ class _TimedStream(object):
       self.out = out
       self.indentChars = 3
       
-   def write(self, string, indentationString = ""):
-      timeStr = ""
-      if(self.testWeak()):
-         timeStr = "%010d " % self.testWeak().time
-      self.out.write("%s%s%s" % (timeStr, indentationString, string))
+   def write(self, string, indentationString = "", outputTime = True):
+      if outputTime:
+         timeStr = ""
+         if(self.testWeak()):
+            timeStr = "%010d " % self.testWeak().time
+         self.out.write("%s%s%s" % (timeStr, indentationString, string))
+      else:
+         self.out.write("%s%s" % (indentationString, string))
+         
+   def writeN(self, string, indentationString = ""):
+      self.write(string, indentationString, outputTime = False)
    
 class Test(object):
    """ The main test object that controls everything.
@@ -423,7 +434,10 @@ class Test(object):
       
       debug (bool): Additional output is generated when set to True. Defaults to False.
    """
-   def __init__(self):
+   def __init__(self, 
+                out = sys.stdout, 
+                debug = False, 
+                cycleDuration = 5):
       
       self.assertionsPassed = True
       self.nReportsInCycle = 0
@@ -431,30 +445,30 @@ class Test(object):
       
       # The cycle duration in ms
       #
-      self.cycleDuration = 5
+      self.cycleDuration = cycleDuration
       self.cycleId = 0
       self.time = 0
       
       # The preferred output
       #
-      self.out = _TimedStream(self, sys.stdout)
+      self.out = _TimedStream(self, out)
       
       self.queuedReportAssertions = []
       self.permanentReportAssertions = []
       self.queuedCycleAssertions = []
       self.permanentCycleAssertions = []
       
-      self.debug = False
+      self.debug = debug
       
-      kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
+      _kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
       
-      kaleidoscope.init()
+      _kaleidoscope.init()
       
       self._headerText()
       
    def __del__(self):
       
-      kaleidoscope.setKeyboardReportCallback(None)
+      _kaleidoscope.setKeyboardReportCallback(None)
       
       self._footerText()
       
@@ -462,29 +476,39 @@ class Test(object):
          self._error("Terminating with exit code 1")
          
    def setOutputStream(self, out):
-      """ Sets an output stream that is used for all formatted output
+      """ Sets an output stream that is used for all formatted output.
       
       Args:
-         out (stream): An output stream
+         out (stream): An output stream.
       """
       self.out = _TimedStream(self, out)
          
    def _error(self, msg):
-      self.out.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-      self.out.write("!!! Error: %s\n" % msg)
-      self.out.write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+      self.out.writeN("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
+      self.out.writeN("!!! Error: %s\n" % msg)
+      self.out.writeN("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
         
       os._exit(1)
       
    def _headerText(self):
-      self.out.write("################################################################################\n")
-      self.out.write("Starting Kaleidoscope keyboard firmware testing\n")
-      self.out.write("################################################################################\n")
+      self.out.writeN("\n")
+      self.out.writeN("################################################################################\n")
+      self.out.writeN("\n")
+      self.out.writeN("Kaleidoscope-Python-Wrapper\n")
+      self.out.writeN("\n")
+      self.out.writeN("author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)\n")
+      self.out.writeN("version: %s\n" % _kaleidoscope.getVersionString())
+      self.out.writeN("\n")
+      self.out.writeN("cycle duration: %f\n" % self.cycleDuration)
+      self.out.writeN("################################################################################\n")
+      self.out.writeN("\n")
       
    def _footerText(self):
-      self.out.write("################################################################################\n")
-      self.out.write("Kaleidoscope keyboard firmware testing done\n")
-      self.out.write("################################################################################\n")
+      self.out.writeN("\n")
+      self.out.writeN("################################################################################\n")
+      self.out.writeN("Testing done\n")
+      self.out.writeN("################################################################################\n")
+      self.out.writeN("\n")
       
    def _checkStatus(self):
       success = True
@@ -628,7 +652,7 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
-      kaleidoscope.keyDown(row, col)
+      _kaleidoscope.keyDown(row, col)
       
    def keyUp(self, row, col):
       """ Registers a key up event. Make sure that the key was registered
@@ -638,7 +662,7 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
-      kaleidoscope.keyUp(row, col)
+      _kaleidoscope.keyUp(row, col)
    
    def tap(self, row, col):
       """ Registers tap of a key.
@@ -647,11 +671,11 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
-      kaleidoscope.tap(row, col)
+      _kaleidoscope.tap(row, col)
 
    def clearAllKeys(self):
       """ Clears all keys that are currently active (down). """
-      kaleidoscope.clearAllKeys()
+      _kaleidoscope.clearAllKeys()
       
    def _configureCycleAssertion(self, assertion):
       assertion._setTest(self)
@@ -716,29 +740,29 @@ class Test(object):
       self.removeQueuedCycleAssertions(assertionList)
       self.removePermanentCycleAssertions(assertionList)
       
-   def loopCycle(self, onStopAssertionList = None):
-      """ Executes a loop cycle and processes assertions afterwards.
+   def scanCycle(self, onStopAssertionList = None):
+      """ Executes a scan cycle and processes assertions afterwards.
       
       Args:
          onStopAssertionList (list): A list of assertions to be executed after
             the next cycle and to be discarded afterwards. Defaults to None.
       """
-      self.out.write("Single cycle\n")
-      self._loopCycle(onStopAssertionList)
+      self.out.write("Single scan cycle\n")
+      self._scanCycle(onStopAssertionList)
       self.out.write("\n")
       
-   def _loopCycle(self, onStopAssertionList = None):
+   def _scanCycle(self, onStopAssertionList = None):
       
       self.cycleId += 1
       self.nReportsInCycle = 0
       
-      self.out.write("Loop cycle %d\n" % self.cycleId, cycleIndent)
+      self.out.write("Scan cycle %d\n" % self.cycleId, cycleIndent)
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:
             self._configureTemporaryAssertion(assertion)
       
-      kaleidoscope.loop()
+      _kaleidoscope.scanCycle()
       
       if self.nReportsInCycle == 0:
          self.out.write("No keyboard reports processed\n", keyboardReportIndent)
@@ -747,7 +771,7 @@ class Test(object):
       
       self.time += self.cycleDuration
       
-      kaleidoscope.setMillis(self.time)
+      _kaleidoscope.setMillis(self.time)
       
       if onStopAssertionList and len(onStopAssertionList) > 0:
          self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), assertionGroupIndent)
@@ -763,8 +787,8 @@ class Test(object):
          self.out.write("Processing %d permanent cycle assertions\n" % len(self.permanentCycleAssertions), assertionGroupIndent)
          self._processCycleAssertions(self.permanentCycleAssertions)
       
-   def loopCycles(self, n, onStopAssertionList = None):
-      """ Executes a number of loop cycles and processes assertions afterwards.
+   def scanCycles(self, n, onStopAssertionList = None):
+      """ Executes a number of scan cycles and processes assertions afterwards.
       
       Args:
          n (int): The number of cycles to execute.
@@ -780,7 +804,7 @@ class Test(object):
             self._configureTemporaryAssertion(assertion)
             
       for i in range(0, n):
-         self._loopCycle()
+         self._scanCycle()
          
       if onStopAssertionList and len(onStopAssertionList) > 0:
          self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), cycleIndent)
@@ -816,7 +840,7 @@ class Test(object):
       
       elapsedTime = 0
       while elapsedTime < deltaT:
-         self._loopCycle()
+         self._scanCycle()
          elapsedTime = self.time - startTime
          
       self.out.write("%f ms (%d cycles) skipped\n" % (elapsedTime, self.cycleId - startCycle), cycleIndent)
