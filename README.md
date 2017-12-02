@@ -175,7 +175,6 @@ export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/K
 python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/test_kaleidoscope.py
 ```
 
-
 # Prerequisites
 Python wrapping depends on [boost Python](http://www.boost.org) to auto-generate 
 Python wrapper code for C++ classes, functions and global data. Appart from that, CMake is 
@@ -183,7 +182,7 @@ needed to setup the plugin's build system.
 
 On Ubuntu Linux, the necessary packages can be installed as
 ```bash
-sudo apt-get install libboost-Python-dev cmake
+sudo apt-get install libboost-python-dev cmake
 ```
 To configure the CMake build system manually, most Linux distributions allow 
 for a curses based CMake GUI to be installed. Install it as follows under Ubuntu Linux. 
