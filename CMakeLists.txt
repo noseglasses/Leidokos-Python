@@ -93,6 +93,8 @@ project(Kaleidoscope)
 #
 cmake_policy(SET CMP0009 NEW)
 
+message("KALEIDOSCOPE_HARDWARE_BASE_PATH=${KALEIDOSCOPE_HARDWARE_BASE_PATH}")
+
 # The build system variable KALEIDOSCOPE_MODULE_REPO_PATHS 
 # can contain a list of repo paths or alternatively a directory
 # that is parent to a number of such repository. File search for 
@@ -103,7 +105,10 @@ set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}"
    "A list of paths that are recursively searched for files with \
 extension .python-wrapper")
 
+message("KALEIDOSCOPE_MODULE_REPO_PATHS=${KALEIDOSCOPE_MODULE_REPO_PATHS}")
+
 set(repo_paths "${KALEIDOSCOPE_MODULE_REPO_PATHS}")
+message("repo_paths=${repo_paths}")
 
 # A list of repo paths can also be defined in a file whose filename
 # is provided through the variable KALEIDOSCOPE_MODULE_REPO_PATHS_FILE

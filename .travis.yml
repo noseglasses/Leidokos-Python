@@ -14,6 +14,7 @@ script:
   - cd $HOME
   - mkdir kbw_build
   - cd kbw_build
+  - cmake --version
   - cmake
       -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$HOME/hardware
       -DKALEIDOSCOPE_LIBRARIES_DIR=$HOME/hardware/keyboardio/avr/libraries
