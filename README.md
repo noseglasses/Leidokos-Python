@@ -16,6 +16,11 @@ Python wrapper code is generated for the main firmware as well as
 for plugins that explicitly support Python code export. The virtual firmware
 can be loaded as a Python module.
 
+The project aims to support all portable features of the firmware to make it 
+possible to develop new plugins in a rapid and painless way before finally porting them to C++.
+Sometimes implementations are the only way to test weird ideas and new algorithms.
+Kaleidoscope-Python-Wrapper helps by allowing to test such new features under reproducible lab conditions.
+
 # Example usage
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
 provided as part of the project source repository. It tests some functionality
