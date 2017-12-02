@@ -46,4 +46,4 @@ test.keyUp(2, 1)
 
 test.scanCycles(2)
 
-test.skipTime(200)
+test.skipTime(20)
