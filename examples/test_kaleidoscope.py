@@ -27,30 +27,23 @@ import sys
 test = Test()
 test.debug = True
 
-test.keyDown(2, 1)
-
-assertions = [ 
-      ReportNthInCycle(1), 
-      ReportNthCycle(1),
-      ReportKeyActive(Key.A()),
-      ReportKeyActive(Key.B()),
-      ReportModifierActive(Key.SHIFT_HELD()),
-      DumpReport()
-   ]
-
-n = 3
-someAssertions = assertions[0:3]
-
 # The assertions are evaluated in the next loop cycle
 #
-test.addPermanentReportAssertions(assertions)
+test.queueGroupedReportAssertions([ 
+      ReportNthInCycle(1), 
+      ReportNthCycle(1),
+      ReportKeyActive(keyA()),
+      ReportKeyActive(keyB()),
+      ReportModifierActive(modSHIFT_HELD()),
+      DumpReport()
+   ])
 
-test.loopCycle()
+test.keyDown(2, 1)
+
+test.scanCycle()
 
 test.keyUp(2, 1)
 
-test.loopCycles(2)
+test.scanCycles(2)
 
 test.skipTime(200)
-
-test.removeReportAssertions(someAssertions)

@@ -160,7 +160,7 @@ class ReportKeyActive(Assertion):
       self.key = key
       
    def _description(self):
-      return "Key %s active" % str(_kaleidoscope.Key.keyToName(self.key))
+      return "Key %s active" % str(_kaleidoscope.keyToName(self.key))
 
    def _evalInternal(self, keyReport):
       return keyReport.isKeyActive(self.key)
@@ -228,7 +228,7 @@ class ReportModifierActive(Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s active" % str(_kaleidoscope.Modifier.toName(self.modifier))
+      return "Modifier %s active" % str(_kaleidoscope.modifierToName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return keyReport.isModifierActive(self.modifier)
