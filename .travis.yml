@@ -10,7 +10,7 @@ script:
   - mkdir -p hardware/keyboardio
   - git clone --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
   - cd hardware/keyboardio/avr
-  - git checkout regression_testing
+  - git checkout regression_testing_travis
   - cd $HOME
   - mkdir kbw_build
   - cd kbw_build
