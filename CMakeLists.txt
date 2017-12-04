@@ -24,7 +24,20 @@ cmake_minimum_required(VERSION 2.8)
 #
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
 
-include("${CMAKE_SOURCE_DIR}/cmake/generate_symlink.macros.cmake")
+# kaleidoscope_cmake_after_configure_platform_hook is called
+# by Kaleidoscope-CMake after the target platform (paths) has been configured.
+#
+macro(kaleidoscope_cmake_after_configure_platform_hook)
+
+   message("Generating links")
+
+   include("${CMAKE_SOURCE_DIR}/cmake/generate_symlink.macros.cmake")
+
+   # Setup symlinks that enable correct build for x86 using the
+   # Arduino build system
+   #
+   include("${CMAKE_SOURCE_DIR}/cmake/arduino_symlinks.include.cmake")
+endmacro()
 
 # This configuration process can be passed a list of paths that 
 # point to Kaleidoscope components (git repos).
@@ -58,7 +71,11 @@ set(KALEIDOSCOPE_BOARD "virtual" CACHE STRING
    "The type of board hardware.")
 set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 
-# kaleidoscope_set_binary_basename is called by Kaleidoscope_CMake 
+# Make sure the Kaleidoscope-Hardware-Virtual submodule is found
+#
+include_directories("${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual")
+
+# kaleidoscope_set_binary_basename_hook is called by Kaleidoscope_CMake 
 # during intialization.
 # The reason for its existence is that we cannot define the firmware 
 # executable basename here directly as we require 
@@ -66,7 +83,7 @@ set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 # which is only set later on during initialization when project(...) 
 # is called.
 #
-macro(kaleidoscope_set_binary_basename 
+macro(kaleidoscope_set_binary_basename_hook 
    basename_var_
 )
    set(${basename_var_} "_kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
@@ -226,11 +243,6 @@ target_link_libraries("${kaleidoscope_firmware_target}"
    "${Boost_LIBRARIES}"
    "${PYTHON_LIBRARY}"
 )
-
-# Setup symlinks that enable correct build for x86 using the
-# Arduino build system
-#
-include("${CMAKE_SOURCE_DIR}/cmake/arduino_symlinks.include.cmake")
 
 # Setup Python API documentation
 #

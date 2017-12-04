@@ -11,8 +11,7 @@ script:
   - git clone --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
   - cd hardware/keyboardio/avr
   - git checkout regression_testing_travis
-  - git submodule sync --recursive
-  - git submodule update --recursive
+  - git submodule update --init --recursive
   - git submodule status
   - cd $HOME
   - mkdir kbw_build
