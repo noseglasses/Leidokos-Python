@@ -8,10 +8,8 @@ before_install:
 script:
   - cd $HOME
   - mkdir -p hardware/keyboardio
-  - git clone --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
+  - git clone -b regression_testing_travis --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
   - cd hardware/keyboardio/avr
-  - git checkout regression_testing_travis
-  - git submodule update --init --recursive
   - git submodule status
   - cd $HOME
   - mkdir kbw_build

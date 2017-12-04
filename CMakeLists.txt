@@ -73,7 +73,9 @@ set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 
 # Make sure the Kaleidoscope-Hardware-Virtual submodule is found
 #
-include_directories("${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual")
+include_directories(
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual"
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src")
 
 # kaleidoscope_set_binary_basename_hook is called by Kaleidoscope_CMake 
 # during intialization.
