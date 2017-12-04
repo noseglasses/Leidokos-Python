@@ -1,11 +1,117 @@
+![status][st:experimental] [![Build Status][travis:image]][travis:status]
+
+[travis:image]: https://travis-ci.org/noseglasses/Kaleidoscope-Python-Wrapper.svg?branch=master
+[travis:status]: https://travis-ci.org/noseglasses/Kaleidoscope-Python-Wrapper
+
+[st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=flat&colorA=44cc11&colorB=494e52
+[st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
+[st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
+
 # Kaleidoscope-Python-Wrapper
-This plugin generates Python wrapper code for other Kaleidoscope modules.
-It creates a shared library that can be loaded as a Python module. 
+This project provides a Python interface to a virtual Kaleidoscope firmware.
+It can be used to prototype new or to test existing functionality, e.g.
+as part of a regression-testing framework.
 
-This is an auxiliary plugin in a sense that is meant to be integrated in 
-testing toolchains on the host system (x86). It does not provide any 
-features for the actual firmware.
+Python wrapper code is generated for the main firmware as well as
+for plugins that explicitly support Python code export. The virtual firmware
+can be loaded as a Python module.
 
+The project aims to support all portable features of the firmware to make it 
+possible to develop new plugins in a rapid and painless way before finally porting them to C++.
+Sometimes implementations are the only way to test weird ideas and new algorithms.
+Kaleidoscope-Python-Wrapper helps by allowing to test such new features under reproducible lab conditions.
+
+# Example usage
+Below you see the python code of the example `examples/test_kaleidoscope.py` that is
+provided as part of the project source repository. It tests some functionality
+of the firmware.
+
+```python
+import kaleidoscope
+
+from kaleidoscope import *
+
+import sys
+
+test = Test()
+test.debug = True
+
+# The assertions are evaluated in the next loop cycle
+#
+test.queueGroupedReportAssertions([ 
+      ReportNthInCycle(1), 
+      ReportNthCycle(1),
+      ReportKeyActive(keyA()),
+      ReportKeyActive(keyB()),
+      ReportModifierActive(modSHIFT_HELD()),
+      DumpReport()
+   ])
+
+test.keyDown(2, 1)
+
+test.scanCycle()
+
+test.keyUp(2, 1)
+
+test.scanCycles(2)
+
+test.skipTime(200)
+```
+
+The test deliberately fails. It's console output (stdout) is the following.
+
+```
+################################################################################
+
+Kaleidoscope-Python-Wrapper
+
+author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)
+version: e53109d519c6041e595a441d98957a71a7661129
+
+cycle duration: 5.000000
+################################################################################
+
+0000000000 Single scan cycle
+0000000000    Scan cycle 1
+0000000000       Processing keyboard report 1 (1. in cycle)
+0000000000          1 queued report assertions
+0000000000             Report assertion passed: Is 1. report in cycle
+0000000000             Report assertion passed: Is 1. cycle
+0000000000             Report assertion passed: Key A active
+0000000000             !!! Report assertion failed: Key B active
+0000000000             !!! Report assertion failed: Modifier SHIFT_HELD active
+0000000000             Report assertion passed: Dump report: a 
+0000000000       1 keyboard reports processed
+0000000005 
+0000000005 Running 2 cycles
+0000000005    Scan cycle 2
+0000000005       Processing keyboard report 2 (1. in cycle)
+0000000005          0 queued report assertions
+0000000005       1 keyboard reports processed
+0000000010    Scan cycle 3
+0000000010       No keyboard reports processed
+0000000015 
+0000000015 Skipping dt >= 20.000000 ms
+0000000015    Scan cycle 4
+0000000015       No keyboard reports processed
+0000000020    Scan cycle 5
+0000000020       No keyboard reports processed
+0000000025    Scan cycle 6
+0000000025       No keyboard reports processed
+0000000030    Scan cycle 7
+0000000030       No keyboard reports processed
+0000000035    20.000000 ms (4 cycles) skipped
+0000000035 
+
+################################################################################
+Testing done
+################################################################################
+
+!!! Error: Not all assertions passed
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Error: Terminating with exit code 1
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+```
 # Mode of operation
 This plugin depends on the [Kaleidoscope-Hardware-Virtual](https://github.com/cdisselkoen/Kaleidoscope-Hardware-Virtual) plugin
 to build a shared library that can be loaded as a Python module on the host system (x86).
@@ -69,7 +175,6 @@ export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/K
 python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/test_kaleidoscope.py
 ```
 
-
 # Prerequisites
 Python wrapping depends on [boost Python](http://www.boost.org) to auto-generate 
 Python wrapper code for C++ classes, functions and global data. Appart from that, CMake is 
@@ -77,7 +182,7 @@ needed to setup the plugin's build system.
 
 On Ubuntu Linux, the necessary packages can be installed as
 ```bash
-sudo apt-get install libboost-Python-dev cmake
+sudo apt-get install libboost-python-dev cmake
 ```
 To configure the CMake build system manually, most Linux distributions allow 
 for a curses based CMake GUI to be installed. Install it as follows under Ubuntu Linux. 
