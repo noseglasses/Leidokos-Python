@@ -32,7 +32,7 @@ if(NOT "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" STREQUAL "")
 endif()
 
 set(KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR "${arduino_sketchbook_path_default}" 
-   CACHE PATH "The Arduino sketchbook path")
+   CACHE PATH "The Arduino sketchbook path.")
    
 if("${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}" EQUAL ""
    OR NOT EXISTS "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}")
