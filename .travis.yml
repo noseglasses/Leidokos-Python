@@ -12,6 +12,7 @@ script:
   - cd hardware/keyboardio/avr
   - git checkout regression_testing_travis
   - git submodule update
+  - git submodule status
   - cd $HOME
   - mkdir kbw_build
   - cd kbw_build
