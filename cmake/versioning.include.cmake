@@ -1,5 +1,5 @@
 #  -*- mode: cmake -*-
-# Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 # 
@@ -24,7 +24,7 @@ endif()
 
 execute_process(
    COMMAND ${GIT_EXECUTABLE} describe --exact-match HEAD
-   OUTPUT_VARIABLE kaleidoscope_python_wrapper_git_version
+   OUTPUT_VARIABLE kaleidoscope_PYTHON_git_version
    ERROR_VARIABLE error_out
    RESULT_VARIABLE result
    OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -39,7 +39,7 @@ if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
    #
    execute_process(
       COMMAND ${GIT_EXECUTABLE} describe
-      OUTPUT_VARIABLE kaleidoscope_python_wrapper_git_version
+      OUTPUT_VARIABLE kaleidoscope_PYTHON_git_version
       ERROR_VARIABLE error_out
       RESULT_VARIABLE result
       OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -49,7 +49,7 @@ if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
    if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
       execute_process(
          COMMAND ${GIT_EXECUTABLE} rev-parse --verify HEAD
-         OUTPUT_VARIABLE kaleidoscope_python_wrapper_git_version
+         OUTPUT_VARIABLE kaleidoscope_PYTHON_git_version
          ERROR_VARIABLE error_out
          RESULT_VARIABLE result
          OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -58,14 +58,14 @@ if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
       
       if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
          message("error_out: ${error_out}")
-         message("kaleidoscope_python_wrapper_git_version: ${kaleidoscope_python_wrapper_git_version}")
+         message("kaleidoscope_PYTHON_git_version: ${kaleidoscope_PYTHON_git_version}")
          message(FATAL_ERROR "Unable to determine git version information")
       endif()
    endif()
 endif()
 
 message("################################################################################")
-message("Configuring Kaleidoscope-Python ${kaleidoscope_python_wrapper_git_version}")
+message("Configuring Kaleidoscope-Python ${kaleidoscope_PYTHON_git_version}")
 message("################################################################################")
 
 # Generate a c++ source code file that allows to query version

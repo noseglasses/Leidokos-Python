@@ -1,5 +1,5 @@
 #  -*- mode: cmake -*-
-# Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 # 
@@ -19,7 +19,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Generate version information. This initializes a CMake variable
-#   kaleidoscope_python_wrapper_git_version
+#   kaleidoscope_PYTHON_git_version
 #   version_cpp_file
 #
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
@@ -46,7 +46,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    )
 
    if(NOT Boost_FOUND)
-      message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires boost-python \
+      message(SEND_ERROR "Kaleidoscope-Python requires boost-python \
    library and headers to compile python wrappers. If you have installed boost \
    in a non standard location, please configure the CMake build \
    system accordingly. See the documentation about the FindBoost module \
@@ -62,7 +62,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    find_package(PythonLibs REQUIRED)
 
    if(NOT PYTHONLIBS_FOUND)
-      message(SEND_ERROR "Kaleidoscope-Python-Wrapper requires python \
+      message(SEND_ERROR "Kaleidoscope-Python requires python \
    libraries and headers to compile python wrappers. If you have installed python \
    in a non standard location, please configure the CMake build \
    system accordingly. See the documentation about the FindPythonLibs module \
@@ -78,11 +78,11 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    # Configures the boards.txt file used by the Arduino build process
    # and add an include directive that points to the boost header location.
    #
-   set(KALEIDOSCOPE_PYTHON_WRAPPER_BUILD_FLAGS
+   set(KALEIDOSCOPE_PYTHON_BUILD_FLAGS
       "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS}")
       
    # The configure_file command reads a text file, scans it for occurences of
-   # CMake variables, as the KALEIDOSCOPE_PYTHON_WRAPPER_BUILD_FLAGS
+   # CMake variables, as the KALEIDOSCOPE_PYTHON_BUILD_FLAGS
    # variable above, replaces all occurences by the variables value
    # and safes a configured version of the file.
    #
@@ -148,7 +148,7 @@ endmacro()
 # module to be included in the firmware build.
 #
 set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
-   "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python-Wrapper.h" CACHE INTERNAL "")
+   "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python.h" CACHE INTERNAL "")
 
 # Include the Kaleidoscope-CMake build system
 #

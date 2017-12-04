@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+ * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KALEIDOSCOPE_PYTHON_WRAPPER__KEY_ALIAS_H
-#define KALEIDOSCOPE_PYTHON_WRAPPER__KEY_ALIAS_H
+#ifndef KALEIDOSCOPE_PYTHON__KEY_ALIAS_H
+#define KALEIDOSCOPE_PYTHON__KEY_ALIAS_H
    
 #define FOR_ALL_SIGNAL_KEYS(FUNC) \
    FUNC(NoEvent) \

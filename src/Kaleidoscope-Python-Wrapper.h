@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+ * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KALEIDOSCOPE_PYTHON_WRAPPER_H
-#define KALEIDOSCOPE_PYTHON_WRAPPER_H
+#ifndef KALEIDOSCOPE_PYTHON_H
+#define KALEIDOSCOPE_PYTHON_H
 
 #include <boost/python.hpp>
 
 #include "Kaleidoscope-Hardware-Virtual.h"
-#include "Kaleidoscope-Python-Wrapper.h"
+#include "Kaleidoscope-Python.h"
 #include "VirtualHID/Keyboard.h"
 
 #include "key_defs.h"
@@ -31,7 +31,7 @@
 #include <string>
 
 namespace kaleidoscope {
-namespace python_wrapper {
+namespace PYTHON {
    
 class KeyboardReport {
    
@@ -91,7 +91,7 @@ class API
       static unsigned long millis_;
 };
 
-} // namespace python_wrapper
+} // namespace PYTHON
 } // namespace kaleidoscope
 
 #endif
