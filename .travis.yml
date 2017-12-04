@@ -17,6 +17,7 @@ script:
   - cmake --version
   - cmake
       -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
+      -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
   - make doc
 notifications:

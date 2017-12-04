@@ -29,8 +29,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
 #
 macro(kaleidoscope_cmake_after_configure_platform_hook)
 
-   message("Generating links")
-
    include("${CMAKE_SOURCE_DIR}/cmake/generate_symlink.macros.cmake")
 
    # Setup symlinks that enable correct build for x86 using the
@@ -169,8 +167,6 @@ project(Kaleidoscope)
 #
 cmake_policy(SET CMP0009 NEW)
 
-message("KALEIDOSCOPE_HARDWARE_BASE_PATH=${KALEIDOSCOPE_HARDWARE_BASE_PATH}")
-
 # The build system variable KALEIDOSCOPE_MODULE_REPO_PATHS 
 # can contain a list of repo paths or alternatively a directory
 # that is parent to a number of such repository. File search for 
@@ -181,10 +177,7 @@ set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}"
    "A list of paths that are recursively searched for files with \
 extension .python-wrapper .")
 
-message("KALEIDOSCOPE_MODULE_REPO_PATHS=${KALEIDOSCOPE_MODULE_REPO_PATHS}")
-
 set(repo_paths "${KALEIDOSCOPE_MODULE_REPO_PATHS}")
-message("repo_paths=${repo_paths}")
 
 # A list of repo paths can also be defined in a file whose filename
 # is provided through the variable KALEIDOSCOPE_MODULE_REPO_PATHS_FILE
@@ -222,8 +215,6 @@ function(scan_repo
       set(cpp_file "${wrapper_file}.cpp")
       
       if(NOT EXISTS "${cpp_file}")
-      
-         message("Generating symbolic link ${cpp_file} -> ${wrapper_file}")
          generate_link("${wrapper_file}" "${cpp_file}")
       endif()
    endforeach()

@@ -22,7 +22,7 @@ function(generate_link
 )
    if(NOT EXISTS "${link_}")
    
-      message("Generating symbolic link ${link_} -> ${target_}")
+#       message("Generating symbolic link ${link_} -> ${target_}")
       execute_process(
          COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
       )
