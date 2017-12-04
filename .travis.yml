@@ -11,13 +11,12 @@ script:
   - git clone --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
   - cd hardware/keyboardio/avr
   - git checkout regression_testing_travis
+  - git submodule update
   - cd $HOME
   - mkdir kbw_build
   - cd kbw_build
   - cmake --version
   - cmake
-      -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$HOME/hardware
-      -DKALEIDOSCOPE_LIBRARIES_DIR=$HOME/hardware/keyboardio/avr/libraries
       -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
   - make doc

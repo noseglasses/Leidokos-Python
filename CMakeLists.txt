@@ -52,8 +52,10 @@ set(KALEIDOSCOPE_CMAKE_SOURCE_DIR
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake"
    CACHE INTERNAL "")
    
-set(KALEIDOSCOPE_ARCHITECTURE_ID "x86" CACHE INTERNAL "")
-set(KALEIDOSCOPE_BOARD "virtual" CACHE INTERNAL "")
+set(KALEIDOSCOPE_ARCHITECTURE_ID "x86" CACHE STRING 
+   "The architecture id of the board to build a firmware for.")
+set(KALEIDOSCOPE_BOARD "virtual" CACHE STRING
+   "The type of board hardware.")
 set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 
 # kaleidoscope_set_binary_basename is called by Kaleidoscope_CMake 
@@ -103,7 +105,7 @@ message("KALEIDOSCOPE_HARDWARE_BASE_PATH=${KALEIDOSCOPE_HARDWARE_BASE_PATH}")
 set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" 
    CACHE STRING 
    "A list of paths that are recursively searched for files with \
-extension .python-wrapper")
+extension .python-wrapper .")
 
 message("KALEIDOSCOPE_MODULE_REPO_PATHS=${KALEIDOSCOPE_MODULE_REPO_PATHS}")
 
@@ -116,7 +118,7 @@ message("repo_paths=${repo_paths}")
 set(KALEIDOSCOPE_MODULE_REPO_PATHS_FILE ""
    CACHE FILEPATH 
    "A text file that contains a list of paths (one per line) that \
-are recursively searched for files with extension .python-wrapper")
+are recursively searched for files with extension .python-wrapper .")
 
 if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
 
