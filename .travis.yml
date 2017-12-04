@@ -5,12 +5,10 @@ os:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libboost-python-dev cmake python-sphinx
-  - sudo pip install --upgrade pip
-  - sudo pip install sphinxcontrib-napoleon
 script:
   - cd $HOME
   - mkdir -p hardware/keyboardio
-  - git clone -b regression_testing_travis --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
+  - git clone -b regression_testing --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
   - cd hardware/keyboardio/avr
   - git submodule status
   - cd $HOME
@@ -20,7 +18,7 @@ script:
   - cmake
       -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
-      $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
+      $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
   - make doc
 notifications:
   email:

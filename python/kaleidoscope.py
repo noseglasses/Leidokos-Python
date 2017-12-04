@@ -1,5 +1,5 @@
 # -*- mode: c++ -*-
-# Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 #
@@ -494,7 +494,7 @@ class Test(object):
       self.out.writeN("\n")
       self.out.writeN("################################################################################\n")
       self.out.writeN("\n")
-      self.out.writeN("Kaleidoscope-Python-Wrapper\n")
+      self.out.writeN("Kaleidoscope-Python\n")
       self.out.writeN("\n")
       self.out.writeN("author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)\n")
       self.out.writeN("version: %s\n" % _kaleidoscope.getVersionString())

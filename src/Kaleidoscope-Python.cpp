@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+ * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python-Wrapper.h"
+#include "Kaleidoscope-Python.h"
 #include "KPV_Key_Alias.h"
 
 #include "layers.h"
@@ -35,13 +35,13 @@ void initVariant() __attribute__((weak));
 void setup(void);
 
 unsigned long millis(void) {
-   return kaleidoscope::python_wrapper::API::getMillis();
+   return kaleidoscope::PYTHON::API::getMillis();
 }
 
 extern Virtual KeyboardHardware;
 
 namespace kaleidoscope {
-namespace python_wrapper {
+namespace PYTHON {
    
 unsigned long API::millis_ = 0;
    
@@ -266,7 +266,7 @@ std::string
   return keypresses.str();
 }
 
-} // namespace python_wrapper
+} // namespace PYTHON
 } // namespace kaleidoscope
 
 using namespace boost::python;
@@ -517,9 +517,9 @@ BOOST_PYTHON_MODULE(_kaleidoscope)
          "   string: The modifier name.");
    
    #define EXPORT_METHOD(NAME, DOCSTRING) \
-      .def(#NAME, &kaleidoscope::python_wrapper::KeyboardReport::NAME, DOCSTRING)
+      .def(#NAME, &kaleidoscope::PYTHON::KeyboardReport::NAME, DOCSTRING)
       
-   class_<kaleidoscope::python_wrapper::KeyboardReport>("KeyboardReport",
+   class_<kaleidoscope::PYTHON::KeyboardReport>("KeyboardReport",
       "Provides access to a USB HID key report."
    )
       EXPORT_METHOD(
@@ -556,7 +556,7 @@ BOOST_PYTHON_MODULE(_kaleidoscope)
    ;
       
    #define EXPORT_STATIC_METHOD(NAME, DOCSTRING) \
-      def(#NAME, &kaleidoscope::python_wrapper::API::NAME, DOCSTRING);
+      def(#NAME, &kaleidoscope::PYTHON::API::NAME, DOCSTRING);
       
    EXPORT_STATIC_METHOD(
       init,
@@ -598,8 +598,8 @@ BOOST_PYTHON_MODULE(_kaleidoscope)
       "processReport(keyboardReport) method that can be passed KeyboardReport class object"
    )
    
-   def("getVersionString", &kaleidoscope::python_wrapper::getVersionString,
-      "Returns the current version of Kaleidoscope-Python-Wrapper.\n\n"
+   def("getVersionString", &kaleidoscope::PYTHON::getVersionString,
+      "Returns the current version of Kaleidoscope-Python.\n\n"
       "Returns:\n"
       "   string: The version string."
    )
@@ -609,7 +609,7 @@ BOOST_PYTHON_MODULE(_kaleidoscope)
 //    def("currentCycle", &currentCycle);
    
    #define EXPORT_STATIC_KEY_METHOD(NAME, DOCSTRING) \
-      def(#NAME, &kaleidoscope::python_wrapper::API::NAME, DOCSTRING);
+      def(#NAME, &kaleidoscope::PYTHON::API::NAME, DOCSTRING);
       EXPORT_STATIC_KEY_METHOD(
          keyDown,
          "Registeres a key being pressed at a given position.\n\n"

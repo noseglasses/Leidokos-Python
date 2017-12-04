@@ -1,14 +1,14 @@
 ![status][st:experimental] [![Build Status][travis:image]][travis:status]
 
-[travis:image]: https://travis-ci.org/noseglasses/Kaleidoscope-Python-Wrapper.svg?branch=master
-[travis:status]: https://travis-ci.org/noseglasses/Kaleidoscope-Python-Wrapper
+[travis:image]: https://travis-ci.org/noseglasses/Kaleidoscope-Python.svg?branch=master
+[travis:status]: https://travis-ci.org/noseglasses/Kaleidoscope-Python
 
 [st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=flat&colorA=44cc11&colorB=494e52
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
 [st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
 
-# Kaleidoscope-Python-Wrapper
-This project provides a Python interface to a virtual Kaleidoscope firmware.
+# Kaleidoscope-Python
+Kaleidoscope-Python is a Python scriptable Kaleidoscope firmware simulator.
 It can be used to prototype new or to test existing functionality, e.g.
 as part of a regression-testing framework.
 
@@ -19,7 +19,7 @@ can be loaded as a Python module.
 The project aims to support all portable features of the firmware to make it 
 possible to develop new plugins in a rapid and painless way before finally porting them to C++.
 Sometimes implementations are the only way to test weird ideas and new algorithms.
-Kaleidoscope-Python-Wrapper helps by allowing to test such new features under reproducible lab conditions.
+Kaleidoscope-Python helps by allowing to test such new features under reproducible lab conditions.
 
 # Example usage
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
@@ -63,7 +63,7 @@ The test deliberately fails. It's console output (stdout) is the following.
 ```
 ################################################################################
 
-Kaleidoscope-Python-Wrapper
+Kaleidoscope-Python
 
 author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)
 version: e53109d519c6041e595a441d98957a71a7661129
@@ -146,7 +146,7 @@ BUILD_DIR=<build_dir>
 
 cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
 
-git clone https://github.com/noseglasses/Kaleidoscope-Python-Wrapper.git
+git clone https://github.com/noseglasses/Kaleidoscope-Python.git
 git clone https://github.com/keyboardio/Kaleidoscope-Hardware-Virtual.git
 
 cd ${BUILD_DIR}
@@ -155,7 +155,7 @@ cmake \
    -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$SKETCHBOOK_DIR/hardware \
    -DKALEIDOSCOPE_LIBRARIES_DIR=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries \
    -DKALEIDOSCOPE_FIRMWARE_SKETCH=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino \
-   $SKETCHBOOK_DIR/hardware//keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
+   $SKETCHBOOK_DIR/hardware//keyboardio/avr/libraries/Kaleidoscope-Python
 ```
 
 2. Build the Python model by running the build processed as described 
@@ -171,8 +171,8 @@ the build directory that is actually a Python module.
 3. Run an example firmware test
 
 ```bash
-export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/python:$PYTHONPATH
-python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper/test_kaleidoscope.py
+export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python/python:$PYTHONPATH
+python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python/test_kaleidoscope.py
 ```
 
 # Prerequisites
@@ -191,7 +191,7 @@ sudo apt-get install cmake-curses-gui
 ```
 This is how to execute the CMake GUI.
 ```bash
-cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Kaleidoscope-Python-Wrapper
+cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
 ccmake .
 ```
 For the generation of the Python API generation, you will have to install 
@@ -207,7 +207,7 @@ variables, run `ccmake .` as described above. Then look for build variables
 whose name starts with `KALEIDOSCOPE_`. A documentation of a variable
 is shown when the cursor is moved to the variable's line.
 
-Although, Kaleidoscope-Python-Wrapper is meant to be as auto-detecting and smart as possible,
+Although, Kaleidoscope-Python is meant to be as auto-detecting and smart as possible,
 it may be necessary to configure the system.
 
 | CMake Variable                  | Purpose                                                           |
@@ -221,11 +221,11 @@ Other variables are defined by [Kaleidoscope-CMake](https://github.com/noseglass
 and documented there.
 
 # Python module usage
-Kaleidoscope-Python-Wrapper provides a Python API that makes the generation
+Kaleidoscope-Python provides a Python API that makes the generation
 of Kaleidoscope firmare tests pretty simple.
 
 The API lives in a python module `kaleidoscope_testing` that can be found 
-in the `python` directory of the Kaleidoscope-Python-Wrapper repository.
+in the `python` directory of the Kaleidoscope-Python repository.
 
 Examples that exemplify the use of the testing API can be found in the `examples`
 directory.
@@ -235,15 +235,15 @@ module. Both files' paths must be made known to Python via the environment
 variable `PYTHONPATH`, e.g. as
 
 ```bash
-export PYTHONPATH=<path to kaleidoscope.so>:<Kaleidoscope-Python-Wrapper repo path>/python:$PYTHONPATH
+export PYTHONPATH=<path to kaleidoscope.so>:<Kaleidoscope-Python repo path>/python:$PYTHONPATH
 ```
 You can then run one of the examples or your own python test script, e.g.
 ```bash
-<Kaleidoscope-Python-Wrapper repo path>/examples/test_kaleidoscope.py
+<Kaleidoscope-Python repo path>/examples/test_kaleidoscope.py
 ```
 
 # Python API documentation
-HTML based documentation of the Python API supplied by Kaleidoscope-Python-Wrapper 
+HTML based documentation of the Python API supplied by Kaleidoscope-Python 
 can be auto-generated through the CMake `doc` target. Please see the 
 Prerequisites section of this documentation for information about 
 additional third party software that needs to be installed on you platform

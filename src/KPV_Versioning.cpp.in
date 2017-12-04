@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python-Wrapper -- Wraps Kaleidoscope modules' c++
+ * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -20,11 +20,11 @@
 #include <string>
  
 namespace kaleidoscope {
-namespace python_wrapper {
+namespace PYTHON {
 
 std::string getVersionString() {
-   return "${kaleidoscope_python_wrapper_git_version}";
+   return "${kaleidoscope_PYTHON_git_version}";
 }
 
-} // end python_wrapper
+} // end PYTHON
 } // end kaleidoscope
