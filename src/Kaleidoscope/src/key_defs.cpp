@@ -176,7 +176,7 @@ static void registerPythonStuff() {
      ;
          
    #define REGISTER_MODIFIER_FUNCTIONS(MOD) \
-      boost::python::def("add"#MOD, &kaleidoscope::python::m_##MOD, \
+      boost::python::def("add" #MOD, &kaleidoscope::python::m_##MOD, \
          "Adds modifier \"" #MOD "\" to a key.\n\n" \
          "Returns:\n" \
          "   Key: The key with modifier \"" #MOD "\" enabled.");
@@ -184,7 +184,7 @@ static void registerPythonStuff() {
    FOR_ALL_MODIFIERS(REGISTER_MODIFIER_FUNCTIONS)
       
    #define REGISTER_HELD_MODIFIER_FUNCTIONS(MOD) \
-      boost::python::def("mod"#MOD, &kaleidoscope::python::hm_##MOD, \
+      boost::python::def(#MOD, &kaleidoscope::python::hm_##MOD, \
          "Returns the modifier identifier \"" #MOD "\".\n\n" \
          "Returns:\n" \
          "   int: The key modifier identifier \"" #MOD "\"." \
@@ -193,7 +193,7 @@ static void registerPythonStuff() {
    FOR_ALL_HELD_MODIFIERS(REGISTER_HELD_MODIFIER_FUNCTIONS)
       
    #define REGISTER_KEY_TYPE_FLAGS(FLAG) \
-      boost::python::def("flag"#FLAG, &kaleidoscope::python::flag_##FLAG, \
+      boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
          "Returns the flag \"" #FLAG "\".\n\n" \
          "Returns:\n" \
          "   int: The flag identifier \"" #FLAG "\"." \
@@ -202,7 +202,7 @@ static void registerPythonStuff() {
    FOR_ALL_KEY_TYPE_FLAGS(REGISTER_KEY_TYPE_FLAGS)
       
    #define REGISTER_HID_TYPE_FLAG(FLAG) \
-      boost::python::def("flag"#FLAG, &kaleidoscope::python::flag_##FLAG, \
+      boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
          "Returns the flag \"" #FLAG "\".\n\n" \
          "Returns:\n" \
          "   int: The flag identifier \"" #FLAG "\"." \

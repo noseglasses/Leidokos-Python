@@ -43,7 +43,7 @@ static boost::python::object loopHooks[KP_MAX_HOOKS];
 #define DEFINE_EVENT_HANDLER_HOOK(N) \
    static Key eventHandlerHook_##N(Key mappedKey, byte row, byte col, uint8_t keyState) { \
       if(eventHandlerHooks[N]) { \
-         return boost::python::extract<Key>(eventHandlerHooks[N](mappedKey, row, col, keyState)); \
+         return boost::python::extract<Key>(eventHandlerHooks[N].attr("eventHandlerHook")(mappedKey, row, col, keyState)); \
       } \
       \
       return mappedKey;\
@@ -54,7 +54,7 @@ FOR_N(DEFINE_EVENT_HANDLER_HOOK)
 #define DEFINE_LOOP_HOOK(N) \
    static void loopHook_##N(bool postClear) { \
       if(loopHooks[N]) { \
-         loopHooks[N](postClear); \
+         loopHooks[N].attr("loopHook")(postClear); \
       } \
    }
 FOR_N(DEFINE_LOOP_HOOK)

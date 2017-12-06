@@ -39,133 +39,113 @@ class DualUse(object):
    def specialAction(self, spec_index):
       new_key = Key()
 
-      new_key.setFlags = modKEY_FLAGS()
+      new_key.setFlags = KEY_FLAGS()
    
       if spec_index < 8:
-         new_key.setKeyCode(keyLeftControl().getKeyCode() + spec_index);
-   } else {
-      uint8_t target = spec_index - 8;
+         new_key.setKeyCode(keyLeftControl().getKeyCode() + spec_index)
+      else:
+         target = spec_index - 8
 
-      Layer.on(target);
+         Layer.on(target)
 
-      new_key.keyCode = 0;
-   }
+         new_key.setFeyCode(0)
+         
+      return new_key
 
-   return new_key;
-   }
+   def pressAllSpecials(self, row, col):
+      for spec_index in range(0, 32):
+         if not bitRead(self.pressed_map_, spec_index):
+            continue
 
-void DualUse::pressAllSpecials(byte row, byte col) {
-  for (uint8_t spec_index = 0; spec_index < 32; spec_index++) {
-    if (!bitRead(pressed_map_, spec_index))
-      continue;
+         new_key = specialAction(spec_index)
+    
+         if new_key.getRaw() != keyNoKey().getRaw():
+            handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | IS_INJECTED())
 
-    Key new_key = specialAction(spec_index);
-    if (new_key.raw != Key_NoKey.raw)
-      handleKeyswitchEvent(new_key, row, col, IS_PRESSED | INJECTED);
-  }
-}
+   def inject(self, key, key_state):
+      # Note: 255 sets the unknown keyswitch location
+      #
+      eventHandlerHook(key, 255, 255, key_state);
 
-// ---- API ----
+   def eventHandlerHook(self, mapped_key, row, col, key_state):
+      
+      if key_state & INJECTED():
+         return mapped_key
 
-DualUse::DualUse(void) {
-}
+      # If nothing happened, bail out fast.
+      if not keyIsPressed(key_state) and not keyWasPressed(key_state):
+         if (mapped_key.getRaw() < ranges.DU_FIRST()) or (mapped_key.getRaw() > ranges.DU_LAST()):
+            return mapped_key;
+         return keyNoKey()
+      
+      if (mapped_key.getRaw() >= ranges.DU_FIRST()) and (mapped_key.getRaw() <= ranges.DU_LAST()):
+          
+         spec_index = (mapped_key.getRaw() - ranges.DU_FIRST()) >> 8
+         new_key = keyNoKey()
 
-void DualUse::begin(void) {
-  Kaleidoscope.useEventHandlerHook(eventHandlerHook);
-}
+         if keyToggledOn(key_state):
+            bitWrite(pressed_map_, spec_index, 1)
+            bitWrite(key_action_needed_map_, spec_index, 1)
+            end_time_ = millis() + time_out
+         elif keyIsPressed(key_state):
+            if millis() >= self.end_time_:
+               new_key = specialAction(spec_index)
+               bitWrite(key_action_needed_map_, spec_index, 0)
+            
+         elif keyToggledOff(key_state):
+            if (millis() < end_time_) and bitRead(key_action_needed_map_, spec_index):
+               m = mapped_key.getRaw() - ranges.DU_FIRST() - (spec_index << 8)
+               if (spec_index >= 8):
+                  m = m - 1
 
-void DualUse::inject(Key key, uint8_t key_state) {
-  eventHandlerHook(key, UNKNOWN_KEYSWITCH_LOCATION, key_state);
-}
+               new_key = Key(m, KEY_FLAGS())
 
-// ---- Handlers ----
+               handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED());
+               hid.sendKeyboardReport()
+            else:
+               if (spec_index >= 8):
+                  target = spec_index - 8
 
-Key DualUse::eventHandlerHook(Key mapped_key, byte row, byte col, uint8_t key_state) {
-  if (key_state & INJECTED)
-    return mapped_key;
+                  Layer.off(target)
 
-  // If nothing happened, bail out fast.
-  if (!keyIsPressed(key_state) && !keyWasPressed(key_state)) {
-    if (mapped_key.raw < ranges::DU_FIRST || mapped_key.raw > ranges::DU_LAST)
-      return mapped_key;
-    return Key_NoKey;
-  }
+            bitWrite(pressed_map_, spec_index, 0);
+            bitWrite(key_action_needed_map_, spec_index, 0);
 
-  if (mapped_key.raw >= ranges::DU_FIRST && mapped_key.raw <= ranges::DU_LAST) {
-    uint8_t spec_index = (mapped_key.raw - ranges::DU_FIRST) >> 8;
-    Key new_key = Key_NoKey;
+         return new_key;
 
-    if (keyToggledOn(key_state)) {
-      bitWrite(pressed_map_, spec_index, 1);
-      bitWrite(key_action_needed_map_, spec_index, 1);
-      end_time_ = millis() + time_out;
-    } else if (keyIsPressed(key_state)) {
-      if (millis() >= end_time_) {
-        new_key = specialAction(spec_index);
-        bitWrite(key_action_needed_map_, spec_index, 0);
-      }
-    } else if (keyToggledOff(key_state)) {
-      if ((millis() < end_time_) && bitRead(key_action_needed_map_, spec_index)) {
-        uint8_t m = mapped_key.raw - ranges::DU_FIRST - (spec_index << 8);
-        if (spec_index >= 8)
-          m--;
+      if (pressed_map_ == 0):
+         return mapped_key
 
-        Key new_key = { m, KEY_FLAGS };
+      pressAllSpecials(row, col)
+      self.key_action_needed_map_ = 0
 
-        handleKeyswitchEvent(new_key, row, col, IS_PRESSED | INJECTED);
-        hid::sendKeyboardReport();
-      } else {
-        if (spec_index >= 8) {
-          uint8_t target = spec_index - 8;
+      if (pressed_map_ > (1 << 7)):
+         mapped_key = Layer.lookup(row, col)
 
-          Layer.off(target);
-        }
-      }
+      return mapped_key
 
-      bitWrite(pressed_map_, spec_index, 0);
-      bitWrite(key_action_needed_map_, spec_index, 0);
-    }
+dualUse = DualUse()
 
-    return new_key;
-  }
-
-  if (pressed_map_ == 0) {
-    return mapped_key;
-  }
-
-  pressAllSpecials(row, col);
-  key_action_needed_map_ = 0;
-
-  if (pressed_map_ > (1 << 7)) {
-    mapped_key = Layer.lookup(row, col);
-  }
-
-  return mapped_key;
-}
-
-
-
+Kaleidoscope_.useEventHandlerHook(dualUse)
 
 test = Test()
 test.debug = True
 
-# The assertions are evaluated in the next loop cycle
-#
-test.queueGroupedReportAssertions([ 
-      ReportNthInCycle(1), 
-      ReportNthCycle(1),
-      ReportKeyActive(keyA()),
-      ReportKeyActive(keyB()),
-      ReportModifierActive(modSHIFT_HELD()),
+test.keyDown(0, 1)
+test.keyDown(0, 2)
+
+test.scanCycle([ 
+      ReportKeyActive(key2()),
+      ReportModifierActive(modCTRL_HELD()),
       DumpReport()
    ])
 
-test.keyDown(2, 1)
+test.keyUp(0, 2)
+test.keyUp(0, 1)
 
-test.scanCycle()
-
-test.keyUp(2, 1)
-
-test.scanCycles(2)
-
-test.skipTime(20)
+test.keyDown(0, 1)
+test.scanCycle(2, [ 
+      ReportKeyActive(key1()),
+      DumpReport()
+   ])
+test.keyUp(0, 1)

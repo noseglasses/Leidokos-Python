@@ -20,6 +20,7 @@ script:
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
   - make doc
+  - tree doc
 deploy:
    provider: pages
    skip_cleanup: true
