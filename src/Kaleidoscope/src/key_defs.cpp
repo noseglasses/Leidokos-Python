@@ -108,14 +108,27 @@ static const char *modifierToName(uint8_t modifier) {
    return "";
 }
 
-
 static void registerPythonStuff() {
    
    using namespace boost::python;
    
    class_<Key_>("Key",
-      "Provides functionality to deal with and to represent keys."
+      "Provides functionality to deal with and to represent keys.",
+      boost::python::init< >()
    )
+      .def(boost::python::init<uint8_t, uint8_t>(
+           "Initializes the key.\n\n"
+           "Args:\n"
+           "   keyCode (uint8_t): The key code.\n"
+           "   flags (uint8_t): The flags value."
+            )
+       )
+      .def(boost::python::init<uint16_t>(
+           "Initializes the key.\n\n"
+           "Args:\n"
+           "   raw (uint16_t): The raw value of the key."
+         )
+       )
       .def(self == uint16_t())
       .def(self == Key_())
 //       .def(self = uint16_t())
@@ -128,6 +141,38 @@ static void registerPythonStuff() {
       .def(self <= Key_())
       .def(self > Key_())
       .def(self < Key_())
+      
+      .def("getKeyCode", make_getter(&Key_::keyCode),
+         "Retreives the key code.\n\n"
+         "Returns:\n"
+         "   uint8_t: The key code."
+      )
+      .def("setKeyCode", make_setter(&Key_::keyCode),
+         "Sets the key code.\n\n"
+         "Args:\n"
+         "   keyCode (uint8_t): The key code."
+      )
+      .def("getFlags", make_getter(&Key_::flags),
+         "Retreives the flags.\n\n"
+         "Returns:\n"
+         "   uint8_t: The flags."
+      )
+      .def("setFlags", make_setter(&Key_::flags),
+         "Sets the flags.\n\n"
+         "Args:\n"
+         "   flags (uint8_t): The flags."
+      )
+      .def("getRaw", make_getter(&Key_::raw),
+         "Retreives the raw data.\n\n"
+         "Returns:\n"
+         "   uint16_t: The raw  data."
+      )
+      .def("setRaw", make_setter(&Key_::raw),
+         "Sets the raw data.\n\n"
+         "Args:\n"
+         "   raw (uint16_t): The raw data."
+      )
+       ;
      ;
          
    #define REGISTER_MODIFIER_FUNCTIONS(MOD) \
