@@ -31,67 +31,49 @@
 #include <string>
 
 namespace kaleidoscope {
-namespace PYTHON {
+namespace python {
    
-class KeyboardReport {
-   
-   public:
-      
-      bool isKeycodeActive(uint8_t k) const;
-      bool isKeyActive(const Key_ &k) const;
-      bool isModifierActive(uint8_t modifier) const;
-      
-      std::string dump() const;
-      
-      void setReportData(const HID_KeyboardReport_Data_t &reportData);
-      
-   private:
-   
-      HID_KeyboardReport_Data_t reportData_;
-};
+typedef void (*PluginRegistrationCallback)();
 
-class API
-{
-   public:
-      
-      static void init();
-      
-      static void scanCycle();
-      
-      static void tap(byte row, byte col);
-      static void keyDown(byte row, byte col);
-      static void keyUp(byte row, byte col);
-      static void clearAllKeys();
-      
-      static void setMillis(unsigned long millis);
-      static unsigned long getMillis();
-      
-      static void setKeyboardReportCallback(boost::python::object func);
-      
-   private:
+typedef std::vector<PluginRegistrationCallback> PluginRegistrationCallbacks;
 
-      class KeyboardReportConsumer : public KeyboardReportConsumer_
-      {
-         public:
-            
-            friend class API;
-            
-            virtual void processKeyboardReport(
-                           const HID_KeyboardReport_Data_t &reportData) override;
-                           
-         private:
-            
-            boost::python::object keyboardReportCallback_;
-            
-            KeyboardReport keyboardReport_;
-      };
-      
-      static KeyboardReportConsumer keyboardReportConsumer_;
-      
-      static unsigned long millis_;
-};
+PluginRegistrationCallbacks &pluginRegistrationCallbacks();
 
-} // namespace PYTHON
+#define KALEIDOSCOPE_PYTHON_PACKAGE_NAME _kaleidoscope
+
+#define STRINGIZE(S) #S
+
+#define KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MODULE_NAME) \
+   \
+   /* map the IO namespace to a sub-module \
+      make "from kaleidoscope.MODULE_NAME import <whatever>" work \
+   */ \
+   boost::python::object MODULE_NAME##Module( \
+      boost::python::handle<>( \
+         boost::python::borrowed( \
+            PyImport_AddModule(STRINGIZE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME) \
+               "." #MODULE_NAME) \
+         ) \
+      ) \
+   ); \
+   \
+   /* make "from mypackage import class1" work \
+   boost::python::scope().attr("class1") = class1Module; */ \
+   \
+   /* set the current scope to the new sub-module \
+   */ \
+   boost::python::scope io_scope = MODULE_NAME##Module;
+
+#define KALEIDOSCOPE_PYTHON_REGISTER_MODULE(REGISTRATION_FUNCTION) \
+   \
+   static bool __registerModule() { \
+      pluginRegistrationCallbacks().push_back(&REGISTRATION_FUNCTION); \
+      return true; \
+   }\
+   \
+   __attribute__((unused)) static bool __moduleRegistered = __registerModule();
+
+} // namespace python
 } // namespace kaleidoscope
 
 #endif

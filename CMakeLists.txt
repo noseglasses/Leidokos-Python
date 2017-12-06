@@ -79,7 +79,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    # and add an include directive that points to the boost header location.
    #
    set(KALEIDOSCOPE_PYTHON_BUILD_FLAGS
-      "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS}")
+      "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS} -DKALEIDOSCOPE_HARDWARE_VIRTUAL_NO_LOGGING=1")
       
    # The configure_file command reads a text file, scans it for occurences of
    # CMake variables, as the KALEIDOSCOPE_PYTHON_BUILD_FLAGS
@@ -128,7 +128,8 @@ set(KALEIDOSCOPE_HOST_BUILD TRUE CACHE INTERNAL "")
 #
 include_directories(
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual"
-   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src")
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src"
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src/Kaleidoscope")
 
 # kaleidoscope_set_binary_basename_hook is called by Kaleidoscope_CMake 
 # during intialization.
@@ -149,6 +150,12 @@ endmacro()
 #
 set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
    "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python.h" CACHE INTERNAL "")
+   
+file(GLOB_RECURSE add_src 
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src/*.cpp")
+
+set(KALEIDOSCOPE_ADDITIONAL_SOURCES 
+   "${KALEIDOSCOPE_ADDITIONAL_SOURCES};${add_src}" CACHE INTERNAL "")
 
 # Include the Kaleidoscope-CMake build system
 #

@@ -17,16 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KALEIDOSCOPE_PYTHON__KEY_ALIAS_H
-#define KALEIDOSCOPE_PYTHON__KEY_ALIAS_H
+#include "Kaleidoscope-Python.h"
+
+#include "key_defs_keyboard.h"
+
+namespace kaleidoscope {
+namespace python {
    
-#define FOR_ALL_SIGNAL_KEYS(FUNC) \
-   FUNC(NoEvent) \
-   FUNC(ErrorRollover) \
-   FUNC(PostFail) \
-   FUNC(ErrorUndefined)
-   
-#define FOR_ALL_NORMAL_KEYS(FUNC) \
+#define FOR_ALL_KEYBOARD(FUNC) \
    FUNC(A) \
    FUNC(B) \
    FUNC(C) \
@@ -241,51 +239,59 @@
    FUNC(RightControl) \
    FUNC(RightShift) \
    FUNC(RightAlt) \
-   FUNC(RightGui) \
+   FUNC(RightGui)
 
-#define FOR_ALL_KEYMAP_KEYS(FUNC) \
-   FUNC(Keymap0) \
-   FUNC(Keymap1) \
-   FUNC(Keymap2) \
-   FUNC(Keymap3) \
-   FUNC(Keymap4) \
-   FUNC(Keymap5) \
-   FUNC(Keymap0_Momentary) \
-   FUNC(Keymap1_Momentary) \
-   FUNC(Keymap2_Momentary) \
-   FUNC(Keymap3_Momentary) \
-   FUNC(Keymap4_Momentary) \
-   FUNC(Keymap5_Momentary) \
-   \
-   FUNC(KeymapNext_Momentary) \
-   FUNC(KeymapPrevious_Momentary) \
+#define DEFINE_KEYBOARD(KEY) \
+   static Key_ k_##KEY() { return Key_##KEY; }
    
-#define FOR_ALL_SPECIAL_KEYS(FUNC) \
-   FUNC(NoKey) \
-   FUNC(skip) \
-   FUNC(Transparent)
+FOR_ALL_KEYBOARD(DEFINE_KEYBOARD)
+
+static const char *keycodeToName(uint8_t keycode) {
    
-#define FOR_ALL_KEYS(FUNC) \
-   FOR_ALL_SIGNAL_KEYS(FUNC) \
-   FOR_ALL_NORMAL_KEYS(FUNC) \
-   FOR_ALL_KEYMAP_KEYS(FUNC) \
-   FOR_ALL_SPECIAL_KEYS(FUNC)
+   switch(keycode) {
+      
+#define DEFINE_KEY_CASE(KEY) \
+      case (Key_##KEY).keyCode: \
+         return #KEY; \
+         break;
+      
+   FOR_ALL_KEYBOARD(DEFINE_KEY_CASE) 
+   }
+
+   return "";
+}
+
+static const char *keyToName(const Key &key) {
+   return keycodeToName(key.keyCode);
+}
+
+static void registerPythonStuff() {
    
-#define FOR_ALL_MODIFIERS(FUNC) \
-   FUNC(LCTRL) \
-   FUNC(LALT) \
-   FUNC(RALT) \
-   FUNC(LSHIFT) \
-   FUNC(LGUI)
+   #define EXPORT_KEYBOARD(KEY) \
+      boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
+         "Returns the key \"" #KEY "\".\n\n" \
+         "Returns:\n" \
+         "   Key: The key \"" #KEY "\"." \
+      );
+      
+   FOR_ALL_KEYBOARD(EXPORT_KEYBOARD)
    
-#define FOR_ALL_HELD_MODIFIERS(FUNC) \
-   FUNC(KEY_FLAGS) \
-   FUNC(CTRL_HELD) \
-   FUNC(LALT_HELD) \
-   FUNC(RALT_HELD) \
-   FUNC(SHIFT_HELD) \
-   FUNC(GUI_HELD) \
-   FUNC(SYNTHETIC) \
-   FUNC(RESERVED)
+   boost::python::def("keyToName", &keyToName,
+      "Maps a key to its associated key name.\n\n"
+      "Args:\n"
+      "   key (Key): The key to map.\n\n"
+      "Returns:\n"
+      "   string: The key name.");
    
-#endif
+   boost::python::def("keycodeToName", &keycodeToName,
+      "Maps a keycode to its associated key name.\n\n"
+      "Args:\n"
+      "   keycode (int): The keycode to map.\n\n"
+      "Returns:\n"
+      "   string: The keycode name.");
+}
+      
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+
+} // namespace python
+} // namespace kaleidoscope

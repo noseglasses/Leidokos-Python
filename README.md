@@ -146,16 +146,13 @@ BUILD_DIR=<build_dir>
 
 cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
 
-git clone https://github.com/noseglasses/Kaleidoscope-Python.git
-git clone https://github.com/keyboardio/Kaleidoscope-Hardware-Virtual.git
+git clone --recursive https://github.com/noseglasses/Kaleidoscope-Python.git
 
 cd ${BUILD_DIR}
       
 cmake \
-   -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$SKETCHBOOK_DIR/hardware \
-   -DKALEIDOSCOPE_LIBRARIES_DIR=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries \
    -DKALEIDOSCOPE_FIRMWARE_SKETCH=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino \
-   $SKETCHBOOK_DIR/hardware//keyboardio/avr/libraries/Kaleidoscope-Python
+   $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
 ```
 
 2. Build the Python model by running the build processed as described 
