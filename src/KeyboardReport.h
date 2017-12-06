@@ -17,14 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string>
- 
+#ifndef KP_KEYBOARD_REPORT_HPP
+#define KP_KEYBOARD_REPORT_HPP
+
+#include "VirtualHID/Keyboard.h"
+
 namespace kaleidoscope {
 namespace python {
+   
+class KeyboardReport {
+   
+   public:
+      
+      bool isKeycodeActive(uint8_t k) const;
+      bool isKeyActive(const Key_ &k) const;
+      bool isModifierActive(uint8_t modifier) const;
+      
+      std::string dump() const;
+      
+      void setReportData(const HID_KeyboardReport_Data_t &reportData);
+      
+   private:
+   
+      HID_KeyboardReport_Data_t reportData_;
+};
 
-std::string getVersionString() {
-   return "${kaleidoscope_PYTHON_git_version}";
-}
+} // namespace python
+} // namespace kaleidoscope
 
-} // end PYTHON
-} // end kaleidoscope
+#endif

@@ -17,14 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string>
- 
+#include "Kaleidoscope-Python.h"
+
+#include "key_events.h"
+
 namespace kaleidoscope {
 namespace python {
 
-std::string getVersionString() {
-   return "${kaleidoscope_PYTHON_git_version}";
-}
+static void registerPythonStuff() {
 
-} // end PYTHON
-} // end kaleidoscope
+   boost::python::def("handleKeyswitchEvent", &handleKeyswitchEvent,
+      "Calls the key switch handling function.\n\n"
+      "Args:\n"
+      "   mappedKey (Key): The mapped key to consider.\n"
+      "   row (byte): The keyboard row.\n"
+      "   col (byte): The keyboard colum.\n"
+      "   keyState (uint8_t): The key state.\n"
+   );
+}
+      
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+
+} // namespace python
+} // namespace kaleidoscope

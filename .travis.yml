@@ -20,6 +20,13 @@ script:
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
   - make doc
+deploy:
+   provider: pages
+   skip_cleanup: true
+   local_dir: $HOME/kbw_build/doc/kaleidoscope
+   github_token: $GITHUB_API_KEY
+   on:
+      branch: master
 notifications:
   email:
     recipients:

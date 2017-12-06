@@ -7,6 +7,8 @@
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
 [st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
 
+[Python API documentation](https://noseglasses.github.io/Kaleidoscope-Python/doc/doxygen/html/index.html)
+
 # Kaleidoscope-Python
 Kaleidoscope-Python is a Python scriptable Kaleidoscope firmware simulator.
 It can be used to prototype new or to test existing functionality, e.g.
@@ -146,16 +148,13 @@ BUILD_DIR=<build_dir>
 
 cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
 
-git clone https://github.com/noseglasses/Kaleidoscope-Python.git
-git clone https://github.com/keyboardio/Kaleidoscope-Hardware-Virtual.git
+git clone --recursive https://github.com/noseglasses/Kaleidoscope-Python.git
 
 cd ${BUILD_DIR}
       
 cmake \
-   -DKALEIDOSCOPE_HARDWARE_BASE_PATH=$SKETCHBOOK_DIR/hardware \
-   -DKALEIDOSCOPE_LIBRARIES_DIR=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries \
    -DKALEIDOSCOPE_FIRMWARE_SKETCH=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino \
-   $SKETCHBOOK_DIR/hardware//keyboardio/avr/libraries/Kaleidoscope-Python
+   $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
 ```
 
 2. Build the Python model by running the build processed as described 
