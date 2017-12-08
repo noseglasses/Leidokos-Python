@@ -228,7 +228,7 @@ class ReportModifierActive(Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s active" % str(_kaleidoscope.modifierToName(self.modifier))
+      return "Modifier %s active" % str(_kaleidoscope.modifierKeyToName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return keyReport.isModifierActive(self.modifier)
@@ -245,7 +245,7 @@ class ReportModifierInactive(Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s inactive" % str(_kaleidoscope.Modifier.toName(self.modifier))
+      return "Modifier %s inactive" % str(_kaleidoscope.modifierKeyToName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isModifierActive(self.modifier)
@@ -876,4 +876,12 @@ class Test(object):
             self.assertion._report(self.out)
          
          self.assertionsPassed &= assertionPassed
+         
+   def log(self, msg):
+      """ Writes a log message 
+      
+      Args:
+         msg (string): The log message
+      """
+      self.out.write("~~ %s ~~\n" % msg)
    

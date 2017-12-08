@@ -45,24 +45,11 @@ PluginRegistrationCallbacks &pluginRegistrationCallbacks();
 
 #define KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MODULE_NAME) \
    \
-   /* map the IO namespace to a sub-module \
-      make "from kaleidoscope.MODULE_NAME import <whatever>" work \
-   */ \
-   boost::python::object MODULE_NAME##Module( \
-      boost::python::handle<>( \
-         boost::python::borrowed( \
-            PyImport_AddModule(STRINGIZE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME) \
-               "." #MODULE_NAME) \
-         ) \
-      ) \
-   ); \
-   \
-   /* make "from mypackage import class1" work \
-   boost::python::scope().attr("class1") = class1Module; */ \
-   \
-   /* set the current scope to the new sub-module \
-   */ \
-   boost::python::scope io_scope = MODULE_NAME##Module;
+   namespace py = boost::python; \
+   std::string nested_name = py::extract<std::string>(py::scope().attr("__name__") + "." #MODULE_NAME); \
+   py::object nested_module(py::handle<>(py::borrowed(PyImport_AddModule(nested_name.c_str())))); \
+   py::scope().attr(#MODULE_NAME) = nested_module; \
+   py::scope parent = nested_module;
 
 #define KALEIDOSCOPE_PYTHON_REGISTER_MODULE(REGISTRATION_FUNCTION) \
    \
@@ -72,7 +59,7 @@ PluginRegistrationCallbacks &pluginRegistrationCallbacks();
    }\
    \
    __attribute__((unused)) static bool __moduleRegistered = __registerModule();
-
+   
 } // namespace python
 } // namespace kaleidoscope
 

@@ -11,7 +11,7 @@
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# but WITHOUT ANY WARRANTY without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
@@ -28,13 +28,27 @@ from kaleidoscope import *
 
 import sys
 
+def bitRead(value, bit):
+   return ((value) >> (bit)) & 0x01
+
+def bitSet(value, bit):
+   return value | (1 << (bit))
+
+def bitClear(value, bit):
+   return value & ~(1 << (bit))
+
+def bitWrite(value, bit, bitvalue):
+   if bitvalue == 0:
+      return bitSet(value, bit)
+   return bitClear(value, bit)
+
 class DualUse(object):
    
    def __init__(self):
-      key_action_needed_map_ = 0
-      pressed_map_ = 0
-      end_time_ = 0
-      time_out = 1000
+      self.key_action_needed_map_ = 0
+      self.pressed_map_ = 0
+      self.end_time_ = 0
+      self.time_out = 1000
       
    def specialAction(self, spec_index):
       new_key = Key()
@@ -57,7 +71,7 @@ class DualUse(object):
          if not bitRead(self.pressed_map_, spec_index):
             continue
 
-         new_key = specialAction(spec_index)
+         new_key = self.specialAction(spec_index)
     
          if new_key.getRaw() != keyNoKey().getRaw():
             handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | IS_INJECTED())
@@ -65,7 +79,7 @@ class DualUse(object):
    def inject(self, key, key_state):
       # Note: 255 sets the unknown keyswitch location
       #
-      eventHandlerHook(key, 255, 255, key_state);
+      eventHandlerHook(key, 255, 255, key_state)
 
    def eventHandlerHook(self, mapped_key, row, col, key_state):
       
@@ -75,7 +89,7 @@ class DualUse(object):
       # If nothing happened, bail out fast.
       if not keyIsPressed(key_state) and not keyWasPressed(key_state):
          if (mapped_key.getRaw() < ranges.DU_FIRST()) or (mapped_key.getRaw() > ranges.DU_LAST()):
-            return mapped_key;
+            return mapped_key
          return keyNoKey()
       
       if (mapped_key.getRaw() >= ranges.DU_FIRST()) and (mapped_key.getRaw() <= ranges.DU_LAST()):
@@ -84,23 +98,23 @@ class DualUse(object):
          new_key = keyNoKey()
 
          if keyToggledOn(key_state):
-            bitWrite(pressed_map_, spec_index, 1)
-            bitWrite(key_action_needed_map_, spec_index, 1)
-            end_time_ = millis() + time_out
+            bitWrite(self.pressed_map_, spec_index, 1)
+            bitWrite(self.key_action_needed_map_, spec_index, 1)
+            end_time_ = millis() + self.time_out
          elif keyIsPressed(key_state):
             if millis() >= self.end_time_:
-               new_key = specialAction(spec_index)
-               bitWrite(key_action_needed_map_, spec_index, 0)
+               new_key = self.specialAction(spec_index)
+               bitWrite(self.key_action_needed_map_, spec_index, 0)
             
          elif keyToggledOff(key_state):
-            if (millis() < end_time_) and bitRead(key_action_needed_map_, spec_index):
+            if (millis() < self.end_time_) and bitRead(self.key_action_needed_map_, spec_index):
                m = mapped_key.getRaw() - ranges.DU_FIRST() - (spec_index << 8)
                if (spec_index >= 8):
                   m = m - 1
 
                new_key = Key(m, KEY_FLAGS())
 
-               handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED());
+               handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
                hid.sendKeyboardReport()
             else:
                if (spec_index >= 8):
@@ -108,12 +122,12 @@ class DualUse(object):
 
                   Layer.off(target)
 
-            bitWrite(pressed_map_, spec_index, 0);
-            bitWrite(key_action_needed_map_, spec_index, 0);
+            bitWrite(self.pressed_map_, spec_index, 0)
+            bitWrite(self.key_action_needed_map_, spec_index, 0)
 
-         return new_key;
+         return new_key
 
-      if (pressed_map_ == 0):
+      if (self.pressed_map_ == 0):
          return mapped_key
 
       pressAllSpecials(row, col)
@@ -131,21 +145,47 @@ Kaleidoscope_.useEventHandlerHook(dualUse)
 test = Test()
 test.debug = True
 
+test.addPermanentReportAssertions([DumpReport()])
+
 test.keyDown(0, 1)
 test.keyDown(0, 2)
 
-test.scanCycle([ 
-      ReportKeyActive(key2()),
-      ReportModifierActive(modCTRL_HELD()),
-      DumpReport()
+test.queueGroupedReportAssertions([ 
+      ReportKeyActive(key2())
    ])
 
+test.scanCycle()
+
+test.queueGroupedReportAssertions([ 
+      ReportKeyActive(key2()),
+      ReportModifierActive(keyLeftControl())
+   ])
+test.scanCycle()
+
+test.log("Pressing key ...")
 test.keyUp(0, 2)
 test.keyUp(0, 1)
 
+#TODO: Assert report empty (own assertion)
+
+#test.queueGroupedReportAssertions([ 
+   #TODO: Add no_keys_active and no_modifiers_active assertions
+   #])
+test.scanCycle()
+
 test.keyDown(0, 1)
-test.scanCycle(2, [ 
+# TODO: Assert no key report. Due to debouncing?
+test.scanCycle()
+
+
+test.queueGroupedReportAssertions([ 
       ReportKeyActive(key1()),
-      DumpReport()
+      ReportModifierInactive(keyLeftControl())
    ])
+test.scanCycle()
 test.keyUp(0, 1)
+
+#test.queueGroupedReportAssertions([ 
+   #TODO: Add no_keys_active and no_modifiers_active assertions
+   #])
+test.scanCycle()

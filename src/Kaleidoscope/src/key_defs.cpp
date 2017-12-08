@@ -18,8 +18,19 @@
  */
 
 #include "Kaleidoscope-Python.h"
+#include "KPV_Exception.hpp"
 
 #include "key_defs.h"
+
+#define FOR_ALL_HID_MODIFIERS(FUNC) \
+FUNC(LEFT_CONTROL) \
+FUNC(LEFT_SHIFT) \
+FUNC(LEFT_ALT) \
+FUNC(LEFT_GUI) \
+FUNC(RIGHT_CONTROL) \
+FUNC(RIGHT_SHIFT) \
+FUNC(RIGHT_ALT) \
+FUNC(RIGHT_GUI)
 
 #define FOR_ALL_HELD_MODIFIERS(FUNC) \
    FUNC(KEY_FLAGS) \
@@ -93,19 +104,26 @@ FOR_ALL_SPECIAL_KEYS(DEFINE_KEY_FUNCTIONS)
    
 FOR_ALL_LIGHT_KEYS(DEFINE_KEY_FUNCTIONS)
 
-static const char *modifierToName(uint8_t modifier) {
+static const char *modifierKeycodeToName(uint8_t keyCode) {
    
-   switch(modifier) {
+   switch(keyCode) {
       
 #define DEFINE_MOD_CASE(MOD) \
-      case MOD: \
+      case HID_KEYBOARD_##MOD: \
          return #MOD; \
          break;
       
-      FOR_ALL_HELD_MODIFIERS(DEFINE_MOD_CASE)
+      FOR_ALL_HID_MODIFIERS(DEFINE_MOD_CASE)
    }
+   
+   KP_EXCEPTION("modifierKeycodeToName: Unknown modifier key " << unsigned(keyCode))
 
    return "";
+}
+
+
+static const char *modifierKeyToName(const Key &key) {
+   return modifierKeycodeToName(key.keyCode);
 }
 
 static void registerPythonStuff() {
@@ -142,6 +160,12 @@ static void registerPythonStuff() {
       .def(self > Key_())
       .def(self < Key_())
       
+      .add_property("keyCode", 
+                    make_getter(&Key_::keyCode),
+                    make_setter(&Key_::keyCode),
+         "The key code"
+       )
+      
       .def("getKeyCode", make_getter(&Key_::keyCode),
          "Retreives the key code.\n\n"
          "Returns:\n"
@@ -152,6 +176,12 @@ static void registerPythonStuff() {
          "Args:\n"
          "   keyCode (uint8_t): The key code."
       )
+      
+      .add_property("flags", 
+                    make_getter(&Key_::flags),
+                    make_setter(&Key_::flags),
+         "The flags value"
+       )
       .def("getFlags", make_getter(&Key_::flags),
          "Retreives the flags.\n\n"
          "Returns:\n"
@@ -162,6 +192,12 @@ static void registerPythonStuff() {
          "Args:\n"
          "   flags (uint8_t): The flags."
       )
+      
+      .add_property("raw", 
+                    make_getter(&Key_::raw),
+                    make_setter(&Key_::raw),
+         "The raw value"
+       )
       .def("getRaw", make_getter(&Key_::raw),
          "Retreives the raw data.\n\n"
          "Returns:\n"
@@ -221,10 +257,17 @@ static void registerPythonStuff() {
       
    FOR_ALL_SPECIAL_KEYS(EXPORT_KEY_FUNCTIONS)
    
-   boost::python::def("modifierToName", &modifierToName,
-         "Maps a modifier ID to its associated name.\n\n"
+   boost::python::def("modifierKeyToName", &modifierKeyToName,
+         "Maps a modifier key to its associated name.\n\n"
          "Args:\n"
-         "   modifier (int): The modifier ID to map.\n\n"
+         "   modifier (Key): The modifier ID to map.\n\n"
+         "Returns:\n"
+         "   string: The modifier name.");
+   
+   boost::python::def("modifierKeycodeToName", &modifierKeycodeToName,
+         "Maps a modifier key code to its associated name.\n\n"
+         "Args:\n"
+         "   modifier (uint8_t): The modifier ID to map.\n\n"
          "Returns:\n"
          "   string: The modifier name.");
 }

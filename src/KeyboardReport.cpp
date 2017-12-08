@@ -19,6 +19,7 @@
 
 #include "Kaleidoscope-Python.h"
 #include "KeyboardReport.h"
+#include "KPV_Exception.hpp"
 
 namespace kaleidoscope {
 namespace python {
@@ -27,10 +28,13 @@ bool
    KeyboardReport
       ::isKeycodeActive(uint8_t k) const
 {
-  if (k <= HID_LAST_KEY) {
-     uint8_t bit = 1 << (uint8_t(k) % 8);
-     return reportData_.keys[k / 8] & bit;
-  }
+   if (k <= HID_LAST_KEY) {
+      uint8_t bit = 1 << (uint8_t(k) % 8);
+      return reportData_.keys[k / 8] & bit;
+   }
+  
+   KP_EXCEPTION("isKeycodeActive: Unknown keycode type " << unsigned(k))
+   
   return false;
 }
  
@@ -43,13 +47,23 @@ bool
       
 bool
    KeyboardReport
-      ::isModifierActive(uint8_t k) const
+      ::isModifierKeycodeActive(uint8_t k) const
 {
    if (k >= HID_KEYBOARD_FIRST_MODIFIER && k <= HID_KEYBOARD_LAST_MODIFIER) {
       k = k - HID_KEYBOARD_FIRST_MODIFIER;
       return !!(reportData_.modifiers & (1 << k));
    }
+   
+   KP_EXCEPTION("isKeycodeActive: Unknown modifier type " << unsigned(k))
+  
    return false;
+}  
+
+bool
+   KeyboardReport
+      ::isModifierActive(const Key &key) const
+{
+   return this->isModifierKeycodeActive(key.keyCode);
 }
       
 void 
@@ -164,10 +178,20 @@ static void registerPythonStuff() {
          isModifierActive,
          "Checks if a modifier is active in the key report.\n\n"
          "Args:\n"
-         "   modifier (int): The modifier to check.\n\n"
+         "   modifier (Key): The modifier to check.\n\n"
          "Returns:\n"
          "   boolean: True if the given modifier is active in the key report."
       )
+      
+      EXPORT_METHOD(
+         isModifierKeycodeActive,
+         "Checks if a modifier is active in the key report.\n\n"
+         "Args:\n"
+         "   modifier (uint8_t): The modifier to check.\n\n"
+         "Returns:\n"
+         "   boolean: True if the given modifier is active in the key report."
+      )
+      
       
       EXPORT_METHOD(
          dump,

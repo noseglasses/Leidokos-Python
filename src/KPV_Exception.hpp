@@ -17,33 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KP_KEYBOARD_REPORT_HPP
-#define KP_KEYBOARD_REPORT_HPP
+#include <sstream>
+#include <exception>
 
-#include "VirtualHID/Keyboard.h"
-
-namespace kaleidoscope {
-namespace python {
-   
-class KeyboardReport {
-   
-   public:
-      
-      bool isKeycodeActive(uint8_t k) const;
-      bool isKeyActive(const Key_ &k) const;
-      bool isModifierKeycodeActive(uint8_t modifier) const;
-      bool isModifierActive(const Key &key) const;
-      
-      std::string dump() const;
-      
-      void setReportData(const HID_KeyboardReport_Data_t &reportData);
-      
-   private:
-   
-      HID_KeyboardReport_Data_t reportData_;
-};
-
-} // namespace python
-} // namespace kaleidoscope
-
-#endif
+#define KP_EXCEPTION(...) \
+   {  \
+      std::ostringstream s; \
+      s << __VA_ARGS__ << " (" << __FILE__ << ":" << __LINE__ << ")"; \
+      throw std::runtime_error(s.str()); \
+   }

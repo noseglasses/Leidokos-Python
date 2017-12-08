@@ -246,6 +246,12 @@ BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
       "   col (int): The keymap column.\n"
    )
    
+   boost::python::def("millis", &millis, 
+      "Returns the current state of the milliseconds timer.\n\n"
+      "Returns:\n"
+      "   long unsigned: The current state of the milliseconds timer."
+   );
+   
    EXPORT_STATIC_METHOD(
       getMillis,
       "Returns the current state of the milliseconds timer.\n\n"
