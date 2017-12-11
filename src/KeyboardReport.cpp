@@ -37,12 +37,42 @@ bool
    
   return false;
 }
- 
+
+boost::python::list  
+   KeyboardReport
+      ::getActiveKeycodes() const
+{
+   boost::python::list activeKeys;
+   
+   for(uint8_t k = 0; k <= HID_LAST_KEY; ++k) {
+      uint8_t bit = 1 << (uint8_t(k) % 8);
+      uint8_t keyCode = reportData_.keys[k / 8] & bit;
+      if(keyCode) {
+         activeKeys.append(k);
+      }
+   }
+   return activeKeys;
+}
+
 bool  
    KeyboardReport
       ::isKeyActive(const Key_ &k) const
 {
    return this->isKeycodeActive(k.keyCode);
+}
+
+bool   
+   KeyboardReport
+      ::isAnyKeyActive() const
+{
+   for(int k = 0; k <= HID_LAST_KEY; ++k) {
+      uint8_t bit = 1 << (uint8_t(k) % 8);
+      if(reportData_.keys[k / 8] & bit) {
+         return true;
+      }
+   }
+   
+   return false;
 }
       
 bool
@@ -64,6 +94,41 @@ bool
       ::isModifierActive(const Key &key) const
 {
    return this->isModifierKeycodeActive(key.keyCode);
+}
+
+bool 
+   KeyboardReport
+      ::isAnyModifierActive() const
+{
+   for(uint8_t k = HID_KEYBOARD_FIRST_MODIFIER; k <= HID_KEYBOARD_LAST_MODIFIER; ++k) {
+      uint8_t kTmp = k - HID_KEYBOARD_FIRST_MODIFIER;
+      if(!!(reportData_.modifiers & (1 << kTmp))) {
+         return true;
+      }
+   }
+   return false;
+}
+
+boost::python::list  
+   KeyboardReport
+      ::getActiveModifiers() const
+{
+   boost::python::list activeModifiers;
+   
+   for(uint8_t k = HID_KEYBOARD_FIRST_MODIFIER; k <= HID_KEYBOARD_LAST_MODIFIER; ++k) {
+      uint8_t kTmp = k - HID_KEYBOARD_FIRST_MODIFIER;
+      if(!!(reportData_.modifiers & (1 << kTmp))) {
+         activeModifiers.append(k);
+      }
+   }
+   return activeModifiers;
+}
+
+bool  
+   KeyboardReport
+      ::isEmpty() const
+{
+   return !(this->isAnyModifierActive() || this->isAnyKeyActive());
 }
       
 void 
@@ -175,6 +240,13 @@ static void registerPythonStuff() {
       )
       
       EXPORT_METHOD(
+         getActiveKeycodes,
+         "Returns the keycodes of all keys that are currently active in the key report.\n\n"
+         "Returns:\n"
+         "   list: A list of active keycodes."
+      )
+      
+      EXPORT_METHOD(
          isModifierActive,
          "Checks if a modifier is active in the key report.\n\n"
          "Args:\n"
@@ -192,6 +264,34 @@ static void registerPythonStuff() {
          "   boolean: True if the given modifier is active in the key report."
       )
       
+      EXPORT_METHOD(
+         isAnyModifierActive,
+         "Checks if any modifier is active in the key report.\n\n"
+         "Returns:\n"
+         "   boolean: True if any modifier is active in the key report."
+      )
+      
+      EXPORT_METHOD(
+         getActiveModifiers,
+         "Returns a list of all keycodes of modifiers that are currently "
+         "active in the key report.\n\n"
+         "Returns:\n"
+         "   list: A list of modifier keycodes."
+      )
+      
+      EXPORT_METHOD(
+         isAnyKeyActive,
+         "Checks if any key is active in the key report.\n\n"
+         "Returns:\n"
+         "   boolean: True if any key is active in the key report."
+      )
+      
+      EXPORT_METHOD(
+         isEmpty,
+         "Checks if the key report is empty, i.e. neither keys nor modifiers are active.\n\n"
+         "Returns:\n"
+         "   boolean: True if the key report is empty."
+      )
       
       EXPORT_METHOD(
          dump,

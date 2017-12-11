@@ -216,6 +216,37 @@ class ReportKeycodeInactive(Assertion):
    def _evalInternal(self, keyReport):
       return not keyReport.isKeycodeActive(self.keycode)
    
+class ReportKeysActive(Assertion):
+   """ Asserts that a specific list of keys is active in the keyboard report.
+   
+      Args:
+         keys (list): A list of keys tested for being active.
+         exclusively (boolean): It True, no other keycodes than the ones supplied 
+                          are tolerated active.
+   """
+   
+   def __init__(self, keys, exclusively = True):
+      Assertion.__init__(self)
+      self.keys = keys
+      self.exclusively = exclusively
+      
+   def _description(self):
+      return "Keys active (%s)" % " ".join("'%s\'" % _kaleidoscope.keyToName(x) for x in self.keys)
+
+   def _evalInternal(self, keyReport):
+      
+      activeKeycodes = keyReport.getActiveKeycodes()
+      
+      for key in self.keys:
+         if key.keyCode not in activeKeycodes:
+            return False
+      
+      if self.exclusively:
+         if len(activeKeycodes) != len(self.keys):
+            return False
+         
+      return True
+   
 class ReportModifierActive(Assertion):
    """ Asserts that a specific modifier is active in the keyboard report.
    
@@ -249,6 +280,97 @@ class ReportModifierInactive(Assertion):
 
    def _evalInternal(self, keyReport):
       return not keyReport.isModifierActive(self.modifier)
+   
+class ReportAnyModifiersActive(Assertion):
+   """ Asserts that any modifiers are active in a key report.
+   """
+      
+   def _description(self):
+      return "Any modifiers active"
+
+   def _evalInternal(self, keyReport):
+      return keyReport.isAnyModifierActive()
+   
+class ReportAllModifiersInactive(Assertion):
+   """ Asserts that all modifiers are inactive in a key report.
+   """
+      
+   def _description(self):
+      return "All modifiers inactive"
+
+   def _evalInternal(self, keyReport):
+      return not keyReport.isAnyModifierActive()
+   
+class ReportModifiersActive(Assertion):
+   """ Asserts that a specific list of modifiers is active in the keyboard report.
+   
+      Args:
+         modifierKeys (list): A list of modifiers keys tested for being active.
+         exclusively (boolean): It True, no other modifiers than the ones supplied 
+                          are tolerated active.
+   """
+   
+   def __init__(self, modifierKeys, exclusively = True):
+      Assertion.__init__(self)
+      self.modifierKeys = modifierKeys
+      self.exclusively = exclusively
+      
+   def _description(self):
+      return "Modifiers active (%s)" % " ".join(_kaleidoscope.modifierKeyToName(x) for x in self.modifierKeys)
+
+   def _evalInternal(self, keyReport):
+      
+      activeModifiers = keyReport.getActiveModifiers()
+      
+      for mod in self.modifierKeys:
+         if mod.keyCode not in activeModifiers:
+            return False
+      
+      if self.exclusively:
+         if len(activeModifiers) != len(self.keycodes):
+            return False
+         
+      return True
+   
+class ReportAnyKeysActive(Assertion):
+   """ Asserts that any keys are active in a key report.
+   """
+      
+   def _description(self):
+      return "Any keys active"
+
+   def _evalInternal(self, keyReport):
+      return keyReport.isAnyKeyActive()
+   
+class ReportAllKeysInactive(Assertion):
+   """ Asserts that all keys are inactive in a key report.
+   """
+      
+   def _description(self):
+      return "All keys inactive"
+
+   def _evalInternal(self, keyReport):
+      return not keyReport.isAnyKeyActive()
+   
+class ReportEmpty(Assertion):
+   """ Asserts that a key report is empty.
+   """
+      
+   def _description(self):
+      return "Report empty"
+
+   def _evalInternal(self, keyReport):
+      return keyReport.isEmpty()
+   
+class ReportNotEmpty(Assertion):
+   """ Asserts that a key report is notempty.
+   """
+      
+   def _description(self):
+      return "Report not empty"
+
+   def _evalInternal(self, keyReport):
+      return not keyReport.isEmpty()
    
 class ReportNthInCycle(Assertion):
    """ Asserts that a report is the nth in its current cycle.
@@ -652,6 +774,9 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
+      
+      self.out.write("+ Activating key (%d, %d)\n" % (row, col))
+      
       _kaleidoscope.keyDown(row, col)
       
    def keyUp(self, row, col):
@@ -662,6 +787,7 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
+      self.out.write("- Releasing key (%d, %d)\n" % (row, col))
       _kaleidoscope.keyUp(row, col)
    
    def tap(self, row, col):
@@ -675,6 +801,7 @@ class Test(object):
 
    def clearAllKeys(self):
       """ Clears all keys that are currently active (down). """
+      self.out.write("- Clearing all keys\n")
       _kaleidoscope.clearAllKeys()
       
    def _configureCycleAssertion(self, assertion):
@@ -787,7 +914,7 @@ class Test(object):
          self.out.write("Processing %d permanent cycle assertions\n" % len(self.permanentCycleAssertions), assertionGroupIndent)
          self._processCycleAssertions(self.permanentCycleAssertions)
       
-   def scanCycles(self, n, onStopAssertionList = None):
+   def scanCycles(self, n, onStopAssertionList = None, cycleAssertionList = None):
       """ Executes a number of scan cycles and processes assertions afterwards.
       
       Args:
@@ -795,6 +922,8 @@ class Test(object):
          onStopAssertionList (list): A list of assertions to be executed after
             the cycles where executed and to be discarded afterwards. Defaults
             to None.
+         cycleAssertionList (list): A list of assertions that are executed
+            after every cycle.
       """
       
       self.out.write("Running %d cycles\n" % n)
@@ -804,7 +933,7 @@ class Test(object):
             self._configureTemporaryAssertion(assertion)
             
       for i in range(0, n):
-         self._scanCycle()
+         self._scanCycle(cycleAssertionList)
          
       if onStopAssertionList and len(onStopAssertionList) > 0:
          self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), cycleIndent)
@@ -871,17 +1000,26 @@ class Test(object):
          assertionPassed = assertion._eval(self)
          
          if not assertionPassed:
-            self.assertion._report(self.out)
+            assertion._report(self.out)
          elif self.debug:
-            self.assertion._report(self.out)
+            assertion._report(self.out)
          
          self.assertionsPassed &= assertionPassed
          
    def log(self, msg):
-      """ Writes a log message 
+      """ Writes a log message.
       
       Args:
-         msg (string): The log message
+         msg (string): The log message.
       """
-      self.out.write("~~ %s ~~\n" % msg)
+      self.out.write("~ %s ~\n" % msg)
    
+   def header(self, msg):
+      """ Writes a header log message.
+      
+      Args:
+         msg (string): The header message.
+      """
+      self.out.write("########################################################\n")
+      self.out.write("~ %s ~\n" % msg)
+      self.out.write("########################################################\n")

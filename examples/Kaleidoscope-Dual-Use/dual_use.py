@@ -26,6 +26,7 @@
 import kaleidoscope
 from kaleidoscope import *
 
+import argparse
 import sys
 
 def bitRead(value, bit):
@@ -138,54 +139,122 @@ class DualUse(object):
 
       return mapped_key
 
-dualUse = DualUse()
+class DualUseTest(Test):
 
-Kaleidoscope_.useEventHandlerHook(dualUse)
+   def checkDualUsePrimaryFunction(self):
+      
+      self.header("Checking DualUse primary function")
+         
+      # Press the Dual Use key alone. This is supposed to result in the number '1'
+      # being emitted.
+      #
+      self.keyDown(0, 1)
 
-test = Test()
-test.debug = True
+      # The dual use key does only emit its primary key once it is released
+      #
+      self.scanCycle([CycleHasNReports(0)])
 
-test.addPermanentReportAssertions([DumpReport()])
+      # Make sure that there are no other report once the keys remain held.
+      #
+      self.scanCycles(2, cycleAssertionList = [CycleHasNReports(0)])
 
-test.keyDown(0, 1)
-test.keyDown(0, 2)
+      # Release the dual use key
+      #
+      self.keyUp(0, 1)
 
-test.queueGroupedReportAssertions([ 
-      ReportKeyActive(key2())
-   ])
+      self.queueGroupedReportAssertions([ 
+            ReportKeysActive([key1()], exclusively = True),
+            ReportAllModifiersInactive()
+         ])
+      self.scanCycle([CycleHasNReports(1)])
 
-test.scanCycle()
+      self.queueGroupedReportAssertions([ 
+            ReportEmpty()
+         ])
+      self.scanCycle([CycleHasNReports(1)])
 
-test.queueGroupedReportAssertions([ 
-      ReportKeyActive(key2()),
-      ReportModifierActive(keyLeftControl())
-   ])
-test.scanCycle()
+      # Make sure that there are no other report once the keys have been released.
+      #
+      self.scanCycles(2, cycleAssertionList = [CycleHasNReports(0)])
+      
+   def run(self):
 
-test.log("Pressing key ...")
-test.keyUp(0, 2)
-test.keyUp(0, 1)
+      self.checkDualUsePrimaryFunction()
+      self.checkDualUseSecondaryFunction()
+      
+   def checkDualUseSecondaryFunction(self):
+      
+      self.header("Checking DualUse secondary function")
 
-#TODO: Assert report empty (own assertion)
+      # All reports are supposed to be dumped, i.e. we want to get the
+      # keys and modifiers that are acutally active listed.
+      #
+      self.addPermanentReportAssertions([DumpReport()])
 
-#test.queueGroupedReportAssertions([ 
-   #TODO: Add no_keys_active and no_modifiers_active assertions
-   #])
-test.scanCycle()
+      # Press the Dual Use key and another one
+      #
+      self.keyDown(0, 1)
+      self.keyDown(0, 2)
 
-test.keyDown(0, 1)
-# TODO: Assert no key report. Due to debouncing?
-test.scanCycle()
+      # Make sure that the Dual Use key causes left control to be active
+      #
+      self.queueGroupedReportAssertions([ 
+            ReportKeyActive(key2()),
+            ReportModifierActive(keyLeftControl())
+         ])
 
+      self.scanCycle([CycleHasNReports(1)])
 
-test.queueGroupedReportAssertions([ 
-      ReportKeyActive(key1()),
-      ReportModifierInactive(keyLeftControl())
-   ])
-test.scanCycle()
-test.keyUp(0, 1)
+      # Make sure that there are no other report once the keys remain held.
+      #
+      self.scanCycles(2, cycleAssertionList = [CycleHasNReports(0)])
 
-#test.queueGroupedReportAssertions([ 
-   #TODO: Add no_keys_active and no_modifiers_active assertions
-   #])
-test.scanCycle()
+      # Release the keys again.
+      #
+      self.keyUp(0, 2)
+      self.keyUp(0, 1)
+
+      # Ensure that the next report shows all keys and modifiers to be cleared.
+      #
+      self.queueGroupedReportAssertions([ 
+            ReportEmpty()
+         ])
+      self.scanCycle([CycleHasNReports(1)])
+
+      # Make sure that there are no other report once the keys have been released.
+      #
+      self.scanCycles(2, cycleAssertionList = [CycleHasNReports(0)])
+
+def main():
+    
+   test = DualUseTest()
+   test.debug = True
+   
+   parser = argparse.ArgumentParser( 
+      description = 
+       "This tests the functionality of the Kaleidoscope-DualUse plugin.")
+
+   parser.add_argument('-p', '--use_python_implementation', 
+      action='store_true',
+      default=False,
+      help     = 'Toggles use of the python implementation of DualUse'
+   )
+                   
+   args = parser.parse_args()
+   
+   if args.use_python_implementation:
+      
+      test.log("Using Python implementation of DualUse")
+      
+      dualUse = DualUse()
+
+      Kaleidoscope_.useEventHandlerHook(dualUse)
+   
+   else:
+      test.log("Using C++ implementation of DualUse")
+      
+   
+   test.run()
+                   
+if __name__ == "__main__":
+    main()

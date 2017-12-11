@@ -22,6 +22,8 @@
 
 #include "VirtualHID/Keyboard.h"
 
+#include <boost/python.hpp>
+
 namespace kaleidoscope {
 namespace python {
    
@@ -31,8 +33,17 @@ class KeyboardReport {
       
       bool isKeycodeActive(uint8_t k) const;
       bool isKeyActive(const Key_ &k) const;
+      boost::python::list getActiveKeycodes() const;
+      
       bool isModifierKeycodeActive(uint8_t modifier) const;
       bool isModifierActive(const Key &key) const;
+      
+      bool isAnyModifierActive() const;
+      bool isAnyKeyActive() const;
+      
+      boost::python::list getActiveModifiers() const;
+      
+      bool isEmpty() const;
       
       std::string dump() const;
       
