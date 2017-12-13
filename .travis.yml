@@ -5,6 +5,7 @@ os:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libboost-python-dev cmake python-sphinx
+  - sudo pip install sphinxcontrib-napoleon
 script:
   - cd $HOME
   - mkdir -p hardware/keyboardio
