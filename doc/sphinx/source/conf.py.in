@@ -27,8 +27,8 @@ import os
 
 import imp
 try:
-    imp.find_module('sphinx.contrib.napoleon')
-    napoleon_module = 'sphinx.contrib.napoleon'
+    imp.find_module('sphinx.ext.napoleon')
+    napoleon_module = 'sphinx.ext.napoleon'
 except ImportError:
     napoleon_module = 'sphinx.ext.napoleon'
 
