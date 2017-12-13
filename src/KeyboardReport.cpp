@@ -213,7 +213,7 @@ std::string
   return keypresses.str();
 }
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_METHOD(NAME, DOCSTRING) \
       .def(#NAME, &kaleidoscope::python::KeyboardReport::NAME, DOCSTRING)
@@ -300,7 +300,7 @@ static void registerPythonStuff() {
    ;
 }
 
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

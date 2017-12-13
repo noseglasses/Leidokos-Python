@@ -57,7 +57,7 @@ namespace python {
    
 FOR_ALL_KEY_ALIASES(DEFINE_KEY_FUNCTIONS)
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_KEY_FUNCTIONS(KEY) \
       boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
@@ -69,7 +69,7 @@ static void registerPythonStuff() {
    FOR_ALL_KEY_ALIASES(EXPORT_KEY_FUNCTIONS)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

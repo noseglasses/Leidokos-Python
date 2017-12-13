@@ -20,6 +20,9 @@
 #ifndef KALEIDOSCOPE_PYTHON_H
 #define KALEIDOSCOPE_PYTHON_H
 
+// Important: Keep the boost/python.hpp header the first included. Else
+//            there are strange boost symbol related compile errors.
+//
 #include <boost/python.hpp>
 
 #include "Kaleidoscope-Hardware-Virtual.h"
@@ -34,10 +37,12 @@ namespace kaleidoscope {
 namespace python {
    
 typedef void (*PluginRegistrationCallback)();
-
 typedef std::vector<PluginRegistrationCallback> PluginRegistrationCallbacks;
-
 PluginRegistrationCallbacks &pluginRegistrationCallbacks();
+
+typedef void (*PluginFinalizationCallback)();
+typedef std::vector<PluginFinalizationCallback> PluginFinalizationCallbacks;
+PluginFinalizationCallbacks &pluginFinalizationCallbacks();
 
 #define KALEIDOSCOPE_PYTHON_PACKAGE_NAME _kaleidoscope
 
@@ -51,10 +56,17 @@ PluginRegistrationCallbacks &pluginRegistrationCallbacks();
    py::scope().attr(#MODULE_NAME) = nested_module; \
    py::scope parent = nested_module;
 
-#define KALEIDOSCOPE_PYTHON_REGISTER_MODULE(REGISTRATION_FUNCTION) \
+#define KALEIDOSCOPE_PYTHON_REGISTER_MODULE( \
+               REGISTRATION_FUNCTION_PTR, \
+               FINALIZATION_FUNCTION_PTR \
+) \
    \
    static bool __registerModule() { \
-      pluginRegistrationCallbacks().push_back(&REGISTRATION_FUNCTION); \
+      pluginRegistrationCallbacks().push_back(REGISTRATION_FUNCTION_PTR); \
+      auto finFuncPtr = FINALIZATION_FUNCTION_PTR; \
+      if(finFuncPtr) { \
+         pluginFinalizationCallbacks().push_back(finFuncPtr); \
+      } \
       return true; \
    }\
    \

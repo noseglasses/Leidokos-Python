@@ -414,7 +414,7 @@ FUNC(AC_Distribute_Vertically)
    
 FOR_ALL_CONSUMER_CTL(DEFINE_CONSUMER_CTL)
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_CONSUMER_CTL(KEY) \
       boost::python::def("keyConsumer"#KEY, &kaleidoscope::python::cctl_##KEY, \
@@ -426,7 +426,7 @@ static void registerPythonStuff() {
    FOR_ALL_CONSUMER_CTL(EXPORT_CONSUMER_CTL)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

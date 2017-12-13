@@ -69,7 +69,7 @@ FUNC(DisplayLCDAutoscale)
    
 FOR_ALL_SYSCTL(DEFINE_SYSCTL)
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_SYSCTL(KEY) \
       boost::python::def("keySystem"#KEY, &kaleidoscope::python::system_##KEY, \
@@ -81,7 +81,7 @@ static void registerPythonStuff() {
    FOR_ALL_SYSCTL(EXPORT_SYSCTL)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

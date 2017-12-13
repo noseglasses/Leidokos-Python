@@ -590,7 +590,7 @@ class Test(object):
       
    def __del__(self):
       
-      _kaleidoscope.setKeyboardReportCallback(None)
+      _kaleidoscope.finalize()
       
       self._footerText()
       
@@ -874,7 +874,7 @@ class Test(object):
          onStopAssertionList (list): A list of assertions to be executed after
             the next cycle and to be discarded afterwards. Defaults to None.
       """
-      self.out.write("Single scan cycle\n")
+      self.out.write("Running single scan cycle\n")
       self._scanCycle(onStopAssertionList)
       self.out.write("\n")
       
@@ -926,7 +926,7 @@ class Test(object):
             after every cycle.
       """
       
-      self.out.write("Running %d cycles\n" % n)
+      self.out.write("Running %d scan cycles\n" % n)
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:

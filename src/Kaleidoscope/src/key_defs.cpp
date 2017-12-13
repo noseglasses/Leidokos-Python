@@ -126,7 +126,7 @@ static const char *modifierKeyToName(const Key &key) {
    return modifierKeycodeToName(key.keyCode);
 }
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    using namespace boost::python;
    
@@ -272,7 +272,7 @@ static void registerPythonStuff() {
          "   string: The modifier name.");
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

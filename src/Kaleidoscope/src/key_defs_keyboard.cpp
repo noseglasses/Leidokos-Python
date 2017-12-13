@@ -265,7 +265,7 @@ static const char *keyToName(const Key &key) {
    return keycodeToName(key.keyCode);
 }
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_KEYBOARD(KEY) \
       boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
@@ -291,7 +291,7 @@ static void registerPythonStuff() {
       "   string: The keycode name.");
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

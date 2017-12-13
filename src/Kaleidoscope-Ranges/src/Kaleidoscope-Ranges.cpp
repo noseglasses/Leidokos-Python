@@ -19,7 +19,7 @@
 
 #include "Kaleidoscope-Python.h"
 
-#include <Kaleidoscope-Ranges.h>
+#include "Kaleidoscope-Ranges.h"
 
 namespace kaleidoscope {
 namespace python {
@@ -57,7 +57,7 @@ namespace python {
    
 FOR_ALL_RANGES(DEFINE_RANGES)
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    KALEIDOSCOPE_PYTHON_MODULE_CONTENT(ranges)
 
@@ -71,7 +71,7 @@ static void registerPythonStuff() {
    FOR_ALL_RANGES(EXPORT_RANGES)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

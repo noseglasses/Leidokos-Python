@@ -247,3 +247,11 @@ target_link_libraries("${kaleidoscope_firmware_target}"
 # Setup Python API documentation
 #
 include("${CMAKE_SOURCE_DIR}/cmake/api_doc.include.cmake")
+
+# Add some additional header search directories. This is just for 
+# IDEs to find the appropriate files (language parsers).
+#
+include_directories(
+   "${CMAKE_SOURCE_DIR}/src"
+   "${CMAKE_SOURCE_DIR}/../Kaleidoscope/src"
+)

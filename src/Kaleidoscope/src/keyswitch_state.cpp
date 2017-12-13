@@ -62,7 +62,7 @@ static uint8_t __setKeyIsInjected(uint8_t keyState) {
    return keyState | INJECTED;
 }
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define REGISTER_FLAGS(FLAG) \
       boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
@@ -145,7 +145,7 @@ static void registerPythonStuff() {
    );
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

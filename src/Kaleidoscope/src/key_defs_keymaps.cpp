@@ -57,7 +57,7 @@ static Key keyShiftToLayer(uint8_t layerId) {
    
 FOR_ALL_KEYMAPS(DEFINE_KEYMAPS)
 
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_KEYMAPS(KEY) \
       boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
@@ -93,7 +93,7 @@ static void registerPythonStuff() {
    );
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

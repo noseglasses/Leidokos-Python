@@ -20,8 +20,9 @@
 #include "Kaleidoscope-Python.h"
 #include "KeyboardReport.h"
 
-#include "virtual_io.h"
 #include "Kaleidoscope-Hardware-Virtual.h"
+
+#include "virtual_io.h"
 
 #include <string.h>
 #include <iostream>
@@ -35,6 +36,7 @@ class API
    public:
       
       static void init();
+      static void finalize();
       
       static void scanCycle();
       
@@ -106,6 +108,20 @@ void
 
 	setup();
 }   
+
+void 
+   API
+      ::finalize() {
+   
+   auto &finalizationCallbacks 
+      = kaleidoscope::python::pluginFinalizationCallbacks();
+   
+   for(auto &cb: finalizationCallbacks) {
+      cb();
+   }
+   
+   keyboardReportConsumer_.keyboardReportCallback_ = boost::python::object();
+}
 
 void 
    API
@@ -208,6 +224,14 @@ PluginRegistrationCallbacks &pluginRegistrationCallbacks() {
    return cb;
 }
 
+// Some plugins must make sure that their inventory is destroyed
+// before the python interpreter is shut down.
+//
+PluginFinalizationCallbacks &pluginFinalizationCallbacks() {
+   static PluginFinalizationCallbacks cb;
+   return cb;
+}
+
 } // namespace python
 } // namespace kaleidoscope
 
@@ -232,6 +256,12 @@ BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
       init,
       "Initializes Kaleidoscope."
    )
+   
+   EXPORT_STATIC_METHOD(
+      finalize,
+      "Initializes Kaleidoscope."
+   )
+
 
    EXPORT_STATIC_METHOD(
       scanCycle,

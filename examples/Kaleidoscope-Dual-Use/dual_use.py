@@ -33,13 +33,14 @@ def bitRead(value, bit):
    return ((value) >> (bit)) & 0x01
 
 def bitSet(value, bit):
+   res = value | (1 << (bit))
    return value | (1 << (bit))
 
 def bitClear(value, bit):
    return value & ~(1 << (bit))
 
 def bitWrite(value, bit, bitvalue):
-   if bitvalue == 0:
+   if bitvalue == 1:
       return bitSet(value, bit)
    return bitClear(value, bit)
 
@@ -75,7 +76,7 @@ class DualUse(object):
          new_key = self.specialAction(spec_index)
     
          if new_key.getRaw() != keyNoKey().getRaw():
-            handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | IS_INJECTED())
+            handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
 
    def inject(self, key, key_state):
       # Note: 255 sets the unknown keyswitch location
@@ -99,13 +100,14 @@ class DualUse(object):
          new_key = keyNoKey()
 
          if keyToggledOn(key_state):
-            bitWrite(self.pressed_map_, spec_index, 1)
-            bitWrite(self.key_action_needed_map_, spec_index, 1)
-            end_time_ = millis() + self.time_out
+            self.pressed_map_ = bitWrite(self.pressed_map_, spec_index, 1)
+            self.key_action_needed_map_ = bitWrite(self.key_action_needed_map_, spec_index, 1)
+            self.end_time_ = millis() + self.time_out
+            
          elif keyIsPressed(key_state):
             if millis() >= self.end_time_:
                new_key = self.specialAction(spec_index)
-               bitWrite(self.key_action_needed_map_, spec_index, 0)
+               self.key_action_needed_map_ = bitWrite(self.key_action_needed_map_, spec_index, 0)
             
          elif keyToggledOff(key_state):
             if (millis() < self.end_time_) and bitRead(self.key_action_needed_map_, spec_index):
@@ -123,18 +125,18 @@ class DualUse(object):
 
                   Layer.off(target)
 
-            bitWrite(self.pressed_map_, spec_index, 0)
-            bitWrite(self.key_action_needed_map_, spec_index, 0)
+            self.pressed_map_ = bitWrite(self.pressed_map_, spec_index, 0)
+            self.key_action_needed_map_ = bitWrite(self.key_action_needed_map_, spec_index, 0)
 
          return new_key
 
       if (self.pressed_map_ == 0):
          return mapped_key
 
-      pressAllSpecials(row, col)
+      self.pressAllSpecials(row, col)
       self.key_action_needed_map_ = 0
 
-      if (pressed_map_ > (1 << 7)):
+      if (self.pressed_map_ > (1 << 7)):
          mapped_key = Layer.lookup(row, col)
 
       return mapped_key

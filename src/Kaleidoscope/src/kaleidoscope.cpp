@@ -21,6 +21,10 @@
 
 #include "Kaleidoscope.h"
 
+#include "KPV_Logging.h"
+
+#include <iostream>
+
 namespace kaleidoscope {
 namespace python {
    
@@ -42,7 +46,9 @@ static boost::python::object loopHooks[KP_MAX_HOOKS];
 
 #define DEFINE_EVENT_HANDLER_HOOK(N) \
    static Key eventHandlerHook_##N(Key mappedKey, byte row, byte col, uint8_t keyState) { \
+      KPV_LOG("Trying to call event handler hook " << N) \
       if(eventHandlerHooks[N]) { \
+         KPV_LOG("Calling event handler hook " << N) \
          return boost::python::extract<Key>(eventHandlerHooks[N].attr("eventHandlerHook")(mappedKey, row, col, keyState)); \
       } \
       \
@@ -74,8 +80,10 @@ static void replaceEventHandlerHook(
 static void useEventHandlerHook(
                boost::python::object hook)
 {
+   KPV_LOG("Registering event handler hook")
    for(int i = 0; i < KP_MAX_HOOKS; ++i) {
       if(!eventHandlerHooks[i]) {
+         KPV_LOG("Setting event handler hook " << i)
          eventHandlerHooks[i] = hook;
          break;
       }
@@ -105,7 +113,7 @@ static void useLoopHook(
    }
 }
    
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    // Functions and methods from Kaleidoscope/Kaleidoscope.h
    //
@@ -146,8 +154,16 @@ static void registerPythonStuff() {
    
    FOR_N(REGISTER_HOOK)
 }
+
+static void finalizePythonStuff()
+{
+   for(int i = 0; i < KP_MAX_HOOKS; ++i) {
+      eventHandlerHooks[i] = boost::python::object();
+      loopHooks[i] = boost::python::object();
+   }
+}
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, &finalizePythonStuff)
 
 } // namespace python
 } // namespace kaleidoscope

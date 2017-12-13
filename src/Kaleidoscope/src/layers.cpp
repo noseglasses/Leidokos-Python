@@ -24,7 +24,7 @@
 namespace kaleidoscope {
 namespace python {
    
-static void registerPythonStuff() {
+static void initPythonStuff() {
    
    #define EXPORT_LAYER_STATIC_METHOD(NAME, DOCSTRING) \
       .def(#NAME, &Layer_::NAME, DOCSTRING).staticmethod(#NAME)
@@ -151,7 +151,7 @@ static void registerPythonStuff() {
     ;
 }
 
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(registerPythonStuff)
+KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

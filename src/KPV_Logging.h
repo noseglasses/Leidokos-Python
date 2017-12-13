@@ -17,26 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python.h"
+#ifndef KPV_LOGGING_HPP
+#define KPV_LOGGING_HPP
 
-#include "key_events.h"
+// #define KPV_HAVE_LOGGING
 
-namespace kaleidoscope {
-namespace python {
+#ifdef KPV_HAVE_LOGGING
+#include <iostream>
 
-static void initPythonStuff() {
+   #define KPV_LOG(...) std::cout << "*** " << __VA_ARGS__ \
+      << " (" __FILE__ << ":" << __LINE__ << ")" << std::endl;
+#else // #ifdef KPV_HAVE_LOGGING
+   #define KPV_LOG(...)
+#endif // #ifdef KPV_HAVE_LOGGING
 
-   boost::python::def("handleKeyswitchEvent", &handleKeyswitchEvent,
-      "Calls the key switch handling function.\n\n"
-      "Args:\n"
-      "   mappedKey (Key): The mapped key to consider.\n"
-      "   row (byte): The keyboard row.\n"
-      "   col (byte): The keyboard colum.\n"
-      "   keyState (uint8_t): The key state.\n"
-   );
-}
-      
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
-
-} // namespace python
-} // namespace kaleidoscope
+#endif

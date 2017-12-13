@@ -17,6 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef KPV_EXCEPTION_HPP
+#define KPV_EXCEPTION_HPP
+
 #include <sstream>
 #include <exception>
 
@@ -26,3 +29,5 @@
       s << __VA_ARGS__ << " (" << __FILE__ << ":" << __LINE__ << ")"; \
       throw std::runtime_error(s.str()); \
    }
+
+#endif
