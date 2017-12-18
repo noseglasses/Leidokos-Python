@@ -7,9 +7,10 @@ addons:
     packages:
       - libboost-python-dev 
       - cmake
-      - python-sphinx
+      #- python-sphinx
 before_script:
-  - sudo -H pip install sphinxcontrib-napoleon
+  - sudo -H pip install sphinx
+  #- sudo -H pip install sphinxcontrib-napoleon
 script:
   - cd $HOME
   - mkdir -p hardware/keyboardio
@@ -24,6 +25,7 @@ script:
       -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+  - sphinx-build -h
   - make doc
   - ls -l doc/kaleidoscope
   #- cd $HOME

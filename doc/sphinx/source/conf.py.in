@@ -33,7 +33,6 @@ import os
     #napoleon_module = 'sphinxcontrib.napoleon'
     
 #sys.stdout.write("Using napoleon module %s\n" % napoleon_module)
-napoleon_module = 'sphinxcontrib.napoleon'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -43,7 +42,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    napoleon_module
+    'sphinx.ext.napoleon'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
