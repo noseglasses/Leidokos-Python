@@ -36,6 +36,24 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    #
    include("${CMAKE_SOURCE_DIR}/cmake/arduino_symlinks.include.cmake")
    
+   # Find python to determine its link directory
+   #
+   find_package(PythonLibs REQUIRED)
+
+   if(NOT PYTHONLIBS_FOUND)
+      message(SEND_ERROR "Kaleidoscope-Python requires python \
+   libraries and headers to compile python wrappers. If you have installed python \
+   in a non standard location, please configure the CMake build \
+   system accordingly. See the documentation about the FindPythonLibs module \
+   at https://cmake.org/cmake/help/v3.0/module/FindPythonLibs.html for \
+   additional build system variables that support the python auto \
+   detection process.")
+      message(SEND_ERROR "Under Ubuntu linux python can be installed as")
+      message(SEND_ERROR "sudo apt-get install libboost-python-dev")
+      message(FATAL_ERROR "Aborting.")
+      
+   endif()
+   
    # Some additional setup of the Arduino build system is required.
    #
    # Make sure that the arduino build finds boost-python
@@ -55,24 +73,6 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
       message(SEND_ERROR "Under Ubuntu linux boost python can be installed as")
       message(SEND_ERROR "sudo apt-get install libboost-python-dev")
       message(FATAL_ERROR "Aborting.")
-   endif()
-      
-   # Find python to determine its link directory
-   #
-   find_package(PythonLibs REQUIRED)
-
-   if(NOT PYTHONLIBS_FOUND)
-      message(SEND_ERROR "Kaleidoscope-Python requires python \
-   libraries and headers to compile python wrappers. If you have installed python \
-   in a non standard location, please configure the CMake build \
-   system accordingly. See the documentation about the FindPythonLibs module \
-   at https://cmake.org/cmake/help/v3.0/module/FindPythonLibs.html for \
-   additional build system variables that support the python auto \
-   detection process.")
-      message(SEND_ERROR "Under Ubuntu linux python can be installed as")
-      message(SEND_ERROR "sudo apt-get install libboost-python-dev")
-      message(FATAL_ERROR "Aborting.")
-      
    endif()
       
    # Configures the boards.txt file used by the Arduino build process

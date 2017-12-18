@@ -282,54 +282,88 @@ alias files (symbolic links) are generated. To allow them to be
 found during the actual firmware build, we append the extension `.cpp`
 to the original `.python-wrapper` filename.
 
-An example `.python-wrapper` file that exports the `Layer_` class of the
-Kaleidoscope core could look the following way. See the [documentation
+An example `.python-wrapper` file that exports the `MouseKeys_` class of 
+plugin *Kaleidoscope-MouseKeys* could look the following way. See the [documentation
 of boost-Python](http://www.boost.org/doc/libs/1_58_0/libs/Python/doc/index.html)
 for more information.
 
 ```cpp
-// Content of Kaleidoscope/src/Kaleidoscope.python-wrapper
+// Content of Kaleidoscope-MouseKeys/src/Kaleidoscope.python-wrapper
 
-#include <boost/Python.hpp>
-
-#include "layers.h"
-#include <stdint.h>
+#include "Kaleidoscope-Python.h"
 
 using namespace boost::Python;
    
-#define EXPORT_STATIC_METHOD(NAME) .def(#NAME, &Layer_::NAME)
+// EXPORT_PROPERTY is an auxiliary macro that simplifies export of class 
+// members as Python properties. 
+// Here we generate accessor functions for MouseKeys's members.
 
-BOOST_PYTHON_MODULE(kaleidoscope)
-{
-    class_<Layer_>("Layer")
-      EXPORT_STATIC_METHOD(lookup)
-      EXPORT_STATIC_METHOD(lookupOnActiveLayer)
-      EXPORT_STATIC_METHOD(on)
-      EXPORT_STATIC_METHOD(off)
-      EXPORT_STATIC_METHOD(move)
-      EXPORT_STATIC_METHOD(top)
-      EXPORT_STATIC_METHOD(next)
-      EXPORT_STATIC_METHOD(previous)
-      EXPORT_STATIC_METHOD(isOn)
-      EXPORT_STATIC_METHOD(getLayerState)
-      EXPORT_STATIC_METHOD(eventHandler)
-      EXPORT_STATIC_METHOD(getKeyFromPROGMEM)
-      EXPORT_STATIC_METHOD(updateLiveCompositeKeymap)
-      EXPORT_STATIC_METHOD(updateActiveLayers)
-      
-      // As there are two overloaded versions of 
-      // defaultLayer that are actually a getter and a setter, we have 
-      // to point the compiler to the different versions of the functions
-      // by casting to the different function pointer types
+#define EXPORT_PROPERTY(NAME, DESCRIPTION)                                     \
+   .add_static_property(                                                       \
+      #NAME,                                                                   \
+      make_getter(&MouseKeys_::NAME),                                          \
+      make_setter(&MouseKeys_::NAME),                                          \
+      DESCRIPTION                                                              \
+   )
+   
+// Note: To export non-static class (struct) members, use .add_property(...)
+//       instead of .add_static_property(...)
+
+static void initPythonStuff() {
+
+   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MouseKeys)
+   
+   class_<MouseKeys_>("MouseKeys")
+
+      // Please note: Some of the members accessed below are private. 
+      //              For this here to work, the MouseKeys_ class must declare 
+      //              the below function initPythonStuff() as 
+      //              friend function via the following line that must be
+      //              added to MouseKey_'s class definition.
       //
-      .def("getDefaultLayer", static_cast< 
-            uint8_t(*)()
-         >(&Layer_::defaultLayer)
-      )
-      .def("getDefaultLayer", static_cast< 
-            void(*)(uint8_t)
-         >(&Layer_::defaultLayer)
-      )
-    ;
+      // friend void initPythonStuff();
+      //
+      .EXPORT_PROPERTY(speed,
+         "The mouse speed"
+       )
+      .EXPORT_PROPERTY(speedDelay,
+         "The mouse speed delay"
+       )
+      .EXPORT_PROPERTY(accelSpeed,
+         "The mouse acceleration speed"
+       )
+      .EXPORT_PROPERTY(accelDelay,
+         "The mouse acceleration delay"
+       )
+      .EXPORT_PROPERTY(wheelSpeed,
+         "The mouse wheel speed"
+       )
+      .EXPORT_PROPERTY(wheelDelay,
+         "The mouse wheel delay"
+       )
+      .EXPORT_PROPERTY(mouseMoveIntent,
+         "The mouse intent"
+       )
+      .EXPORT_PROPERTY(endTime,
+         "The mouse end time"
+       )
+      .EXPORT_PROPERTY(accelEndTime,
+         "The mouse acceleration end time"
+       )
+      .EXPORT_PROPERTY(wheelEndTime,
+         "The mouse wheel end time"
+       )
+       
+       // Export a static method.
+       //
+      .def("scrollWheel", &MouseKeys_::scrollWheel,
+         "Scrolls the mouse wheel\n\n"
+         "Args:\n"
+         "   keyCode (uint8_t): The scroll wheel key code.")
+         .staticmethod("scrollWheel")
+         
+      // Note: To export a non static method, just ommit the .staticmethod(...)
+      //       statement.
+   ;
 }
 ```
