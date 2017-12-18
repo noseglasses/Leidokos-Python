@@ -25,7 +25,7 @@ script:
       -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
-  - make VERBOSE=1 doc
+  - make doc
   - ldd _kaleidoscope.so
   - nm -C _kaleidoscope.so
   - ls -l doc/kaleidoscope
