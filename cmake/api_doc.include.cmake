@@ -114,9 +114,4 @@ if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
    add_custom_target(doc DEPENDS "${kaleidoscope_doc_file}")
 #    add_dependencies(doc generate_sphinx_input_files)
    add_dependencies(doc "${kaleidoscope_firmware_target}")
-   
-   # The .nojekyll file is necessary to prevent jekyll from being used when 
-   # publishing the html stuff
-   #
-   file(WRITE "${sphinx_build_dir}/.nojekyll" "")
 endif()
