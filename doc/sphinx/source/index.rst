@@ -1,4 +1,4 @@
-This Is Kaleidoscope-Python's Python application programming interface documentation.
+This Is Kaleidoscope-Python's application programming interface documentation.
 
 Contents:
 

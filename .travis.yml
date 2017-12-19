@@ -7,9 +7,10 @@ addons:
     packages:
       - libboost-python-dev 
       - cmake
+      - python3-pip
       #- python-sphinx
 before_script:
-  - sudo -H pip install sphinx
+  - sudo -H pip3 install sphinx
   #- sudo -H pip install sphinxcontrib-napoleon
 script:
   - cd $HOME
@@ -27,9 +28,9 @@ script:
       -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
   - make doc
-  - ldd _kaleidoscope.so
-  - nm -C _kaleidoscope.so
-  - ls -l doc/kaleidoscope
+  #- ldd _kaleidoscope.so
+  #- nm -C _kaleidoscope.so
+  #- ls -l doc/kaleidoscope
   #- cd $HOME
   #- mkdir kbw_test
   #- cd kbw_test

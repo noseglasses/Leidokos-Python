@@ -1,5 +1,5 @@
 _kaleidoscope module
-===================
+====================
 
 .. automodule:: _kaleidoscope
     :members:

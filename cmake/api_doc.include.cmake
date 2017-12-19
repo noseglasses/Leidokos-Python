@@ -96,7 +96,7 @@ if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
    
    # Generate documentation
    
-   set(sphinx_build_dir "${CMAKE_BINARY_DIR}/doc/kaleidoscope")
+   set(sphinx_build_dir "${CMAKE_BINARY_DIR}/doc/kaleidoscope/API")
    set(kaleidoscope_doc_file "${sphinx_build_dir}/modules.html")
    add_custom_command(
       OUTPUT "${kaleidoscope_doc_file}"

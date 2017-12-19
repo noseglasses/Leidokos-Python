@@ -7,7 +7,7 @@
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
 [st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
 
-[Python API documentation](https://noseglasses.github.io/Kaleidoscope-Python/doc/doxygen/html/index.html)
+[Python API documentation](https://noseglasses.github.io/Kaleidoscope-Python/API/index.html)
 
 # Kaleidoscope-Python
 Kaleidoscope-Python is a Python scriptable Kaleidoscope firmware simulator.
