@@ -261,7 +261,7 @@ generator is used (the default under Linux), this can e.g. be done as follows.
 ```bash
 make doc
 ```
-The documentation is generated in the `doc/kaleidoscope` directory of 
+The documentation is generated in the `doc/kaleidoscope/API` directory of 
 the build tree. Open the file `kaleidoscope_testing.html` in a browser
 to see the API documentation.
 
