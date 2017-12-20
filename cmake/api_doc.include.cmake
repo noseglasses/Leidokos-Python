@@ -114,4 +114,9 @@ if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
    add_custom_target(doc DEPENDS "${kaleidoscope_doc_file}")
 #    add_dependencies(doc generate_sphinx_input_files)
    add_dependencies(doc "${kaleidoscope_firmware_target}")
+   
+   # Prevent jekyll from processing our gh-pages which would result
+   # in all files starting with _ being removed.
+   #
+   file(WRITE "${CMAKE_BINARY_DIR}/doc/kaleidoscope/.nojekyll" "")
 endif()

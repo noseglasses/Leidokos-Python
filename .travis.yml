@@ -30,7 +30,7 @@ script:
   - make doc
   #- ldd _kaleidoscope.so
   #- nm -C _kaleidoscope.so
-  #- ls -l doc/kaleidoscope
+  - ls -l doc/kaleidoscope
   #- cd $HOME
   #- mkdir kbw_test
   #- cd kbw_test
