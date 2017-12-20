@@ -96,7 +96,7 @@ if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
          "-Dsphinx_configuration_dir=${sphinx_configuration_dir}"
          -P "${CMAKE_SOURCE_DIR}/cmake/build_sphinx_doc.script.cmake"
       DEPENDS "${kaleidoscope_firmware_target}"
-      COMMENT "Generating Sphinx python documentation"
+      COMMENT "Generating Sphinx python documentation in ${sphinx_build_dir}"
    )
    add_custom_target(doc DEPENDS "${kaleidoscope_doc_file}")
    add_dependencies(doc "${kaleidoscope_firmware_target}")

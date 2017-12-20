@@ -27,7 +27,8 @@ script:
       -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
       -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
-  - make doc
+  - make 
+  - make VERBOSE=1 doc
   #- ldd _kaleidoscope.so
   #- nm -C _kaleidoscope.so
   - ls -l doc/kaleidoscope
