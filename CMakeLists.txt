@@ -92,6 +92,19 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    )
 endmacro()
 
+# Setup the keymap strings file that enables verbose names
+# of keys at a given position in the keymap.
+#
+set(keymap_strings_file "${CMAKE_BINARY_DIR}/keymap_strings.cpp")
+
+message("Extracting keymap to ${keymap_strings_file}")
+include("${CMAKE_SOURCE_DIR}/cmake/extract_keymap.macros.cmake")
+extract_keymap(
+   "${KALEIDOSCOPE_FIRMWARE_SKETCH}"
+   "${keymap_strings_file}"
+   keymap_extraction_success
+)
+
 # This configuration process can be passed a list of paths that 
 # point to Kaleidoscope components (git repos).
 #
@@ -155,7 +168,7 @@ file(GLOB_RECURSE add_src
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src/*.cpp")
 
 set(KALEIDOSCOPE_ADDITIONAL_SOURCES 
-   "${KALEIDOSCOPE_ADDITIONAL_SOURCES};${add_src}" CACHE INTERNAL "")
+   "${KALEIDOSCOPE_ADDITIONAL_SOURCES};${add_src};${keymap_strings_file}" CACHE INTERNAL "")
 
 # Include the Kaleidoscope-CMake build system
 #
