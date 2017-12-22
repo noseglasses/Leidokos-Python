@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # -*- mode: c++ -*-
 # Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
@@ -21,6 +22,8 @@ from _kaleidoscope import *
 import sys
 import weakref
 import os
+import random
+import operator
 
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
@@ -583,10 +586,17 @@ class Test(object):
       self.debug = debug
       
       _kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
-      
+   
       _kaleidoscope.init()
       
       self._headerText()
+      
+      try:
+         __NO_EXIT__
+      except NameError:
+         self.noExit = True
+      else:
+         self.noExit = False
       
    def __del__(self):
       
@@ -610,7 +620,8 @@ class Test(object):
       self.out.writeN("!!! Error: %s\n" % msg)
       self.out.writeN("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
         
-      os._exit(1)
+      if not self.noExit:
+         os._exit(1)
       
    def _headerText(self):
       self.out.writeN("\n")
@@ -1024,7 +1035,87 @@ class Test(object):
       self.out.write("~ %s ~\n" % msg)
       self.out.write("########################################################\n")
       
-   def graphical_map(self):
+   def getColorEscSeq(self, row, col):  
+      
+      red = random.randint(0, 255)
+      green = random.randint(0, 255)
+      blue = random.randint(0, 255)
+      
+      col_norm = red*red + green*green + blue*blue
+      
+      # Have black text on dark background color and wi
+      if col_norm > 49152:
+         forground_color = "0"
+      else:
+         forground_color = "15"
+         
+      return "\x1b[48;2;{red};{green};{blue}m" \
+             "\x1b[38;5;{forground_color}m" \
+         .format(red = red, green = green, blue = blue,
+                 forground_color = forground_color)
+
+   def generateKeyString(self, row, col):
+      
+      layer = _kaleidoscope.Layer.lookupActiveLayer(row, col)
+      key = _kaleidoscope.Layer.lookupOnActiveLayer(row, col)
+      
+      #if key.getFlags() == Key.KEY_FLAGS():
+         # Normal key
+         #
+         # TODO: Map the keycode to a (unicode) string that matches the key
+         # 
+      
+      keyString = _kaleidoscope.getKeyDescription(layer, row, col)
+      
+      #if len(keyString) < 4: 
+         #return keyString
+      
+      #return keyString[:4]
+      
+      colString = self.getColorEscSeq(row, col)
+      
+      # Limit the key caption to the with of the cell
+      #
+      #actual_keystring = '{:4.4}'.format(keyString)
+      
+      return (colString, keyString)
+      
+      #return '{0}{1}{2}'.format(col_string, actual_keystring, neutral_string)
+      
+   def graphicalMap(self):
+      
+      rows = _kaleidoscope.matrixRows()
+      cols = _kaleidoscope.matrixCols()
+      
+      keyStrings = []
+      
+      
+      # Escape sequences to restore default foreground and 
+      # background colors
+      #
+      neutralString = "\x1b[39;49m"  
+      
+      keyStringMap = {}
+      keyStringIndex = 1
+      
+      for row in range(rows):
+         for col in range(cols):
+            (colString, keyString) = self.generateKeyString(row, col)
+            
+            if len(keyString) > 4:
+               if not keyString in keyStringMap.keys():
+                  keyStringMap[keyString] = keyStringIndex
+                  curKeyStringIndex = keyStringIndex
+                  keyStringIndex += 1
+               else:
+                  curKeyStringIndex = keyStringMap[keyString]
+                  
+               keyString = "*%3.3d" % curKeyStringIndex
+            else:
+               keyString = '{:4.4}'.format(keyString)
+               
+            keyStrings.append("{0}{1}{2}".format(
+               colString, keyString, neutralString))
       
       #left_upper = '\x250F'.decode("latin-1")   # ┏
       #upper = '\x2501'.decode("latin-1")        # ━
@@ -1043,30 +1134,44 @@ class Test(object):
       #cross = '\x254b'.decode("latin-1")        # ╋
       
       #keylist = ...
+      
+      self.printKeyboardioM01Keymap(keyStrings)
+      
+      # Print the mapped key strings
+      #
+      #sortedkeyStringMap = sorted(keyStringMap.items(), key=operator.itemgetter(1))
+
+      for keyString in sorted(keyStringMap, key=keyStringMap.get):
+      #print w, d[w]
+      #for keyString, keyStringId in sortedkeyStringMap.iteritems():
+         self.out.write("%3.3d %s\n" % (keyStringMap[keyString], keyString))
+      
+   def printKeyboardioM01Keymap(self, keyStrings):
+      
       (r0c0, r0c1, r0c2, r0c3, r0c4, r0c5, r0c6, r0c7, r0c8, r0c9, r0c10, r0c11, r0c12, r0c13, r0c14, r0c15, \
        r1c0, r1c1, r1c2, r1c3, r1c4, r1c5, r1c6, r1c7, r1c8, r1c9, r1c10, r1c11, r1c12, r1c13, r1c14, r1c15, \
        r2c0, r2c1, r2c2, r2c3, r2c4, r2c5, r2c6, r2c7, r2c8, r2c9, r2c10, r2c11, r2c12, r2c13, r2c14, r2c15, \
-       r3c0, r3c1, r3c2, r3c3, r3c4, r3c5, r3c6, r3c7, r3c8, r3c9, r3c10, r3c11, r3c12, r3c13, r3c14, r3c15) =
-      tuple(keylist)
+       r3c0, r3c1, r3c2, r3c3, r3c4, r3c5, r3c6, r3c7, r3c8, r3c9, r3c10, r3c11, r3c12, r3c13, r3c14, r3c15) = \
+      tuple(keyStrings)
       
-self.out.write(u"┏━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┓        ┏━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┓\n".format(r0c0, r0c1, r0c2, r0c3, r0c4, r0c5, r0c6,        r0c9,  r0c10, r0c11, r0c12, r0c13, r0c14, r0c15))
-self.out.write(u"┃{ 0}┃{ 1}┃{ 2}┃{ 3}┃{ 4}┃{ 5}┃{ 6}┃        ┃{ 7}┃{ 8}┃{ 9}┃{10}┃{11}┃{12}┃{13}┃\n")
-self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫    ┃        ┃    ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
-self.out.write(u"┃{ 0}┃{ 1}┃{ 2}┃{ 3}┃{ 4}┃{ 5}┣━━━━┫        ┣━━━━┫{ 6}┃{ 7}┃{ 8}┃{ 9}┃{10}┃{11}┃\n".format(r1c0, r1c1, r1c2, r1c3, r1c4, r1c5, r1c10, r1c11, r1c12, r1c13, r1c14, r1c15))
-self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫    ┃        ┃    ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
-self.out.write(u"┃{ 0}┃{ 1}┃{ 2}┃{ 3}┃{ 4}┃{ 5}┃{ 6}┃        ┃{ 7}┃{ 8}┃{ 9}┃{10}┃{11}┃{12}┃{13}┃\n".format(r2c0, r2c1, r2c2, r2c3, r2c4, r2c5, r1c6, r1c9, r2c10, r2c11, r2c12, r2c13, r2c14, r2c15))
-self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫        ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
-self.out.write(u"┃{ 0}┃{ 1}┃{ 2}┃{ 3}┃{ 4}┃{ 5}┃{ 6}┃        ┃{ 7}┃{ 8}┃{ 9}┃{10}┃{11}┃{12}┃{13}┃\n".format(r3c0, r3c1, r3c2, r3c3, r3c4, r3c5, r2c6,        r2c9,  r3c10, r3c11, r3c12, r3c13, r3c14, r3c15))
-self.out.write(u"┗━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┛        ┗━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┛\n")
-self.out.write(u"                ┏━━━━┓                                    ┏━━━━┓                \n")
-self.out.write(u"                ┃{ 0}┣━━━━┓                          ┏━━━━┫{ 1}┃                \n".format(r0c7, r0c8))
-self.out.write(u"                ┗━━━━┫{ 0}┣━━━━┓                ┏━━━━┫{ 1}┣━━━━┛                \n".format(r1c7, r1c8))
-self.out.write(u"                     ┗━━━━┫{ 0}┣━━━━┓      ┏━━━━┫{ 1}┣━━━━┛                     \n".format(r2c7, r2c8))
-self.out.write(u"                          ┗━━━━┫{ 0}┃      ┃{ 1}┣━━━━┛                          \n".format(r3c7, r3c8))
-self.out.write(u"                               ┗━━━━┛      ┗━━━━┛                               \n")
-self.out.write(u"                    ┏━━━━━━┓                        ┏━━━━━━┓                    \n")
-self.out.write(u"                    ┃ { 0} ┃                        ┃ { 1} ┃                    \n".format(r3c6, r3c9))
-self.out.write(u"                    ┗━━━━━━┛                        ┗━━━━━━┛                    \n")
+      self.out.write(u"┏━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┓        ┏━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┳━━━━┓\n")
+      self.out.write(u"┃{0}┃{1}┃{2}┃{3}┃{4}┃{5}┃{6}┃        ┃{7}┃{8}┃{9}┃{10}┃{11}┃{12}┃{13}┃\n".format(r0c0, r0c1, r0c2, r0c3, r0c4, r0c5, r0c6,        r0c9,  r0c10, r0c11, r0c12, r0c13, r0c14, r0c15))
+      self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫    ┃        ┃    ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
+      self.out.write(u"┃{0}┃{1}┃{2}┃{3}┃{4}┃{5}┣━━━━┫        ┣━━━━┫{6}┃{7}┃{8}┃{9}┃{10}┃{11}┃\n".format(r1c0, r1c1, r1c2, r1c3, r1c4, r1c5, r1c10, r1c11, r1c12, r1c13, r1c14, r1c15))
+      self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫    ┃        ┃    ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
+      self.out.write(u"┃{0}┃{1}┃{2}┃{3}┃{4}┃{5}┃{6}┃        ┃{7}┃{8}┃{9}┃{10}┃{11}┃{12}┃{13}┃\n".format(r2c0, r2c1, r2c2, r2c3, r2c4, r2c5, r1c6, r1c9, r2c10, r2c11, r2c12, r2c13, r2c14, r2c15))
+      self.out.write(u"┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫        ┣━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━╋━━━━┫\n")
+      self.out.write(u"┃{0}┃{1}┃{2}┃{3}┃{4}┃{5}┃{6}┃        ┃{7}┃{8}┃{9}┃{10}┃{11}┃{12}┃{13}┃\n".format(r3c0, r3c1, r3c2, r3c3, r3c4, r3c5, r2c6,        r2c9,  r3c10, r3c11, r3c12, r3c13, r3c14, r3c15))
+      self.out.write(u"┗━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┛        ┗━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┻━━━━┛\n")
+      self.out.write(u"                ┏━━━━┓                                    ┏━━━━┓                \n")
+      self.out.write(u"                ┃{0}┣━━━━┓                          ┏━━━━┫{1}┃                \n".format(r0c7, r0c8))
+      self.out.write(u"                ┗━━━━┫{0}┣━━━━┓                ┏━━━━┫{1}┣━━━━┛                \n".format(r1c7, r1c8))
+      self.out.write(u"                     ┗━━━━┫{0}┣━━━━┓      ┏━━━━┫{1}┣━━━━┛                     \n".format(r2c7, r2c8))
+      self.out.write(u"                          ┗━━━━┫{0}┃      ┃{1}┣━━━━┛                          \n".format(r3c7, r3c8))
+      self.out.write(u"                               ┗━━━━┛      ┗━━━━┛                               \n")
+      self.out.write(u"                    ┏━━━━━━┓                        ┏━━━━━━┓                    \n")
+      self.out.write(u"                    ┃ {0} ┃                        ┃ {1} ┃                    \n".format(r3c6, r3c9))
+      self.out.write(u"                    ┗━━━━━━┛                        ┗━━━━━━┛                    \n")
 
 ##define KEYMAP(                                                                                     \
   #r0c0, r0c1, r0c2, r0c3, r0c4, r0c5, r0c6,        r0c9,  r0c10, r0c11, r0c12, r0c13, r0c14, r0c15, \

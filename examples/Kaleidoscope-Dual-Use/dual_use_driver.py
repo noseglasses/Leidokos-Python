@@ -257,6 +257,11 @@ def main():
       
    
    test.run()
+   
+   test.graphicalMap()
+   
+   return test
                    
 if __name__ == "__main__":
-    main()
+   global test
+   test = main()

@@ -19,6 +19,8 @@
 
 #include "Kaleidoscope-Python.h"
 
+#include KALEIDOSCOPE_HARDWARE_H
+
 #include "layers.h"
 
 namespace kaleidoscope {
@@ -49,6 +51,15 @@ static void initPythonStuff() {
          "   col (int): The keymap col.\n\n"
          "Returns:\n"
          "   Key: The key present at that the given position in the active layer.")
+      
+      EXPORT_LAYER_STATIC_METHOD(
+         lookupActiveLayer,
+         "Lookup the active layer of a Key at a given position in the current layer mapping.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap col.\n\n"
+         "Returns:\n"
+         "   uint8_t: The layer id.")
          
       EXPORT_LAYER_STATIC_METHOD(
          on,
