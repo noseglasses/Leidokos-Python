@@ -11,6 +11,7 @@ addons:
 before_script:
   - sudo -H pip3 install sphinx
 script:
+  # Direct testing for Kaleidoscope-Python
   - cd $HOME
   - mkdir -p hardware/keyboardio
   - git clone -b regression_testing --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
@@ -27,13 +28,14 @@ script:
       $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
   - make 
   - make VERBOSE=1 doc
-  #- cd $HOME
-  #- mkdir kbw_test
-  #- cd kbw_test
-  #- git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-  #- cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
-  #- cmake --build .
-  #- ctest
+  # Add general testing with Kaleidoscope-Testing
+  - cd $HOME
+  - mkdir kbw_test
+  - cd kbw_test
+  - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
+  - cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
+  - cmake --build .
+  - ctest
 deploy:
    provider: pages
    skip_cleanup: true
