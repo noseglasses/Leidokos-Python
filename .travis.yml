@@ -1,6 +1,6 @@
 dist: trusty
 sudo: false
-language: c++
+#language: c++
 os:
   - linux
   
@@ -14,11 +14,11 @@ addons:
 install:
   - sudo -H pip3 install sphinx
       
-#stages:
-  #- compile
-  #- test
-  #- name: deploy
-    #if: branch = master
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = master
     
 # Disable the default script
 script: true
