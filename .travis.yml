@@ -1,8 +1,7 @@
-dist: trusty
-sudo: false
-#language: c++
-os:
-  - linux
+#dist: trusty
+#sudo: false
+#os:
+#  - linux
   
 addons:
   apt:
@@ -14,14 +13,11 @@ addons:
 install:
   - sudo -H pip3 install sphinx
       
-stages:
-  - compile
-  - test
-  - name: deploy
-    if: branch = master
-    
-# Disable the default script
-script: true
+#stages:
+#  - compile
+#  - test
+#  - name: deploy
+#    if: branch = master
     
 jobs:
     - stage: compile
@@ -39,6 +35,7 @@ jobs:
          - ctest --output-on-failure
       
     - stage: deploy
+      if: branch = master
       script:
          # Generates and installs the Python API to gh_pages
          - cd $HOME
@@ -57,12 +54,13 @@ jobs:
                $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
          - make 
          - make VERBOSE=1 doc
-      provider: pages
-      skip_cleanup: true
-      local_dir: $HOME/kbw_build/doc/kaleidoscope
-      github_token: $GITHUB_API_KEY
-      on:
-         branch: master
+      deploy:
+         provider: pages
+         skip_cleanup: true
+         local_dir: $HOME/kbw_build/doc/kaleidoscope
+         github_token: $GITHUB_API_KEY
+         on:
+            branch: master
          
 notifications:
   email:
