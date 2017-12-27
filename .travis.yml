@@ -20,6 +20,7 @@ install:
 #    if: branch = master
     
 jobs:
+  include:
     - stage: compile
       script:
          - cd $HOME
