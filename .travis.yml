@@ -21,7 +21,7 @@ install:
     
 jobs:
   include:
-    - stage: compile
+    - stage: test
       script:
          - cd $HOME
          - mkdir kbw_test
@@ -29,13 +29,9 @@ jobs:
          - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
          - cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
          - cmake --build .
-      
-    - stage: test
-      script:
-         - cd $HOME/kbw_test
          - ctest --output-on-failure
       
-    - stage: deploy
+    - stage: build API documentation
       if: branch = master
       script:
          # Generates and installs the Python API to gh_pages
