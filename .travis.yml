@@ -2,51 +2,67 @@ dist: trusty
 sudo: false
 os:
   - linux
+  
 addons:
   apt:
     packages:
       - libboost-python-dev 
       - cmake
-      - python3-pip
-before_script:
-  - sudo -H pip3 install sphinx
-script:
-  # Direct testing for Kaleidoscope-Python
-  - cd $HOME
-  - mkdir -p hardware/keyboardio
-  - git clone -b regression_testing --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
-  - cd hardware/keyboardio/avr
-  - git submodule status
-  - cd $HOME
-  - mkdir kbw_build
-  - cd kbw_build
-  - cmake --version
-  - cmake
-      -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
-      -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
-      -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-      $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
-  - make 
-  - make VERBOSE=1 doc
-  # Add general testing with Kaleidoscope-Testing
-  - cd $HOME
-  - mkdir kbw_test
-  - cd kbw_test
-  - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-  - cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
-  - cmake --build .
-  - ctest
-deploy:
-   provider: pages
-   skip_cleanup: true
-   local_dir: $HOME/kbw_build/doc/kaleidoscope
-   github_token: $GITHUB_API_KEY
-   on:
-      branch: master
+      - python3-pip- sudo -H pip3 install sphinx
+      
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = master
+    
+jobs:
+  include:
+    - stage: compile
+      script:
+         - cd $HOME
+         - mkdir kbw_test
+         - cd kbw_test
+         - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
+         - cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
+         - cmake --build .
+      
+    - stage: test
+      script:
+         - cd $HOME/kbw_test
+         - ctest --output-on-failure
+      
+    - stage: deploy
+      script:
+         # Generates and installs the Python API to gh_pages
+         - cd $HOME
+         - mkdir -p hardware/keyboardio
+         - git clone -b regression_testing --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
+         - cd hardware/keyboardio/avr
+         - git submodule status
+         - cd $HOME
+         - mkdir kbw_build
+         - cd kbw_build
+         - cmake --version
+         - cmake
+               -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
+               -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
+               -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
+               $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+         - make 
+         - make VERBOSE=1 doc
+      provider: pages
+      skip_cleanup: true
+      local_dir: $HOME/kbw_build/doc/kaleidoscope
+      github_token: $GITHUB_API_KEY
+      on:
+         branch: master
+         
 notifications:
   email:
     recipients:
       - shinynoseglasses@gmail.com
     on_failure: always
+    
 cache:
 ccache: true
