@@ -3,22 +3,18 @@ sudo: false
 language: c++
 os:
   - linux
-  
-addons:
-  apt:
-    packages:
-      - libboost-python-dev 
-      - cmake
-      - python3-pip
       
 install:
+  - sudo apt install libboost-python-dev 
+  - sudo apt install cmake
+  - sudo apt install python3-pip
   - sudo -H pip3 install sphinx
       
-stages:
-  - compile
-  - test
-  - name: deploy
-    if: branch = master
+#stages:
+  #- compile
+  #- test
+  #- name: deploy
+    #if: branch = master
     
 jobs:
     - stage: compile
