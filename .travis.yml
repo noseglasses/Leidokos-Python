@@ -8,7 +8,10 @@ addons:
     packages:
       - libboost-python-dev 
       - cmake
-      - python3-pip- sudo -H pip3 install sphinx
+      - python3-pip
+      
+install:
+  - sudo -H pip3 install sphinx
       
 stages:
   - compile
@@ -17,7 +20,6 @@ stages:
     if: branch = master
     
 jobs:
-  include:
     - stage: compile
       script:
          - cd $HOME
