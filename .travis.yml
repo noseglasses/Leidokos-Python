@@ -29,7 +29,10 @@ jobs:
          - mkdir kbw_test
          - cd kbw_test
          - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-         - cmake -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git ./Kaleidoscope-Testing
+         - cmake 
+               -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git 
+               -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
+               ./Kaleidoscope-Testing
          - cmake --build .
          - ctest --output-on-failure
       
