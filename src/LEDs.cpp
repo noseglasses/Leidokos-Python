@@ -21,8 +21,18 @@
 #include "KPV_Exception.hpp"
 #include "Kaleidoscope-Hardware-Virtual.h"
 
+extern Virtual KeyboardHardware;
+
 namespace kaleidoscope {
 namespace python {
+   
+static void setCrgbAt(byte row, byte col, cRGB color) {
+   KeyboardHardware.setCrgbAt(row, col, color);
+}
+
+static cRGB getCrgbAt(byte row, byte col) {
+   return KeyboardHardware.getCrgbAt(row, col);
+}
    
 static void initPythonStuff() {
    
@@ -39,22 +49,22 @@ static void initPythonStuff() {
    .def("setB", boost::python::make_setter(&cRGB::b))
    ;
    
-   boost::python::def("getCrgbAt", &Virtual::getCrgbAt, 
+   boost::python::def("getCrgbAt", &getCrgbAt, 
       "Gets LED colors as cRGB at a given matrix position.\n\n"
       "Args:\n"
       "   row (uint8_t): The row of the LED to query.\n"
       "   col (uint8_t): The column of the LED to query.\n\n"
       "Returns:\n"
       "   cRGB: The current color of the LED."
-   ).staticmethod("getCrgbAt");
+   );
       
-   boost::python::def("setCrgbAt", &Virtual::getCrgbAt, 
+   boost::python::def("setCrgbAt", &setCrgbAt, 
       "Sets the LED colors as cRGB at a given matrix position.\n\n"
       "Args:\n"
       "   row (uint8_t): The row of the LED to query\n"
       "   col (uint8_t): The column of the LED to query\n"
       "   color (cRGB): The new color of the LED."
-   ).staticmethod("getCrgbAt");
+   );
 }
    
 KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
