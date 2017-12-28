@@ -18,6 +18,8 @@ install:
 #  - test
 #  - name: deploy
 #    if: branch = master
+
+script: skip
     
 jobs:
   include:
