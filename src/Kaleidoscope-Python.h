@@ -46,7 +46,8 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
 
 #define KALEIDOSCOPE_PYTHON_PACKAGE_NAME _kaleidoscope
 
-#define STRINGIZE(S) #S
+#define __STRINGIZE(S) #S
+#define STRINGIZE(S) __STRINGIZE(S)
 
 #define KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MODULE_NAME) \
    \

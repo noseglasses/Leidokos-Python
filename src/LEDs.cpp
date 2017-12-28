@@ -41,12 +41,12 @@ static void initPythonStuff() {
    boost::python::class_<cRGB>("cRGB",
       "A RGB color value."
    )
-   .def("getR", boost::python::make_getter(&cRGB::r))
-   .def("setR", boost::python::make_setter(&cRGB::r))
-   .def("getG", boost::python::make_getter(&cRGB::g))
-   .def("setG", boost::python::make_setter(&cRGB::g))
-   .def("getB", boost::python::make_getter(&cRGB::b))
-   .def("setB", boost::python::make_setter(&cRGB::b))
+   .def("getRed", boost::python::make_getter(&cRGB::r))
+   .def("setRed", boost::python::make_setter(&cRGB::r))
+   .def("getGreen", boost::python::make_getter(&cRGB::g))
+   .def("setGreen", boost::python::make_setter(&cRGB::g))
+   .def("getBlue", boost::python::make_getter(&cRGB::b))
+   .def("setBlue", boost::python::make_setter(&cRGB::b))
    ;
    
    boost::python::def("getCrgbAt", &getCrgbAt, 

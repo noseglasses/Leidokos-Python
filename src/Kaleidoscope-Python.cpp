@@ -19,7 +19,7 @@
 
 #include "Kaleidoscope-Python.h"
 #include "KeyboardReport.h"
-
+#include "Kaleidoscope.h"
 #include "Kaleidoscope-Hardware-Virtual.h"
 
 #include "virtual_io.h"
@@ -54,6 +54,7 @@ class API
       static void tap(byte row, byte col);
       static void keyDown(byte row, byte col);
       static void keyUp(byte row, byte col);
+      static bool isKeyPressed(byte row, byte col);
       static void clearAllKeys();
       
       static uint8_t matrixRows();
@@ -61,6 +62,8 @@ class API
       
       static void setMillis(unsigned long millis);
       static unsigned long getMillis();
+      
+      static const char *getHardwareIDString();
       
       static void setKeyboardReportCallback(boost::python::object func);
       
@@ -166,6 +169,13 @@ void
    KeyboardHardware.setKeystate(row, col, Virtual::NOT_PRESSED);
 }
 
+bool 
+   API
+      ::isKeyPressed(byte row, byte col)
+{
+   return KeyboardHardware.getKeystate(row, col) == Virtual::PRESSED;
+}
+
 void  
    API
       ::clearAllKeys()
@@ -203,6 +213,13 @@ unsigned long
       ::getMillis()
 {
    return millis_;
+}
+
+const char *   
+   API
+      ::getHardwareIDString()
+{
+   return STRINGIZE(HARDWARE_IMPLEMENTATION);
 }
       
 void   
@@ -346,6 +363,13 @@ BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
       "processReport(keyboardReport) method that can be passed KeyboardReport class object"
    )
    
+   EXPORT_STATIC_METHOD(
+      getHardwareIDString,
+      "Returns a string that identifies the hardware.\n\n"
+      "Returns:\n"
+      "   string: The hardware identification."
+   )
+   
    boost::python::def("getVersionString", &kaleidoscope::python::getVersionString,
       "Returns the current version of Kaleidoscope-Python.\n\n"
       "Returns:\n"
@@ -383,6 +407,16 @@ BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
          "Args:\n"
          "   row (int): The keymap row.\n"
          "   col (int): The keymap column.\n"
+      )
+      
+      EXPORT_STATIC_KEY_METHOD(
+         isKeyPressed,
+         "Checks it a key is pressed at a given position.\n\n"
+         "Args:\n"
+         "   row (int): The keymap row.\n"
+         "   col (int): The keymap column.\n\n"
+         "Returns:\n"
+         "   bool: Wheter the key is currently pressed."
       )
       
       EXPORT_STATIC_KEY_METHOD(

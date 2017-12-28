@@ -255,7 +255,6 @@ def main():
    else:
       test.log("Using C++ implementation of DualUse")
       
-   
    test.run()
    
    test.graphicalMap()
