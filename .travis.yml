@@ -9,6 +9,7 @@ addons:
       - libboost-python-dev 
       - cmake
       - python3-pip
+      - python3-yaml
       
 install:
   - sudo -H pip3 install sphinx
