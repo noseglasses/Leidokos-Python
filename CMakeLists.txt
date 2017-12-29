@@ -38,7 +38,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    
    # Find python to determine its link directory
    #
-   find_package(PythonLibs REQUIRED)
+   find_package(PythonLibs 3 REQUIRED)
 
    if(NOT PYTHONLIBS_FOUND)
       message(SEND_ERROR "Kaleidoscope-Python requires python \

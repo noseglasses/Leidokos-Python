@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # -*- mode: c++ -*-
 # Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
