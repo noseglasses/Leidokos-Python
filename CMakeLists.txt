@@ -62,19 +62,37 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
       REQUIRED
       COMPONENTS python
    )
+   
+   # As we need boost-python 3 to build and FindBoost does not allow 
+   # to specify a version preference for the Python version that is used,
+   # we find the boost_python library explicitly.
+   #
+   find_library(Boost_PYTHON_3_LIBRARY
+    NAMES 
+       boost_python-py3 
+       boost_python-py31 
+       boost_python-py32 
+       boost_python-py33 
+       boost_python-py34 
+       boost_python-py35 
+       boost_python-py36 
+       boost_python-py37 
+       boost_python-py38 
+       boost_python-py39
+     HINTS ENV PATH /usr/lib /usr/lib/x86_64-linux-gnu
+   )
 
-   if(NOT Boost_FOUND)
+   if("${Boost_PYTHON_3_LIBRARY}" STREQUAL "Boost_PYTHON_3_LIBRARY-NOTFOUND")
+      message("Boost_PYTHON_3_LIBRARY=${Boost_PYTHON_3_LIBRARY}")
       message(SEND_ERROR "Kaleidoscope-Python requires boost-python \
-   library and headers to compile python wrappers. If you have installed boost \
+   library (Python 3) and headers to compile python wrappers. If you have installed boost \
    in a non standard location, please configure the CMake build \
-   system accordingly. See the documentation about the FindBoost module \
-   at https://cmake.org/cmake/help/v3.0/module/FindBoost.html for additional \
-   build system variables that support the boost auto detection process.")
+   system accordingly.")
       message(SEND_ERROR "Under Ubuntu linux boost python can be installed as")
       message(SEND_ERROR "sudo apt-get install libboost-python-dev")
       message(FATAL_ERROR "Aborting.")
    endif()
-      
+   
    # Configures the boards.txt file used by the Arduino build process
    # and add an include directive that points to the boost header location.
    #
@@ -99,8 +117,14 @@ set(keymap_strings_file "${CMAKE_BINARY_DIR}/keymap_strings.cpp")
 
 message("Extracting keymap to ${keymap_strings_file}")
 include("${CMAKE_SOURCE_DIR}/cmake/extract_keymap.macros.cmake")
+
+get_filename_component(firmware_sketch_real 
+   "${KALEIDOSCOPE_FIRMWARE_SKETCH}" REALPATH)
+   
+message("sketch: ${firmware_sketch_real}")
+   
 extract_keymap(
-   "${KALEIDOSCOPE_FIRMWARE_SKETCH}"
+   "${firmware_sketch_real}"
    "${keymap_strings_file}"
    keymap_extraction_success
 )
@@ -253,7 +277,7 @@ endforeach()
 #
 target_link_libraries("${kaleidoscope_firmware_target}"
    PUBLIC
-   "${Boost_LIBRARIES}"
+   "${Boost_PYTHON_3_LIBRARY}"
    "${PYTHON_LIBRARY}"
 )
 

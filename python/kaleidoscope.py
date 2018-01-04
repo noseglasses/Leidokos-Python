@@ -331,7 +331,7 @@ class ReportModifiersActive(Assertion):
             return False
       
       if self.exclusively:
-         if len(activeModifiers) != len(self.keycodes):
+         if len(activeModifiers) != len(self.modifierKeys):
             return False
          
       return True
@@ -450,6 +450,38 @@ class CycleHasNReports(Assertion):
    
    def _evalInternal(self, dummy):
       return self._getTest().nReportsInCycle == self.nReports
+   
+class NReportsGenerated(Assertion):
+   """ Asserts that there was a specific number of keyboard reports generated
+         since the assertion was instanciated.
+         
+      Args:
+         nReports (int): The required number of reports.
+   """
+   
+   def __init__(self, nReports):
+      Assertion.__init__(self)
+      self.nReports = nReports
+      
+   # Override the _setTest method to enable setting 
+   # the startNReports once the reference to the parent
+   # test is available
+   #
+   def _setTest(self, test):
+      Assertion._setTest(self, test)
+      self.startNReports = self._getTest().nKeyboardReports
+   
+   def _description(self):
+      return "There were %d keyboard reports in cycle" % self.nReports
+   
+   def _reportsGenerated(self):
+      return self._getTest().nKeyboardReports - self.startNReports
+   
+   def _actualState(self):
+      return "%d keyboard reports" % self._reportsGenerated()
+   
+   def _evalInternal(self, dummy):
+      return self._reportsGenerated() == self.nReports
    
 class CycleIsNth(ReportNthCycle):
    """ Asserts that the current cycle is the nth.
@@ -764,8 +796,10 @@ class Test(object):
          
       self.nReportsInCycle += 1
       
-      self.out.write("Processing keyboard report %d (%d. in cycle)\n"
-                     % (self.nKeyboardReports, self.nReportsInCycle), keyboardReportIndent)
+      self.out.write("Processing keyboard report %d (%d. in cycle %d)\n"
+                     % (self.nKeyboardReports,
+                        self.nReportsInCycle,
+                        self.cycleId), keyboardReportIndent)
       
       self.out.write("%d queued report assertions\n" % len(self.queuedReportAssertions), assertionGroupIndent)
       
@@ -904,12 +938,13 @@ class Test(object):
       self._scanCycle(onStopAssertionList)
       self.out.write("\n")
       
-   def _scanCycle(self, onStopAssertionList = None):
+   def _scanCycle(self, onStopAssertionList = None, onlyLogReports = False):
       
       self.cycleId += 1
       self.nReportsInCycle = 0
       
-      self.out.write("Scan cycle %d\n" % self.cycleId, cycleIndent)
+      if not onlyLogReports:
+         self.out.write("Scan cycle %d\n" % self.cycleId, cycleIndent)
       
       if onStopAssertionList:
          for assertion in onStopAssertionList:
@@ -918,7 +953,8 @@ class Test(object):
       _kaleidoscope.scanCycle()
       
       if self.nReportsInCycle == 0:
-         self.out.write("No keyboard reports processed\n", keyboardReportIndent)
+         if not onlyLogReports:
+            self.out.write("No keyboard reports processed\n", keyboardReportIndent)
       else:
          self.out.write("%d keyboard reports processed\n" % self.nReportsInCycle, keyboardReportIndent)
       
@@ -959,7 +995,7 @@ class Test(object):
             self._configureTemporaryAssertion(assertion)
             
       for i in range(0, n):
-         self._scanCycle(cycleAssertionList)
+         self._scanCycle(cycleAssertionList, onlyLogReports = True)
          
       if onStopAssertionList and len(onStopAssertionList) > 0:
          self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), cycleIndent)
@@ -986,16 +1022,16 @@ class Test(object):
       startCycle = self.cycleId
       
       self.out.write("Skipping dt >= %f ms\n" % deltaT)
-      
+            
       if onStopAssertionList:
          for assertion in onStopAssertionList:
-            assertion._setTest(self)
+            self._configureTemporaryAssertion(assertion)
             
       startTime = self.time
       
       elapsedTime = 0
       while elapsedTime < deltaT:
-         self._scanCycle()
+         self._scanCycle(onlyLogReports = True)
          elapsedTime = self.time - startTime
          
       self.out.write("%f ms (%d cycles) skipped\n" % (elapsedTime, self.cycleId - startCycle), cycleIndent)
@@ -1021,7 +1057,7 @@ class Test(object):
       
       for assertion in assertionList:
          
-         assertion._setTest(self)
+         #assertion._setTest(self)
          
          assertionPassed = assertion._eval(self)
          
@@ -1039,6 +1075,22 @@ class Test(object):
          msg (string): The log message.
       """
       self.out.write("~ %s ~\n" % msg)
+      
+   def rawLog(self, msg):
+      """ Writes a log message without time information.
+      
+      Args:
+         msg (string): The log message.
+      """
+      self.out.write("%s\n" % msg, outputTime = False)
+      
+   def description(self, msg):
+      """ Writes a description message without time information.
+      
+      Args:
+         msg (string): The description message.
+      """
+      self.out.write("%s" % msg, outputTime = False)
    
    def header(self, msg):
       """ Writes a header log message.
