@@ -55,7 +55,7 @@ jobs:
       deploy:
          provider: pages
          skip_cleanup: true
-         local_dir: $HOME/kbw_build/doc/kaleidoscope
+         local_dir: doc/kaleidoscope
          github_token: $GITHUB_API_KEY
          on:
             branch: master
