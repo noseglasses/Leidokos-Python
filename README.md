@@ -11,7 +11,9 @@
 
 # Kaleidoscope-Python
 Kaleidoscope-Python is a Python scriptable Kaleidoscope firmware simulator.
-It can be used to prototype new or to test existing functionality, e.g.
+
+## Introduction
+Kaleidoscope-Python can be used to prototype new or to test existing functionality, e.g.
 as part of a regression-testing framework.
 
 Python wrapper code is generated for the main firmware as well as
@@ -22,6 +24,11 @@ The project aims to support all portable features of the firmware to make it
 possible to develop new plugins in a rapid and painless way before finally porting them to C++.
 Sometimes implementations are the only way to test weird ideas and new algorithms.
 Kaleidoscope-Python helps by allowing to test such new features under reproducible lab conditions.
+
+## Capeleido
+Kaleidoscope-Python is an essential part of the Capeleido build, develop and testing infrastructure for the Kaleidoscope firmware.
+
+<img src="https://github.com/noseglasses/Capeleido/blob/master/Capeleido.svg?sanitize=true">
 
 # Example usage
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
