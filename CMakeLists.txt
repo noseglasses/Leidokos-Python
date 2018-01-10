@@ -193,6 +193,14 @@ file(GLOB_RECURSE add_src
 
 set(KALEIDOSCOPE_ADDITIONAL_SOURCES 
    "${KALEIDOSCOPE_ADDITIONAL_SOURCES};${add_src};${keymap_strings_file}" CACHE INTERNAL "")
+   
+# Even though we do no use Arduino for virtual builds, the variable 
+# ARDUINO_SDK_VERSION to be set. Else arduino-cmake will fail.
+#
+set(ARDUINO_SDK_VERSION "1.8.5")
+set(ARDUINO_SDK_VERSION_MAJOR 1)
+set(ARDUINO_SDK_VERSION_MINOR 8)
+set(ARDUINO_SDK_VERSION_PATCH 5)
 
 # Include the Kaleidoscope-CMake build system
 #

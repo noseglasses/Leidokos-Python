@@ -1,42 +1,36 @@
 dist: trusty
-sudo: false
+sudo: required
 os:
  - linux
   
-addons:
-  apt:
-    packages:
-      - libboost-python-dev 
-      - cmake
-      - python3-pip
-      - python3-yaml
-      
-install:
-  - sudo -H pip3 install sphinx
-      
-#stages:
-#  - compile
-#  - test
-#  - name: deploy
-#    if: branch = master
+before_install:
+   - cd $HOME
+   - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
+   - Kaleidoscope-Testing/travis/before_install.sh
 
 script: skip
     
 jobs:
   include:
+    #- stage: test
+      #script:
+         #- cd $HOME
+         #- mkdir kbw_test
+         #- cd kbw_test
+         #- git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
+         #- cmake 
+               #-DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git 
+               #-DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
+               #-DPYTHON_EXECUTABLE=/usr/bin/python3
+               #./Kaleidoscope-Testing
+         #- cmake --build .
+         #- ctest --output-on-failure
     - stage: test
       script:
          - cd $HOME
-         - mkdir kbw_test
-         - cd kbw_test
-         - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-         - cmake 
-               -DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git 
-               -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               -DPYTHON_EXECUTABLE=/usr/bin/python3
-               ./Kaleidoscope-Testing
-         - cmake --build .
-         - ctest --output-on-failure
+         - mkdir ktest
+         - cd ktest
+         - $HOME/Kaleidoscope-Testing/travis/test_kaleidoscope_module.sh
       
     - stage: build API documentation
       if: branch = master
@@ -55,7 +49,7 @@ jobs:
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
                -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
                -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+               ${TRAVIS_BUILD_DIR}
          - make 
          - make VERBOSE=1 doc
       deploy:
