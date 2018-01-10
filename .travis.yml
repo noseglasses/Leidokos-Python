@@ -49,7 +49,7 @@ jobs:
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
                -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
                -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               ${TRAVIS_BUILD_DIR}
+               $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
          - make 
          - make VERBOSE=1 doc
       deploy:
