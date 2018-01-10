@@ -4,5 +4,5 @@ virtual.build.usb_manufacturer="Kaleidoscope"
 virtual.build.board=VIRTUAL
 virtual.build.core=virtual
 virtual.build.variant=virtual
-virtual.build.extra_flags=-DKALEIDOSCOPE_HARDWARE_H="Kaleidoscope-Hardware-Virtual.h" ${KALEIDOSCOPE_PYTHON_BUILD_FLAGS} -fPIC -fpermissive
+virtual.build.extra_flags='-DKALEIDOSCOPE_HARDWARE_H="Kaleidoscope-Hardware-Virtual.h"' ${KALEIDOSCOPE_PYTHON_BUILD_FLAGS} -fPIC -fpermissive
 
