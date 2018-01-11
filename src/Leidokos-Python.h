@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KALEIDOSCOPE_PYTHON_H
-#define KALEIDOSCOPE_PYTHON_H
+#ifndef LEIDOKOS_PYTHON_H
+#define LEIDOKOS_PYTHON_H
 
 // Important: Keep the boost/python.hpp header the first included. Else
 //            there are strange boost symbol related compile errors.
@@ -44,12 +44,12 @@ typedef void (*PluginFinalizationCallback)();
 typedef std::vector<PluginFinalizationCallback> PluginFinalizationCallbacks;
 PluginFinalizationCallbacks &pluginFinalizationCallbacks();
 
-#define KALEIDOSCOPE_PYTHON_PACKAGE_NAME _kaleidoscope
+#define LEIDOKOS_PYTHON_PACKAGE_NAME _kaleidoscope
 
 #define __STRINGIZE(S) #S
 #define STRINGIZE(S) __STRINGIZE(S)
 
-#define KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MODULE_NAME) \
+#define LEIDOKOS_PYTHON_MODULE_CONTENT(MODULE_NAME) \
    \
    namespace py = boost::python; \
    std::string nested_name = py::extract<std::string>(py::scope().attr("__name__") + "." #MODULE_NAME); \
@@ -57,7 +57,7 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
    py::scope().attr(#MODULE_NAME) = nested_module; \
    py::scope parent = nested_module;
 
-#define KALEIDOSCOPE_PYTHON_REGISTER_MODULE( \
+#define LEIDOKOS_PYTHON_REGISTER_MODULE( \
                REGISTRATION_FUNCTION_PTR, \
                FINALIZATION_FUNCTION_PTR \
 ) \

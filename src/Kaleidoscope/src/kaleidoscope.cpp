@@ -163,7 +163,7 @@ static void finalizePythonStuff()
    }
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, &finalizePythonStuff)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, &finalizePythonStuff)
 
 } // namespace python
 } // namespace kaleidoscope

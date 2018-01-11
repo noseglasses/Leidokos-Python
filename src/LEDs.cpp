@@ -36,7 +36,7 @@ static cRGB getCrgbAt(byte row, byte col) {
    
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(LEDs)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(LEDs)
    
    boost::python::class_<cRGB>("cRGB",
       "A RGB color value."
@@ -67,7 +67,7 @@ static void initPythonStuff() {
    );
 }
    
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

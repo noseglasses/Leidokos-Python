@@ -221,7 +221,7 @@ it may be necessary to configure the system.
 | KALEIDOSCOPE_MODULE_REPO_PATHS  | The base below which Kaleidoscope module repos live that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_MODULE_REPO_PATHS_FILE | A text file that contains path names (linewise) of Kaleidoscope module repos that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
-| KALEIDOSCOPE_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
+| LEIDOKOS_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
 
 Other variables are defined by [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git)
 and documented there.
@@ -258,9 +258,9 @@ to generate the API documentation.
 Configure the build system as explained above but add the flag
 ```bash
 cmake ... \
-   -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
+   -DLEIDOKOS_PYTHON_GENERATE_API_DOC=TRUE
 ```
-*Note:* You can also enable the variable `KALEIDOSCOPE_PYTHON_GENERATE_API_DOC`
+*Note:* You can also enable the variable `LEIDOKOS_PYTHON_GENERATE_API_DOC`
 from the CMake curses GUI (ccmake) or other CMake GUIs.
 
 Then build the API documentation. When the GNU Makefile 
@@ -318,7 +318,7 @@ using namespace boost::Python;
 
 static void initPythonStuff() {
 
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MouseKeys)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(MouseKeys)
    
    class_<MouseKeys_>("MouseKeys")
 

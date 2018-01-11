@@ -280,12 +280,12 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks() {
 } // namespace python
 } // namespace kaleidoscope
 
-BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
+BOOST_PYTHON_MODULE(LEIDOKOS_PYTHON_PACKAGE_NAME)
 {
    // specify that this module is actually a package
    //
    boost::python::object package = boost::python::scope();
-   package.attr("__path__") = STRINGIZE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME);
+   package.attr("__path__") = STRINGIZE(LEIDOKOS_PYTHON_PACKAGE_NAME);
    
    auto &registrationCallbacks 
       = kaleidoscope::python::pluginRegistrationCallbacks();

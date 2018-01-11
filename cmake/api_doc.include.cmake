@@ -18,10 +18,10 @@
 
 # Generate API documentation with sphinx
 #
-set(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC FALSE CACHE BOOL 
+set(LEIDOKOS_PYTHON_GENERATE_API_DOC FALSE CACHE BOOL 
    "Enable creation of the python API documentation. This requires Sphinx to be installed")
    
-if(KALEIDOSCOPE_PYTHON_GENERATE_API_DOC)
+if(LEIDOKOS_PYTHON_GENERATE_API_DOC)
 
    find_program(SPHINX_EXECUTABLE NAMES sphinx-build
       HINTS

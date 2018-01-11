@@ -81,7 +81,7 @@ static void initPythonStuff() {
    FOR_ALL_SYSCTL(EXPORT_SYSCTL)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

@@ -26,7 +26,7 @@ namespace python {
    
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(hid)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(hid)
 
    #define EXPORT_FUNCTION(NAME, DOCSTRING) \
       boost::python::def(#NAME, &kaleidoscope::hid::NAME, DOCSTRING);
@@ -185,7 +185,7 @@ static void initPythonStuff() {
    ;
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

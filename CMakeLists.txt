@@ -96,11 +96,11 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    # Configures the boards.txt file used by the Arduino build process
    # and add an include directive that points to the boost header location.
    #
-   set(KALEIDOSCOPE_PYTHON_BUILD_FLAGS
+   set(LEIDOKOS_PYTHON_BUILD_FLAGS
       "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS} -DKALEIDOSCOPE_HARDWARE_VIRTUAL_NO_LOGGING=1")
       
    # The configure_file command reads a text file, scans it for occurences of
-   # CMake variables, as the KALEIDOSCOPE_PYTHON_BUILD_FLAGS
+   # CMake variables, as the LEIDOKOS_PYTHON_BUILD_FLAGS
    # variable above, replaces all occurences by the variables value
    # and safes a configured version of the file.
    #
@@ -151,7 +151,7 @@ extract_keymap(
 # firmware, we cannot build it using kaleidoscope-builder.
 # Thus, we rely on Leidokos-CMake to build.
 #
-set(KALEIDOSCOPE_CMAKE_SOURCE_DIR 
+set(LEIDOKOS_CMAKE_SOURCE_DIR 
    "${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake"
    CACHE INTERNAL "")
    

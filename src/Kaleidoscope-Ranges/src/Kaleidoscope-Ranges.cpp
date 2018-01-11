@@ -59,7 +59,7 @@ FOR_ALL_RANGES(DEFINE_RANGES)
 
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(ranges)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(ranges)
 
    #define EXPORT_RANGES(RANGE) \
       boost::python::def(#RANGE, &kaleidoscope::python::range_##RANGE, \
@@ -71,7 +71,7 @@ static void initPythonStuff() {
    FOR_ALL_RANGES(EXPORT_RANGES)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

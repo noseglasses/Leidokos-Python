@@ -12,19 +12,6 @@ script: skip
     
 jobs:
   include:
-    #- stage: test
-      #script:
-         #- cd $HOME
-         #- mkdir kbw_test
-         #- cd kbw_test
-         #- git clone --recursive https://github.com/noseglasses/Leidokos-Testing.git
-         #- cmake 
-               #-DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Leidokos-Python.git 
-               #-DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               #-DPYTHON_EXECUTABLE=/usr/bin/python3
-               #./Leidokos-Testing
-         #- cmake --build .
-         #- ctest --output-on-failure
     - stage: test
       script:
          - cd $HOME
@@ -47,7 +34,7 @@ jobs:
          - cmake --version
          - cmake
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
-               -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
+               -DLEIDOKOS_PYTHON_GENERATE_API_DOC=TRUE
                -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
                $HOME/hardware/keyboardio/avr/libraries/Leidokos-Python
          - make 

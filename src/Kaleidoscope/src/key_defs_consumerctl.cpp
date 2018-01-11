@@ -426,7 +426,7 @@ static void initPythonStuff() {
    FOR_ALL_CONSUMER_CTL(EXPORT_CONSUMER_CTL)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope
