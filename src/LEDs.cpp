@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 #include "KPV_Exception.hpp"
 #include "Kaleidoscope-Hardware-Virtual.h"
 
@@ -36,7 +36,7 @@ static cRGB getCrgbAt(byte row, byte col) {
    
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(LEDs)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(LEDs)
    
    boost::python::class_<cRGB>("cRGB",
       "A RGB color value."
@@ -67,7 +67,7 @@ static void initPythonStuff() {
    );
 }
    
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

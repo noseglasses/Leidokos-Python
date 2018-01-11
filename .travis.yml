@@ -5,32 +5,19 @@ os:
   
 before_install:
    - cd $HOME
-   - git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-   - Kaleidoscope-Testing/travis/before_install.sh
+   - git clone --recursive https://github.com/noseglasses/Leidokos-Testing.git
+   - Leidokos-Testing/travis/before_install.sh
 
 script: skip
     
 jobs:
   include:
-    #- stage: test
-      #script:
-         #- cd $HOME
-         #- mkdir kbw_test
-         #- cd kbw_test
-         #- git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
-         #- cmake 
-               #-DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git 
-               #-DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               #-DPYTHON_EXECUTABLE=/usr/bin/python3
-               #./Kaleidoscope-Testing
-         #- cmake --build .
-         #- ctest --output-on-failure
     - stage: test
       script:
          - cd $HOME
          - mkdir ktest
          - cd ktest
-         - $HOME/Kaleidoscope-Testing/travis/test_kaleidoscope_module.sh
+         - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
       
     - stage: build API documentation
       if: branch = master
@@ -47,9 +34,9 @@ jobs:
          - cmake --version
          - cmake
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
-               -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
+               -DLEIDOKOS_PYTHON_GENERATE_API_DOC=TRUE
                -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+               $HOME/hardware/keyboardio/avr/libraries/Leidokos-Python
          - make 
          - make VERBOSE=1 doc
       deploy:

@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 #include "KeyboardReport.h"
 #include "Kaleidoscope.h"
 #include "Kaleidoscope-Hardware-Virtual.h"
@@ -280,12 +280,12 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks() {
 } // namespace python
 } // namespace kaleidoscope
 
-BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
+BOOST_PYTHON_MODULE(LEIDOKOS_PYTHON_PACKAGE_NAME)
 {
    // specify that this module is actually a package
    //
    boost::python::object package = boost::python::scope();
-   package.attr("__path__") = STRINGIZE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME);
+   package.attr("__path__") = STRINGIZE(LEIDOKOS_PYTHON_PACKAGE_NAME);
    
    auto &registrationCallbacks 
       = kaleidoscope::python::pluginRegistrationCallbacks();
@@ -371,7 +371,7 @@ BOOST_PYTHON_MODULE(KALEIDOSCOPE_PYTHON_PACKAGE_NAME)
    )
    
    boost::python::def("getVersionString", &kaleidoscope::python::getVersionString,
-      "Returns the current version of Kaleidoscope-Python.\n\n"
+      "Returns the current version of Leidokos-Python.\n\n"
       "Returns:\n"
       "   string: The version string."
    )

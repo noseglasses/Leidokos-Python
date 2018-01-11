@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 
 #include "Kaleidoscope-Ranges.h"
 
@@ -59,7 +59,7 @@ FOR_ALL_RANGES(DEFINE_RANGES)
 
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(ranges)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(ranges)
 
    #define EXPORT_RANGES(RANGE) \
       boost::python::def(#RANGE, &kaleidoscope::python::range_##RANGE, \
@@ -71,7 +71,7 @@ static void initPythonStuff() {
    FOR_ALL_RANGES(EXPORT_RANGES)
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

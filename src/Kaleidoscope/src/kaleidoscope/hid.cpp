@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 
 #include "kaleidoscope/hid.h"
 
@@ -26,7 +26,7 @@ namespace python {
    
 static void initPythonStuff() {
    
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(hid)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(hid)
 
    #define EXPORT_FUNCTION(NAME, DOCSTRING) \
       boost::python::def(#NAME, &kaleidoscope::hid::NAME, DOCSTRING);
@@ -185,7 +185,7 @@ static void initPythonStuff() {
    ;
 }
       
-KALEIDOSCOPE_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
 } // namespace kaleidoscope

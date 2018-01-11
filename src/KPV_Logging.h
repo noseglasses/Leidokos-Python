@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *

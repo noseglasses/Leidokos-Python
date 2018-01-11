@@ -1,5 +1,5 @@
 #  -*- mode: cmake -*-
-# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+# Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 # 
@@ -65,7 +65,7 @@ if((NOT "${result}" STREQUAL "0") OR (NOT "${error_out}" STREQUAL ""))
 endif()
 
 message("################################################################################")
-message("Configuring Kaleidoscope-Python ${kaleidoscope_PYTHON_git_version}")
+message("Configuring Leidokos-Python ${kaleidoscope_PYTHON_git_version}")
 message("################################################################################")
 
 # Generate a c++ source code file that allows to query version

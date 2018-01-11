@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # -*- mode: c++ -*-
-# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+# Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 #
@@ -20,7 +20,7 @@
 
 # This is a python based implementation of the Kaleidoscope-Dual-Use plugin
 #
-# It demonstrates how plugins can be prototyped with Kaleidoscope-Python
+# It demonstrates how plugins can be prototyped with Leidokos-Python
 # before finally implementing them as C++ code.
 
 import kaleidoscope

@@ -1,19 +1,19 @@
 ![status][st:experimental] [![Build Status][travis:image]][travis:status]
 
-[travis:image]: https://travis-ci.org/noseglasses/Kaleidoscope-Python.svg?branch=master
-[travis:status]: https://travis-ci.org/noseglasses/Kaleidoscope-Python
+[travis:image]: https://travis-ci.org/noseglasses/Leidokos-Python.svg?branch=master
+[travis:status]: https://travis-ci.org/noseglasses/Leidokos-Python
 
 [st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=flat&colorA=44cc11&colorB=494e52
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
 [st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
 
-[Python API documentation](https://noseglasses.github.io/Kaleidoscope-Python/API/index.html)
+[Python API documentation](https://noseglasses.github.io/Leidokos-Python/API/index.html)
 
-# Kaleidoscope-Python
-Kaleidoscope-Python is a Python scriptable Kaleidoscope firmware simulator.
+# Leidokos-Python
+Leidokos-Python is a Python scriptable Kaleidoscope firmware simulator.
 
 ## Introduction
-Kaleidoscope-Python can be used to prototype new or to test existing functionality, e.g.
+Leidokos-Python can be used to prototype new or to test existing functionality, e.g.
 as part of a regression-testing framework.
 
 Python wrapper code is generated for the main firmware as well as
@@ -23,12 +23,12 @@ can be loaded as a Python module.
 The project aims to support all portable features of the firmware to make it 
 possible to develop new plugins in a rapid and painless way before finally porting them to C++.
 Sometimes implementations are the only way to test weird ideas and new algorithms.
-Kaleidoscope-Python helps by allowing to test such new features under reproducible lab conditions.
+Leidokos-Python helps by allowing to test such new features under reproducible lab conditions.
 
-## Capeleido
-Kaleidoscope-Python is an essential part of the Capeleido build, develop and testing infrastructure for the Kaleidoscope firmware.
+## CapeLeidokos
+Leidokos-Python is an essential part of the CapeLeidokos build, develop and testing infrastructure for the Kaleidoscope firmware.
 
-<img src="https://github.com/noseglasses/Capeleido/blob/master/Capeleido.svg?sanitize=true">
+<img src="https://github.com/noseglasses/CapeLeidokos/blob/master/CapeLeidokos.svg?sanitize=true">
 
 # Example usage
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
@@ -72,7 +72,7 @@ The test deliberately fails. It's console output (stdout) is the following.
 ```
 ################################################################################
 
-Kaleidoscope-Python
+Leidokos-Python
 
 author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)
 version: e53109d519c6041e595a441d98957a71a7661129
@@ -155,17 +155,17 @@ BUILD_DIR=<build_dir>
 
 cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
 
-git clone --recursive https://github.com/noseglasses/Kaleidoscope-Python.git
+git clone --recursive https://github.com/noseglasses/Leidokos-Python.git
 
 cd ${BUILD_DIR}
       
 cmake \
    -DKALEIDOSCOPE_FIRMWARE_SKETCH=$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino \
-   $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+   $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Leidokos-Python
 ```
 
 2. Build the Python model by running the build processed as described 
-for [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git), e.g.
+for [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git), e.g.
 
 ```bash
 make
@@ -177,8 +177,8 @@ the build directory that is actually a Python module.
 3. Run an example firmware test
 
 ```bash
-export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python/python:$PYTHONPATH
-python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Kaleidoscope-Python/test_kaleidoscope.py
+export PYTHONPATH=$BUILD_DIR:$SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Leidokos-Python/python:$PYTHONPATH
+python $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries/Leidokos-Python/test_kaleidoscope.py
 ```
 
 # Prerequisites
@@ -197,7 +197,7 @@ sudo apt-get install cmake-curses-gui
 ```
 This is how to execute the CMake GUI.
 ```bash
-cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+cd <sketchbook_dir>/hardware/keyboardio/avr/libraries/Leidokos-Python
 ccmake .
 ```
 For the generation of the Python API generation, you will have to install 
@@ -213,7 +213,7 @@ variables, run `ccmake .` as described above. Then look for build variables
 whose name starts with `KALEIDOSCOPE_`. A documentation of a variable
 is shown when the cursor is moved to the variable's line.
 
-Although, Kaleidoscope-Python is meant to be as auto-detecting and smart as possible,
+Although, Leidokos-Python is meant to be as auto-detecting and smart as possible,
 it may be necessary to configure the system.
 
 | CMake Variable                  | Purpose                                                           |
@@ -221,17 +221,17 @@ it may be necessary to configure the system.
 | KALEIDOSCOPE_MODULE_REPO_PATHS  | The base below which Kaleidoscope module repos live that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_MODULE_REPO_PATHS_FILE | A text file that contains path names (linewise) of Kaleidoscope module repos that might contain `.python-wrapper` files |
 | KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
-| KALEIDOSCOPE_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
+| LEIDOKOS_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
 
-Other variables are defined by [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git)
+Other variables are defined by [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git)
 and documented there.
 
 # Python module usage
-Kaleidoscope-Python provides a Python API that makes the generation
+Leidokos-Python provides a Python API that makes the generation
 of Kaleidoscope firmare tests pretty simple.
 
 The API lives in a python module `kaleidoscope_testing` that can be found 
-in the `python` directory of the Kaleidoscope-Python repository.
+in the `python` directory of the Leidokos-Python repository.
 
 Examples that exemplify the use of the testing API can be found in the `examples`
 directory.
@@ -241,15 +241,15 @@ module. Both files' paths must be made known to Python via the environment
 variable `PYTHONPATH`, e.g. as
 
 ```bash
-export PYTHONPATH=<path to kaleidoscope.so>:<Kaleidoscope-Python repo path>/python:$PYTHONPATH
+export PYTHONPATH=<path to kaleidoscope.so>:<Leidokos-Python repo path>/python:$PYTHONPATH
 ```
 You can then run one of the examples or your own python test script, e.g.
 ```bash
-<Kaleidoscope-Python repo path>/examples/test_kaleidoscope.py
+<Leidokos-Python repo path>/examples/test_kaleidoscope.py
 ```
 
 # Python API documentation
-HTML based documentation of the Python API supplied by Kaleidoscope-Python 
+HTML based documentation of the Python API supplied by Leidokos-Python 
 can be auto-generated through the CMake `doc` target. Please see the 
 Prerequisites section of this documentation for information about 
 additional third party software that needs to be installed on you platform
@@ -258,9 +258,9 @@ to generate the API documentation.
 Configure the build system as explained above but add the flag
 ```bash
 cmake ... \
-   -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
+   -DLEIDOKOS_PYTHON_GENERATE_API_DOC=TRUE
 ```
-*Note:* You can also enable the variable `KALEIDOSCOPE_PYTHON_GENERATE_API_DOC`
+*Note:* You can also enable the variable `LEIDOKOS_PYTHON_GENERATE_API_DOC`
 from the CMake curses GUI (ccmake) or other CMake GUIs.
 
 Then build the API documentation. When the GNU Makefile 
@@ -297,7 +297,7 @@ for more information.
 ```cpp
 // Content of Kaleidoscope-MouseKeys/src/Kaleidoscope.python-wrapper
 
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 
 using namespace boost::Python;
    
@@ -318,7 +318,7 @@ using namespace boost::Python;
 
 static void initPythonStuff() {
 
-   KALEIDOSCOPE_PYTHON_MODULE_CONTENT(MouseKeys)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(MouseKeys)
    
    class_<MouseKeys_>("MouseKeys")
 

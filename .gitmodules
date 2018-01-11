@@ -1,6 +1,6 @@
-[submodule "3rd_party/Kaleidoscope-CMake"]
-	path = 3rd_party/Kaleidoscope-CMake
-	url = https://github.com/noseglasses/Kaleidoscope-CMake.git
+[submodule "3rd_party/Leidokos-CMake"]
+	path = 3rd_party/Leidokos-CMake
+	url = https://github.com/noseglasses/Leidokos-CMake.git
 [submodule "3rd_party/Kaleidoscope-Hardware-Virtual"]
 	path = 3rd_party/Kaleidoscope-Hardware-Virtual
 	url = https://github.com/noseglasses/Kaleidoscope-Hardware-Virtual.git

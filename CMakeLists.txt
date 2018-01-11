@@ -1,5 +1,5 @@
 #  -*- mode: cmake -*-
-# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+# Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 # 
@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 2.8)
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
 
 # kaleidoscope_cmake_after_configure_platform_hook is called
-# by Kaleidoscope-CMake after the target platform (paths) has been configured.
+# by Leidokos-CMake after the target platform (paths) has been configured.
 #
 macro(kaleidoscope_cmake_after_configure_platform_hook)
 
@@ -41,7 +41,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    find_package(PythonLibs 3 REQUIRED)
 
    if(NOT PYTHONLIBS_FOUND)
-      message(SEND_ERROR "Kaleidoscope-Python requires python \
+      message(SEND_ERROR "Leidokos-Python requires python \
    libraries and headers to compile python wrappers. If you have installed python \
    in a non standard location, please configure the CMake build \
    system accordingly. See the documentation about the FindPythonLibs module \
@@ -84,7 +84,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
 
    if("${Boost_PYTHON_3_LIBRARY}" STREQUAL "Boost_PYTHON_3_LIBRARY-NOTFOUND")
       message("Boost_PYTHON_3_LIBRARY=${Boost_PYTHON_3_LIBRARY}")
-      message(SEND_ERROR "Kaleidoscope-Python requires boost-python \
+      message(SEND_ERROR "Leidokos-Python requires boost-python \
    library (Python 3) and headers to compile python wrappers. If you have installed boost \
    in a non standard location, please configure the CMake build \
    system accordingly.")
@@ -96,11 +96,11 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    # Configures the boards.txt file used by the Arduino build process
    # and add an include directive that points to the boost header location.
    #
-   set(KALEIDOSCOPE_PYTHON_BUILD_FLAGS
+   set(LEIDOKOS_PYTHON_BUILD_FLAGS
       "-I${Boost_INCLUDE_DIR} -I${PYTHON_INCLUDE_DIRS} -DKALEIDOSCOPE_HARDWARE_VIRTUAL_NO_LOGGING=1")
       
    # The configure_file command reads a text file, scans it for occurences of
-   # CMake variables, as the KALEIDOSCOPE_PYTHON_BUILD_FLAGS
+   # CMake variables, as the LEIDOKOS_PYTHON_BUILD_FLAGS
    # variable above, replaces all occurences by the variables value
    # and safes a configured version of the file.
    #
@@ -149,10 +149,10 @@ extract_keymap(
 
 # As we have to link some external libraries to the virtual
 # firmware, we cannot build it using kaleidoscope-builder.
-# Thus, we rely on Kaleidoscope-CMake to build.
+# Thus, we rely on Leidokos-CMake to build.
 #
-set(KALEIDOSCOPE_CMAKE_SOURCE_DIR 
-   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake"
+set(LEIDOKOS_CMAKE_SOURCE_DIR 
+   "${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake"
    CACHE INTERNAL "")
    
 set(KALEIDOSCOPE_ARCHITECTURE_ID "x86" CACHE STRING 
@@ -186,7 +186,7 @@ endmacro()
 # module to be included in the firmware build.
 #
 set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
-   "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python.h" CACHE INTERNAL "")
+   "${CMAKE_SOURCE_DIR}/src/Leidokos-Python.h" CACHE INTERNAL "")
    
 file(GLOB_RECURSE add_src 
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src/*.cpp")
@@ -202,14 +202,14 @@ set(ARDUINO_SDK_VERSION_MAJOR 1)
 set(ARDUINO_SDK_VERSION_MINOR 8)
 set(ARDUINO_SDK_VERSION_PATCH 5)
 
-# Include the Kaleidoscope-CMake build system
+# Include the Leidokos-CMake build system
 #
-include("${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake/CMakeLists.txt")
+include("${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake/CMakeLists.txt")
 
 # By convention, CMake requires a project(...) directive in the
 # toplevel CMakeLists.txt file to be present. Any following
 # project directives seem to be ignored. The following is only a dummy.
-# The actual project definition is done by the included Kaleidoscope-CMake
+# The actual project definition is done by the included Leidokos-CMake
 # build system.
 #
 project(Kaleidoscope)
