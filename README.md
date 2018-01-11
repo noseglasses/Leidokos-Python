@@ -165,7 +165,7 @@ cmake \
 ```
 
 2. Build the Python model by running the build processed as described 
-for [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git), e.g.
+for [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git), e.g.
 
 ```bash
 make
@@ -223,7 +223,7 @@ it may be necessary to configure the system.
 | KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
 | KALEIDOSCOPE_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
 
-Other variables are defined by [Kaleidoscope-CMake](https://github.com/noseglasses/Kaleidoscope-CMake.git)
+Other variables are defined by [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git)
 and documented there.
 
 # Python module usage

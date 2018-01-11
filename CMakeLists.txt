@@ -25,7 +25,7 @@ cmake_minimum_required(VERSION 2.8)
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
 
 # kaleidoscope_cmake_after_configure_platform_hook is called
-# by Kaleidoscope-CMake after the target platform (paths) has been configured.
+# by Leidokos-CMake after the target platform (paths) has been configured.
 #
 macro(kaleidoscope_cmake_after_configure_platform_hook)
 
@@ -149,10 +149,10 @@ extract_keymap(
 
 # As we have to link some external libraries to the virtual
 # firmware, we cannot build it using kaleidoscope-builder.
-# Thus, we rely on Kaleidoscope-CMake to build.
+# Thus, we rely on Leidokos-CMake to build.
 #
 set(KALEIDOSCOPE_CMAKE_SOURCE_DIR 
-   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake"
+   "${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake"
    CACHE INTERNAL "")
    
 set(KALEIDOSCOPE_ARCHITECTURE_ID "x86" CACHE STRING 
@@ -202,14 +202,14 @@ set(ARDUINO_SDK_VERSION_MAJOR 1)
 set(ARDUINO_SDK_VERSION_MINOR 8)
 set(ARDUINO_SDK_VERSION_PATCH 5)
 
-# Include the Kaleidoscope-CMake build system
+# Include the Leidokos-CMake build system
 #
-include("${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-CMake/CMakeLists.txt")
+include("${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake/CMakeLists.txt")
 
 # By convention, CMake requires a project(...) directive in the
 # toplevel CMakeLists.txt file to be present. Any following
 # project directives seem to be ignored. The following is only a dummy.
-# The actual project definition is done by the included Kaleidoscope-CMake
+# The actual project definition is done by the included Leidokos-CMake
 # build system.
 #
 project(Kaleidoscope)
