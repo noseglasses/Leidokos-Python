@@ -1,5 +1,5 @@
 #  -*- mode: cmake -*-
-# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+# Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 # 
@@ -41,7 +41,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    find_package(PythonLibs 3 REQUIRED)
 
    if(NOT PYTHONLIBS_FOUND)
-      message(SEND_ERROR "Kaleidoscope-Python requires python \
+      message(SEND_ERROR "Leidokos-Python requires python \
    libraries and headers to compile python wrappers. If you have installed python \
    in a non standard location, please configure the CMake build \
    system accordingly. See the documentation about the FindPythonLibs module \
@@ -84,7 +84,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
 
    if("${Boost_PYTHON_3_LIBRARY}" STREQUAL "Boost_PYTHON_3_LIBRARY-NOTFOUND")
       message("Boost_PYTHON_3_LIBRARY=${Boost_PYTHON_3_LIBRARY}")
-      message(SEND_ERROR "Kaleidoscope-Python requires boost-python \
+      message(SEND_ERROR "Leidokos-Python requires boost-python \
    library (Python 3) and headers to compile python wrappers. If you have installed boost \
    in a non standard location, please configure the CMake build \
    system accordingly.")
@@ -186,7 +186,7 @@ endmacro()
 # module to be included in the firmware build.
 #
 set(KALEIDOSCOPE_ADDITIONAL_HEADERS 
-   "${CMAKE_SOURCE_DIR}/src/Kaleidoscope-Python.h" CACHE INTERNAL "")
+   "${CMAKE_SOURCE_DIR}/src/Leidokos-Python.h" CACHE INTERNAL "")
    
 file(GLOB_RECURSE add_src 
    "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/src/*.cpp")

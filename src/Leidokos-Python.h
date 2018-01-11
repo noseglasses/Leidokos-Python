@@ -1,5 +1,5 @@
 /* -*- mode: c++ -*-
- * Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+ * Leidokos-Python -- Wraps Kaleidoscope modules' c++
  *    code to be available in Python programs.
  * Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
  *
@@ -26,7 +26,7 @@
 #include <boost/python.hpp>
 
 #include "Kaleidoscope-Hardware-Virtual.h"
-#include "Kaleidoscope-Python.h"
+#include "Leidokos-Python.h"
 #include "VirtualHID/Keyboard.h"
 
 #include "key_defs.h"

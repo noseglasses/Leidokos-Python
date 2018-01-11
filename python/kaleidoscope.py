@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -*- mode: c++ -*-
-# Kaleidoscope-Python -- Wraps Kaleidoscope modules' c++
+# Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>
 #
@@ -671,7 +671,7 @@ class Test(object):
       self.out.writeN("\n")
       self.out.writeN("################################################################################\n")
       self.out.writeN("\n")
-      self.out.writeN("Kaleidoscope-Python\n")
+      self.out.writeN("Leidokos-Python\n")
       self.out.writeN("\n")
       self.out.writeN("author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)\n")
       self.out.writeN("version: %s\n" % _kaleidoscope.getVersionString())

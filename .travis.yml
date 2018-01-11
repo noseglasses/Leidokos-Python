@@ -19,7 +19,7 @@ jobs:
          #- cd kbw_test
          #- git clone --recursive https://github.com/noseglasses/Kaleidoscope-Testing.git
          #- cmake 
-               #-DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Kaleidoscope-Python.git 
+               #-DKALEIDOSCOPE_TESTING_TARGET_URL=https://github.com/noseglasses/Leidokos-Python.git 
                #-DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
                #-DPYTHON_EXECUTABLE=/usr/bin/python3
                #./Kaleidoscope-Testing
@@ -49,7 +49,7 @@ jobs:
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
                -DKALEIDOSCOPE_PYTHON_GENERATE_API_DOC=TRUE
                -DBoost_PYTHON_LIBRARY_RELEASE=/usr/lib/x86_64-linux-gnu/libboost_python-py34.so
-               $HOME/hardware/keyboardio/avr/libraries/Kaleidoscope-Python
+               $HOME/hardware/keyboardio/avr/libraries/Leidokos-Python
          - make 
          - make VERBOSE=1 doc
       deploy:
