@@ -1,7 +1,7 @@
 ![status][st:experimental] [![Build Status][travis:image]][travis:status]
 
-[travis:image]: https://travis-ci.org/noseglasses/Leidokos-Python.svg?branch=master
-[travis:status]: https://travis-ci.org/noseglasses/Leidokos-Python
+[travis:image]: https://travis-ci.org/CapeLeidokos/Leidokos-Python.svg?branch=master
+[travis:status]: https://travis-ci.org/CapeLeidokos/Leidokos-Python
 
 [st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=flat&colorA=44cc11&colorB=494e52
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
@@ -28,7 +28,7 @@ Leidokos-Python helps by allowing to test such new features under reproducible l
 ## CapeLeidokos
 Leidokos-Python is an essential part of the CapeLeidokos build, develop and testing infrastructure for the Kaleidoscope firmware.
 
-<img src="https://github.com/noseglasses/CapeLeidokos/blob/master/CapeLeidokos.svg?sanitize=true">
+<img src="https://github.com/CapeLeidokos/CapeLeidokos/blob/master/CapeLeidokos.svg?sanitize=true">
 
 # Example usage
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
@@ -155,7 +155,7 @@ BUILD_DIR=<build_dir>
 
 cd $SKETCHBOOK_DIR/hardware/keyboardio/avr/libraries
 
-git clone --recursive https://github.com/noseglasses/Leidokos-Python.git
+git clone --recursive https://github.com/CapeLeidokos/Leidokos-Python.git
 
 cd ${BUILD_DIR}
       
@@ -165,7 +165,7 @@ cmake \
 ```
 
 2. Build the Python model by running the build processed as described 
-for [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git), e.g.
+for [Leidokos-CMake](https://github.com/CapeLeidokos/Leidokos-CMake.git), e.g.
 
 ```bash
 make
@@ -223,7 +223,7 @@ it may be necessary to configure the system.
 | KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR | A path to an Arduino sketchbook. |
 | LEIDOKOS_PYTHON_GENERATE_API_DOC | Enable this flag to generate the Python API documentation |
 
-Other variables are defined by [Leidokos-CMake](https://github.com/noseglasses/Leidokos-CMake.git)
+Other variables are defined by [Leidokos-CMake](https://github.com/CapeLeidokos/Leidokos-CMake.git)
 and documented there.
 
 # Python module usage
