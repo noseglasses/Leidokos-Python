@@ -19,6 +19,8 @@
 #
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
+import weakref
+
 class _Assertion(object):
    """ The base class of all assertions """
    
