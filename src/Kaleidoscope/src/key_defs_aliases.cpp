@@ -21,7 +21,7 @@
 
 #include "key_defs_aliases.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_KEY_ALIASES(FUNC) \
@@ -60,7 +60,7 @@ FOR_ALL_KEY_ALIASES(DEFINE_KEY_FUNCTIONS)
 static void initPythonStuff() {
    
    #define EXPORT_KEY_FUNCTIONS(KEY) \
-      boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
+      boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
          "Returns the key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The key \"" #KEY "\"." \
@@ -72,4 +72,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

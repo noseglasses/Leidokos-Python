@@ -33,7 +33,7 @@
 
 #include <string>
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 typedef void (*PluginRegistrationCallback)();
@@ -74,6 +74,6 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
    __attribute__((unused)) static bool __moduleRegistered = __registerModule();
    
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos
 
 #endif

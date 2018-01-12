@@ -21,7 +21,7 @@
 
 #include "key_defs_keyboard.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_KEYBOARD(FUNC) \
@@ -268,7 +268,7 @@ static const char *keyToName(const Key &key) {
 static void initPythonStuff() {
    
    #define EXPORT_KEYBOARD(KEY) \
-      boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
+      boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
          "Returns the key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The key \"" #KEY "\"." \
@@ -294,4 +294,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

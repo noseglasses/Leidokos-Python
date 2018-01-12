@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_N(OP) \
@@ -121,27 +121,27 @@ static void initPythonStuff() {
       .def(#NAME, &NAME, DOCSTRING).staticmethod(#NAME)
    boost::python::class_<Kaleidoscope_>("Kaleidoscope_",
          "The main class of the firmware")
-   .def("replaceEventHandlerHook", &kaleidoscope::python::replaceEventHandlerHook, 
+   .def("replaceEventHandlerHook", &leidokos::python::replaceEventHandlerHook, 
       "Replaces an event handler hook.\n\n"
       "Args:\n"
       "   oldHook (python object): The old event handler hook.\n"
       "   newHook (python object): The new event handler hook.\n"
    ).staticmethod("replaceEventHandlerHook")
    
-   .def("useEventHandlerHook", &kaleidoscope::python::useEventHandlerHook, 
+   .def("useEventHandlerHook", &leidokos::python::useEventHandlerHook, 
       "Adds an event handler hook.\n\n"
       "Args:\n"
       "   hook (python object): The event handler hook."
    ).staticmethod("useEventHandlerHook")
       
-   .def("replaceLoopHook", &kaleidoscope::python::replaceLoopHook, 
+   .def("replaceLoopHook", &leidokos::python::replaceLoopHook, 
       "Replaces a loop hook.\n\n"
       "Args:\n"
       "   oldHook (python object): The old loop hook.\n"
       "   newHook (python object): The new event handler hook.\n"
    ).staticmethod("replaceLoopHook")
    
-   .def("useLoopHook", &kaleidoscope::python::useLoopHook, 
+   .def("useLoopHook", &leidokos::python::useLoopHook, 
       "Adds a loop hook.\n\n"
       "Args:\n"
       "   hook (python object): The loop hook."
@@ -166,4 +166,4 @@ static void finalizePythonStuff()
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, &finalizePythonStuff)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

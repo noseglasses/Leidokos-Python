@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# -*- mode: c++ -*-
+# -*- mode: Python -*-
 # Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
 # Copyright (C) 2017 noseglasses <shinynoseglasses@gmail.com>

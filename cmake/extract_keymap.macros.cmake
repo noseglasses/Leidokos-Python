@@ -64,7 +64,7 @@ function(extract_keymap
 #define ___KEYMAP_STACKED(...) KEYMAP_STACKED(__VA_ARGS__)
 #define __KEYMAP_STACKED(...) ___KEYMAP_STACKED(MAP_LIST(QUOTE, __VA_ARGS__))
 
-namespace kaleidoscope {
+namespace leidokos {
 
 static const char *keymap_strings__[][ROWS][COLS] = ${keymap_def};
 
@@ -72,7 +72,7 @@ const char *key_description(uint8_t layer, uint8_t row, uint8_t col) {
    return keymap_strings__[layer][row][col];
 }
 
-}; // namespace kaleidoscope
+}; // namespace leidokos
 "
 )
 endfunction()

@@ -21,7 +21,7 @@
 
 #include "keyswitch_state.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_FLAGS(FUNC) \
@@ -65,14 +65,14 @@ static uint8_t __setKeyIsInjected(uint8_t keyState) {
 static void initPythonStuff() {
    
    #define REGISTER_FLAGS(FLAG) \
-      boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
+      boost::python::def(#FLAG, &leidokos::python::flag_##FLAG, \
          "Returns flag \"" #FLAG "\".\n\n" \
          "Returns:\n" \
          "   uint8_t: The flag \"" #FLAG "\".");
       
    FOR_ALL_FLAGS(REGISTER_FLAGS)
 
-   boost::python::def("keyIsPressed", &kaleidoscope::python::__keyIsPressed,
+   boost::python::def("keyIsPressed", &leidokos::python::__keyIsPressed,
       "Tests whether a key is pressed.\n"
       "This is true if the key is pressed during this scan cycle.\n"
       "This will be true for several consecutive cycles even for a single tap of\n"
@@ -86,7 +86,7 @@ static void initPythonStuff() {
       "   bool: Whether the key is pressed.\n"
    );
    
-   boost::python::def("setKeyIsPressed", &kaleidoscope::python::__setKeyIsPressed,
+   boost::python::def("setKeyIsPressed", &leidokos::python::__setKeyIsPressed,
       "Sets is-pressed flag for a key.\n\n"
       "Args:\n"
       "   keyState (uint8_t): The key state to modifiy.\n\n"
@@ -94,7 +94,7 @@ static void initPythonStuff() {
       "   uint8_t: The key with is-pressed flag set.\n"
    );
 
-   boost::python::def("keyWasPressed", &kaleidoscope::python::__keyWasPressed,
+   boost::python::def("keyWasPressed", &leidokos::python::__keyWasPressed,
       "Tests whether a key was pressed.\n"
       "This is true if the key was pressed during the previous\n"
       "scan cycle, regardless of whether it is pressed or not in this scan cycle.\n\n"
@@ -104,7 +104,7 @@ static void initPythonStuff() {
       "   bool: Whether the key was pressed.\n"
    );
    
-   boost::python::def("setKeyWasPressed", &kaleidoscope::python::__setKeyWasPressed,
+   boost::python::def("setKeyWasPressed", &leidokos::python::__setKeyWasPressed,
       "Sets was-pressed flag for a key.\n\n"
       "Args:\n"
       "   keyState (uint8_t): The key state to modifiy.\n\n"
@@ -112,7 +112,7 @@ static void initPythonStuff() {
       "   uint8_t: The key with was-pressed flag set.\n"
    );
 
-   boost::python::def("keyToggledOn", &kaleidoscope::python::__keyToggledOn,
+   boost::python::def("keyToggledOn", &leidokos::python::__keyToggledOn,
       "Tests whether a is toggled on.\n"
       "This is true if the key is newly pressed during this scan\n"
       "cycle, i.e. was not pressed in the previous scan cycle but is now.\n"
@@ -124,7 +124,7 @@ static void initPythonStuff() {
       "   bool: Whether the key is toggled on.\n"
    );
 
-   boost::python::def("keyToggledOff", &kaleidoscope::python::__keyToggledOff,
+   boost::python::def("keyToggledOff", &leidokos::python::__keyToggledOff,
       "Tests whether a key is toggled off.\n"
       "This is true if the key is newly not-pressed during this\n"
       "scan cycle, i.e. is not pressed now but was in the previous scan cycle.\n"
@@ -136,7 +136,7 @@ static void initPythonStuff() {
       "   bool: Whether the key is toggled off.\n"
    );
    
-   boost::python::def("setKeyIsInjected", &kaleidoscope::python::__setKeyIsInjected,
+   boost::python::def("setKeyIsInjected", &leidokos::python::__setKeyIsInjected,
       "Sets is-injected flag for a key.\n\n"
       "Args:\n"
       "   keyState (uint8_t): The key state to modifiy.\n\n"
@@ -148,4 +148,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

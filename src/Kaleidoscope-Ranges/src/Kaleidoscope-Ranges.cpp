@@ -21,7 +21,7 @@
 
 #include "Kaleidoscope-Ranges.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_RANGES(FUNC) \
@@ -62,7 +62,7 @@ static void initPythonStuff() {
    LEIDOKOS_PYTHON_MODULE_CONTENT(ranges)
 
    #define EXPORT_RANGES(RANGE) \
-      boost::python::def(#RANGE, &kaleidoscope::python::range_##RANGE, \
+      boost::python::def(#RANGE, &leidokos::python::range_##RANGE, \
          "Returns the range \"" #RANGE "\".\n\n" \
          "Returns:\n" \
          "   uint16_t: The range \"" #RANGE "\"." \
@@ -74,4 +74,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

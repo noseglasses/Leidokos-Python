@@ -63,7 +63,7 @@ FUNC(RIGHT_GUI)
    FUNC(HID_TYPE_RTC) \
    FUNC(HID_TYPE_SEL)
    
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
       
 #define DEFINE_MODIFIER_FUNCTIONS(MOD) \
@@ -212,7 +212,7 @@ static void initPythonStuff() {
      ;
          
    #define REGISTER_MODIFIER_FUNCTIONS(MOD) \
-      boost::python::def("add" #MOD, &kaleidoscope::python::m_##MOD, \
+      boost::python::def("add" #MOD, &leidokos::python::m_##MOD, \
          "Adds modifier \"" #MOD "\" to a key.\n\n" \
          "Returns:\n" \
          "   Key: The key with modifier \"" #MOD "\" enabled.");
@@ -220,7 +220,7 @@ static void initPythonStuff() {
    FOR_ALL_MODIFIERS(REGISTER_MODIFIER_FUNCTIONS)
       
    #define REGISTER_HELD_MODIFIER_FUNCTIONS(MOD) \
-      boost::python::def(#MOD, &kaleidoscope::python::hm_##MOD, \
+      boost::python::def(#MOD, &leidokos::python::hm_##MOD, \
          "Returns the modifier identifier \"" #MOD "\".\n\n" \
          "Returns:\n" \
          "   int: The key modifier identifier \"" #MOD "\"." \
@@ -229,7 +229,7 @@ static void initPythonStuff() {
    FOR_ALL_HELD_MODIFIERS(REGISTER_HELD_MODIFIER_FUNCTIONS)
       
    #define REGISTER_KEY_TYPE_FLAGS(FLAG) \
-      boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
+      boost::python::def(#FLAG, &leidokos::python::flag_##FLAG, \
          "Returns the flag \"" #FLAG "\".\n\n" \
          "Returns:\n" \
          "   int: The flag identifier \"" #FLAG "\"." \
@@ -238,7 +238,7 @@ static void initPythonStuff() {
    FOR_ALL_KEY_TYPE_FLAGS(REGISTER_KEY_TYPE_FLAGS)
       
    #define REGISTER_HID_TYPE_FLAG(FLAG) \
-      boost::python::def(#FLAG, &kaleidoscope::python::flag_##FLAG, \
+      boost::python::def(#FLAG, &leidokos::python::flag_##FLAG, \
          "Returns the flag \"" #FLAG "\".\n\n" \
          "Returns:\n" \
          "   int: The flag identifier \"" #FLAG "\"." \
@@ -247,7 +247,7 @@ static void initPythonStuff() {
    FOR_ALL_HID_TYPES(REGISTER_HID_TYPE_FLAG)
          
    #define EXPORT_KEY_FUNCTIONS(KEY) \
-      boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
+      boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
          "Returns the key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The key \"" #KEY "\"." \
@@ -275,4 +275,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

@@ -21,7 +21,7 @@
 
 #include "key_defs_sysctl.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_SYSCTL(FUNC) \
@@ -72,7 +72,7 @@ FOR_ALL_SYSCTL(DEFINE_SYSCTL)
 static void initPythonStuff() {
    
    #define EXPORT_SYSCTL(KEY) \
-      boost::python::def("keySystem"#KEY, &kaleidoscope::python::system_##KEY, \
+      boost::python::def("keySystem"#KEY, &leidokos::python::system_##KEY, \
          "Returns the system control key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The system control key \"" #KEY "\"." \
@@ -84,4 +84,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

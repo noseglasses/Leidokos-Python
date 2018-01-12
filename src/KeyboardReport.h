@@ -24,7 +24,7 @@
 
 #include <boost/python.hpp>
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 class KeyboardReport {
@@ -55,6 +55,6 @@ class KeyboardReport {
 };
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos
 
 #endif

@@ -19,7 +19,7 @@
 
 #include <string>
  
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
 
 std::string getVersionString() {

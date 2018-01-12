@@ -21,7 +21,7 @@
 
 #include "kaleidoscope/hid.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 static void initPythonStuff() {
@@ -188,4 +188,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos
