@@ -21,7 +21,7 @@
 
 #include "key_defs_keymaps.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 #define FOR_ALL_KEYMAPS(FUNC) \
@@ -60,7 +60,7 @@ FOR_ALL_KEYMAPS(DEFINE_KEYMAPS)
 static void initPythonStuff() {
    
    #define EXPORT_KEYMAPS(KEY) \
-      boost::python::def("key"#KEY, &kaleidoscope::python::k_##KEY, \
+      boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
          "Returns the key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The key \"" #KEY "\"." \
@@ -68,7 +68,7 @@ static void initPythonStuff() {
       
    FOR_ALL_KEYMAPS(EXPORT_KEYMAPS)
    
-   boost::python::def("keyLockLayer", &kaleidoscope::python::keyLockLayer,
+   boost::python::def("keyLockLayer", &leidokos::python::keyLockLayer,
       "Returns a control key that locks a specific layer.\n\n"
       "Args:\n"
       "   layerId (int): The layer id\n\n"
@@ -76,7 +76,7 @@ static void initPythonStuff() {
       "   Key: The layer lock key."
    );
    
-   boost::python::def("keyUnlockLayer", &kaleidoscope::python::keyUnlockLayer,
+   boost::python::def("keyUnlockLayer", &leidokos::python::keyUnlockLayer,
       "Returns a control key that unlocks a specific layer.\n\n"
       "Args:\n"
       "   layerId (int): The layer id\n\n"
@@ -84,7 +84,7 @@ static void initPythonStuff() {
       "   Key: The layer unlock key."
    );
    
-   boost::python::def("keyShiftToLayer", &kaleidoscope::python::keyShiftToLayer,
+   boost::python::def("keyShiftToLayer", &leidokos::python::keyShiftToLayer,
       "Returns a control key that shifts to a specific layer.\n\n"
       "Args:\n"
       "   layerId (int): The layer id\n\n"
@@ -96,4 +96,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

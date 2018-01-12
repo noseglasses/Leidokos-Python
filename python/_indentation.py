@@ -19,8 +19,8 @@
 #
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
-from KeyReportAssertions import *
-from ProcessAssertions import *
-from Test import Test
-
- 
+nIndentChars = 3
+cycleIndent = " "*nIndentChars
+keyboardReportIndent = " "*(nIndentChars*2)
+assertionGroupIndent = " "*(nIndentChars*3)
+assertionIndent = " "*(nIndentChars*4)

@@ -21,7 +21,7 @@
 
 #include "key_defs_consumerctl.h"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
 
 #define FOR_ALL_CONSUMER_CTL(FUNC) \
@@ -417,7 +417,7 @@ FOR_ALL_CONSUMER_CTL(DEFINE_CONSUMER_CTL)
 static void initPythonStuff() {
    
    #define EXPORT_CONSUMER_CTL(KEY) \
-      boost::python::def("keyConsumer"#KEY, &kaleidoscope::python::cctl_##KEY, \
+      boost::python::def("keyConsumer"#KEY, &leidokos::python::cctl_##KEY, \
          "Returns the consumer control key \"" #KEY "\".\n\n" \
          "Returns:\n" \
          "   Key: The consumer control key \"" #KEY "\"." \
@@ -429,4 +429,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

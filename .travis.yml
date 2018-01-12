@@ -5,7 +5,7 @@ os:
   
 before_install:
    - cd $HOME
-   - git clone --recursive https://github.com/noseglasses/Leidokos-Testing.git
+   - git clone --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
    - Leidokos-Testing/travis/before_install.sh
 
 script: skip
@@ -25,7 +25,7 @@ jobs:
          # Generates and installs the Python API to gh_pages
          - cd $HOME
          - mkdir -p hardware/keyboardio
-         - git clone -b regression_testing --recursive https://github.com/noseglasses/Arduino-Boards.git hardware/keyboardio/avr
+         - git clone -b regression_testing --recursive https://github.com/CapeLeidokos/Arduino-Boards.git hardware/keyboardio/avr
          - cd hardware/keyboardio/avr
          - git submodule status
          - cd $HOME

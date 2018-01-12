@@ -21,7 +21,7 @@
 #include "KeyboardReport.h"
 #include "KPV_Exception.hpp"
 
-namespace kaleidoscope {
+namespace leidokos {
 namespace python {
    
 bool 
@@ -216,9 +216,9 @@ std::string
 static void initPythonStuff() {
    
    #define EXPORT_METHOD(NAME, DOCSTRING) \
-      .def(#NAME, &kaleidoscope::python::KeyboardReport::NAME, DOCSTRING)
+      .def(#NAME, &leidokos::python::KeyboardReport::NAME, DOCSTRING)
       
-   boost::python::class_<kaleidoscope::python::KeyboardReport>("KeyboardReport",
+   boost::python::class_<leidokos::python::KeyboardReport>("KeyboardReport",
       "Provides access to a USB HID key report."
    )
       EXPORT_METHOD(
@@ -303,4 +303,4 @@ static void initPythonStuff() {
 LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
 
 } // namespace python
-} // namespace kaleidoscope
+} // namespace leidokos

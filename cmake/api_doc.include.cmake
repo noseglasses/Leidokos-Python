@@ -23,7 +23,8 @@ set(LEIDOKOS_PYTHON_GENERATE_API_DOC FALSE CACHE BOOL
    
 if(LEIDOKOS_PYTHON_GENERATE_API_DOC)
 
-   find_program(SPHINX_EXECUTABLE NAMES sphinx-build
+   find_program(SPHINX_EXECUTABLE 
+      NAMES sphinx3-build sphinx-build
       HINTS
       $ENV{SPHINX_DIR}
       PATH_SUFFIXES bin
@@ -42,7 +43,7 @@ if(LEIDOKOS_PYTHON_GENERATE_API_DOC)
       message("Please specify a valid SPHINX_EXECUTABLE")
    endif()
    
-   find_program(SPHINX_APIDOC_EXECUTABLE NAMES sphinx-apidoc
+   find_program(SPHINX_APIDOC_EXECUTABLE NAMES sphinx3-apidoc sphinx-apidoc
       HINTS
       $ENV{SPHINX_DIR}
       PATH_SUFFIXES bin
