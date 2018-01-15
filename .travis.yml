@@ -2,6 +2,11 @@ dist: trusty
 sudo: required
 os:
  - linux
+ 
+# Only test direct pushes to master
+branches:
+  only: 
+    - master
   
 before_install:
    - cd $HOME
