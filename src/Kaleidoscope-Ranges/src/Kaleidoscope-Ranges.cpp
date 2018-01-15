@@ -57,7 +57,7 @@ namespace python {
    
 FOR_ALL_RANGES(DEFINE_RANGES)
 
-static void initPythonStuff() {
+static void exportPython() {
    
    LEIDOKOS_PYTHON_MODULE_CONTENT(ranges)
 
@@ -71,7 +71,7 @@ static void initPythonStuff() {
    FOR_ALL_RANGES(EXPORT_RANGES)
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

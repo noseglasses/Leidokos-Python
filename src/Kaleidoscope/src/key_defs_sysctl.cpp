@@ -69,7 +69,7 @@ FUNC(DisplayLCDAutoscale)
    
 FOR_ALL_SYSCTL(DEFINE_SYSCTL)
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_SYSCTL(KEY) \
       boost::python::def("keySystem"#KEY, &leidokos::python::system_##KEY, \
@@ -81,7 +81,7 @@ static void initPythonStuff() {
    FOR_ALL_SYSCTL(EXPORT_SYSCTL)
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

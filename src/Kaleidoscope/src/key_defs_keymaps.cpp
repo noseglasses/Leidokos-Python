@@ -57,7 +57,7 @@ static Key keyShiftToLayer(uint8_t layerId) {
    
 FOR_ALL_KEYMAPS(DEFINE_KEYMAPS)
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_KEYMAPS(KEY) \
       boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
@@ -93,7 +93,7 @@ static void initPythonStuff() {
    );
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

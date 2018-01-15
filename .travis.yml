@@ -4,6 +4,7 @@ os:
  - linux
  
 # Only test direct pushes to master
+#
 branches:
   only: 
     - master

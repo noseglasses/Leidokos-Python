@@ -62,7 +62,7 @@ static uint8_t __setKeyIsInjected(uint8_t keyState) {
    return keyState | INJECTED;
 }
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define REGISTER_FLAGS(FLAG) \
       boost::python::def(#FLAG, &leidokos::python::flag_##FLAG, \
@@ -145,7 +145,7 @@ static void initPythonStuff() {
    );
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

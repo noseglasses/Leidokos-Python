@@ -265,7 +265,7 @@ static const char *keyToName(const Key &key) {
    return keycodeToName(key.keyCode);
 }
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_KEYBOARD(KEY) \
       boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
@@ -291,7 +291,7 @@ static void initPythonStuff() {
       "   string: The keycode name.");
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

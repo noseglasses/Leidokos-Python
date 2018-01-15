@@ -24,7 +24,7 @@
 namespace leidokos {
 namespace python {
 
-static void initPythonStuff() {
+static void exportPython() {
 
    boost::python::def("handleKeyswitchEvent", &handleKeyswitchEvent,
       "Calls the key switch handling function.\n\n"
@@ -36,7 +36,7 @@ static void initPythonStuff() {
    );
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

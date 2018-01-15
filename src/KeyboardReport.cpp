@@ -213,7 +213,7 @@ std::string
   return keypresses.str();
 }
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_METHOD(NAME, DOCSTRING) \
       .def(#NAME, &leidokos::python::KeyboardReport::NAME, DOCSTRING)
@@ -300,7 +300,7 @@ static void initPythonStuff() {
    ;
 }
 
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

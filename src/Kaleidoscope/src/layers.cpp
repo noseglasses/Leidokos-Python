@@ -26,7 +26,7 @@
 namespace leidokos {
 namespace python {
    
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_LAYER_STATIC_METHOD(NAME, DOCSTRING) \
       .def(#NAME, &Layer_::NAME, DOCSTRING).staticmethod(#NAME)
@@ -162,7 +162,7 @@ static void initPythonStuff() {
     ;
 }
 
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos
