@@ -21,6 +21,8 @@
 
 import weakref
 
+from _indentation import *
+
 class _Assertion(object):
    """ The base class of all assertions """
    
