@@ -57,7 +57,7 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
    py::scope().attr(#MODULE_NAME) = nested_module; \
    py::scope parent = nested_module;
 
-#define LEIDOKOS_PYTHON_REGISTER_MODULE( \
+#define LEIDOKOS_PYTHON_EXPORT( \
                REGISTRATION_FUNCTION_PTR, \
                FINALIZATION_FUNCTION_PTR \
 ) \

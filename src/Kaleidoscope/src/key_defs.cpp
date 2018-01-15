@@ -126,7 +126,7 @@ static const char *modifierKeyToName(const Key &key) {
    return modifierKeycodeToName(key.keyCode);
 }
 
-static void initPythonStuff() {
+static void exportPython() {
    
    using namespace boost::python;
    
@@ -272,7 +272,7 @@ static void initPythonStuff() {
          "   string: The modifier name.");
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

@@ -34,7 +34,7 @@ static cRGB getCrgbAt(byte row, byte col) {
    return KeyboardHardware.getCrgbAt(row, col);
 }
    
-static void initPythonStuff() {
+static void exportPython() {
    
    LEIDOKOS_PYTHON_MODULE_CONTENT(LEDs)
    
@@ -67,7 +67,7 @@ static void initPythonStuff() {
    );
 }
    
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

@@ -113,7 +113,7 @@ static void useLoopHook(
    }
 }
    
-static void initPythonStuff() {
+static void exportPython() {
    
    // Functions and methods from Kaleidoscope/Kaleidoscope.h
    //
@@ -155,7 +155,7 @@ static void initPythonStuff() {
    FOR_N(REGISTER_HOOK)
 }
 
-static void finalizePythonStuff()
+static void finalizePython()
 {
    for(int i = 0; i < KP_MAX_HOOKS; ++i) {
       eventHandlerHooks[i] = boost::python::object();
@@ -163,7 +163,7 @@ static void finalizePythonStuff()
    }
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, &finalizePythonStuff)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, &finalizePython)
 
 } // namespace python
 } // namespace leidokos

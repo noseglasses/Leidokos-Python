@@ -414,7 +414,7 @@ FUNC(AC_Distribute_Vertically)
    
 FOR_ALL_CONSUMER_CTL(DEFINE_CONSUMER_CTL)
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_CONSUMER_CTL(KEY) \
       boost::python::def("keyConsumer"#KEY, &leidokos::python::cctl_##KEY, \
@@ -426,7 +426,7 @@ static void initPythonStuff() {
    FOR_ALL_CONSUMER_CTL(EXPORT_CONSUMER_CTL)
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

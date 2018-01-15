@@ -57,7 +57,7 @@ namespace python {
    
 FOR_ALL_KEY_ALIASES(DEFINE_KEY_FUNCTIONS)
 
-static void initPythonStuff() {
+static void exportPython() {
    
    #define EXPORT_KEY_FUNCTIONS(KEY) \
       boost::python::def("key"#KEY, &leidokos::python::k_##KEY, \
@@ -69,7 +69,7 @@ static void initPythonStuff() {
    FOR_ALL_KEY_ALIASES(EXPORT_KEY_FUNCTIONS)
 }
       
-LEIDOKOS_PYTHON_REGISTER_MODULE(&initPythonStuff, nullptr)
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 
 } // namespace python
 } // namespace leidokos

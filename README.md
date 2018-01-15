@@ -316,7 +316,7 @@ using namespace boost::Python;
 // Note: To export non-static class (struct) members, use .add_property(...)
 //       instead of .add_static_property(...)
 
-static void initPythonStuff() {
+static void exportPython() {
 
    LEIDOKOS_PYTHON_MODULE_CONTENT(MouseKeys)
    
@@ -324,11 +324,11 @@ static void initPythonStuff() {
 
       // Please note: Some of the members accessed below are private. 
       //              For this here to work, the MouseKeys_ class must declare 
-      //              the below function initPythonStuff() as 
+      //              the below function exportPython() as 
       //              friend function via the following line that must be
       //              added to MouseKey_'s class definition.
       //
-      // friend void initPythonStuff();
+      // friend void exportPython();
       //
       .EXPORT_PROPERTY(speed,
          "The mouse speed"
