@@ -141,7 +141,7 @@ class DualUse(object):
 
       return mapped_key
 
-class DualUseTest(Test):
+class DualUseTestDriver(TestDriver):
 
    def checkDualUsePrimaryFunction(self):
       
@@ -248,7 +248,7 @@ def main():
       
       test.log("Using Python implementation of DualUse")
       
-      dualUse = DualUse()
+      dualUse = DualUseTestDriver()
 
       Kaleidoscope_.useEventHandlerHook(dualUse)
    

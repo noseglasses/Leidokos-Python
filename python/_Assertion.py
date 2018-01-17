@@ -53,7 +53,7 @@ class _Assertion(object):
       
       Args:
          target (undefined): The target object the assertion operates on.
-            This can either be a KeyboardReport object, the Test object or others.
+            This can either be a KeyboardReport object, the TestDriver object or others.
             
       Returns:
          bool: True if the assertion passed, False otherwise.
@@ -66,7 +66,7 @@ class _Assertion(object):
       
       Args:
          target (undefined): The target object the assertion operates on.
-            This can either be a KeyboardReport object, the Test object or others.
+            This can either be a KeyboardReport object, the TestDriver object or others.
             
       Returns:
          bool: True if the assertion passed, False otherwise.
@@ -85,13 +85,13 @@ class _Assertion(object):
       """
       return None
 
-   def _setTest(self, test):
-      """ Sets the associated Test object. """
-      self.testWeak = weakref.ref(test)
+   def _setTestDriver(self, testDriver):
+      """ Sets the associated TestDriver object. """
+      self.testDriverWeak = weakref.ref(testDriver)
 
-   def _getTest(self):
+   def _getTestDriver(self):
       """ Returns a reference to the associated test object. """
-      return self.testWeak()
+      return self.testDriverWeak()
 
 class _AssertionGroup(_Assertion):
    """ Groups several assertions.
@@ -117,9 +117,9 @@ class _AssertionGroup(_Assertion):
          
       return self.valid
    
-   def _setTest(self, test):
+   def _setTestDriver(self, testDriver):
       for assertion in self.assertionList:
-         assertion._setTest(test)
+         assertion._setTestDriver(testDriver)
          
 class ReportNthCycle(_Assertion):
    """ Asserts that the current cycle is the nth.
@@ -136,7 +136,7 @@ class ReportNthCycle(_Assertion):
       return "Is %d. cycle" % self.cycle
 
    def _actualState(self):
-      return "%d. cycle" % self._getTest().cycleId
+      return "%d. cycle" % self._getTestDriver().cycleId
    
    def _evalInternal(self, dummy):
-      return self._getTest().cycleId == self.cycle
+      return self._getTestDriver().cycleId == self.cycle

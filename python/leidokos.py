@@ -21,6 +21,4 @@
 
 from KeyReportAssertions import *
 from ProcessAssertions import *
-from Test import Test
-
- 
+from Test import TestDriver

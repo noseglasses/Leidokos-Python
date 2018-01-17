@@ -1,7 +1,7 @@
-_kaleidoscope.ranges module
+kaleidoscope.ranges module
 ===================
     
-.. automodule:: _kaleidoscope.ranges
+.. automodule:: kaleidoscope.ranges
     :members:
     :undoc-members:
     :show-inheritance:

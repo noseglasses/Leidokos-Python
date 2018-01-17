@@ -19,8 +19,8 @@
 #
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
-import _kaleidoscope
-from _kaleidoscope import *
+import kaleidoscope
+from kaleidoscope import *
 from _Assertion import _Assertion
 
 class ReportKeyActive(_Assertion):
@@ -35,7 +35,7 @@ class ReportKeyActive(_Assertion):
       self.key = key
       
    def _description(self):
-      return "Key %s active" % str(_kaleidoscope.keyToName(self.key))
+      return "Key %s active" % str(kaleidoscope.keyToName(self.key))
 
    def _evalInternal(self, keyReport):
       return keyReport.isKeyActive(self.key)
@@ -52,7 +52,7 @@ class ReportKeyInactive(_Assertion):
       self.key = key
       
    def _description(self):
-      return "Key %s inactive" % str(_kaleidoscope.Key.keyToName(self.key))
+      return "Key %s inactive" % str(kaleidoscope.Key.keyToName(self.key))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isKeyActive(self.key)
@@ -69,7 +69,7 @@ class ReportKeycodeActive(_Assertion):
       self.keycode = keycode
       
    def _description(self):
-      return "Keycode %s active" % str(_kaleidoscope.Key.keycodeToName(self.keycode))
+      return "Keycode %s active" % str(kaleidoscope.Key.keycodeToName(self.keycode))
 
    def _evalInternal(self, keyReport):
       return keyReport.isKeycodeActive(self.keycode)
@@ -86,7 +86,7 @@ class ReportKeycodeInactive(_Assertion):
       self.keycode = keycode
       
    def _description(self):
-      return "Keycode %s inactive" % str(_kaleidoscope.Key.keycodeToName(self.keycode))
+      return "Keycode %s inactive" % str(kaleidoscope.Key.keycodeToName(self.keycode))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isKeycodeActive(self.keycode)
@@ -106,7 +106,7 @@ class ReportKeysActive(_Assertion):
       self.exclusively = exclusively
       
    def _description(self):
-      return "Keys active (%s)" % " ".join("'%s\'" % _kaleidoscope.keyToName(x) for x in self.keys)
+      return "Keys active (%s)" % " ".join("'%s\'" % kaleidoscope.keyToName(x) for x in self.keys)
 
    def _evalInternal(self, keyReport):
       
@@ -134,7 +134,7 @@ class ReportModifierActive(_Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s active" % str(_kaleidoscope.modifierKeyToName(self.modifier))
+      return "Modifier %s active" % str(kaleidoscope.modifierKeyToName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return keyReport.isModifierActive(self.modifier)
@@ -151,7 +151,7 @@ class ReportModifierInactive(_Assertion):
       self.modifier = modifier
       
    def _description(self):
-      return "Modifier %s inactive" % str(_kaleidoscope.modifierKeyToName(self.modifier))
+      return "Modifier %s inactive" % str(kaleidoscope.modifierKeyToName(self.modifier))
 
    def _evalInternal(self, keyReport):
       return not keyReport.isModifierActive(self.modifier)
@@ -191,7 +191,7 @@ class ReportModifiersActive(_Assertion):
       self.exclusively = exclusively
       
    def _description(self):
-      return "Modifiers active (%s)" % " ".join(_kaleidoscope.modifierKeyToName(x) for x in self.modifierKeys)
+      return "Modifiers active (%s)" % " ".join(kaleidoscope.modifierKeyToName(x) for x in self.modifierKeys)
 
    def _evalInternal(self, keyReport):
       
@@ -262,10 +262,10 @@ class ReportNthInCycle(_Assertion):
       return "Is %d. report in cycle" % self.n
 
    def _evalInternal(self, keyReport):
-      return self._getTest().nReportsInCycle == self.n
+      return self._getTestDriver().nReportsInCycle == self.n
    
    def _actualState(self):
-      return "%d. report in cycle" % self._getTest().nReportsInCycle
+      return "%d. report in cycle" % self._getTestDriver().nReportsInCycle
    
 class DumpReport(_Assertion):
    """ Dumps the current keyboard report. """

@@ -91,7 +91,7 @@ text = (
 "faucibus pellentesque nunc laoreet vitae."
 )
 
-class HeatMapTest(Test):
+class HeatMapTestDriver(TestDriver):
       
    def run(self):
       
@@ -117,7 +117,7 @@ class HeatMapTest(Test):
 
 def main():
     
-   test = HeatMapTest()
+   test = HeatMapTestDriver()
    test.debug = True              
       
    test.run()

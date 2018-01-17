@@ -17,8 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import _kaleidoscope
-from _kaleidoscope import *
+import kaleidoscope
+from kaleidoscope import *
 
 hidCodeToString = {
    0x04 : u"A", # HID_KEYBOARD_A_AND_A
@@ -181,8 +181,8 @@ def _getColorEscSeq(row, col):
 
 def _generateKeyString(row, col):
    
-   layer = _kaleidoscope.Layer.lookupActiveLayer(row, col)
-   key = _kaleidoscope.Layer.lookupOnActiveLayer(row, col)
+   layer = kaleidoscope.Layer.lookupActiveLayer(row, col)
+   key = kaleidoscope.Layer.lookupOnActiveLayer(row, col)
    
    verboseDescription = True
    if key.getFlags() == KEY_FLAGS():
@@ -197,7 +197,7 @@ def _generateKeyString(row, col):
          verboseDescription = False
    
    if verboseDescription:
-      keyString = _kaleidoscope.getKeyDescription(layer, row, col)
+      keyString = kaleidoscope.getKeyDescription(layer, row, col)
    
    #if len(keyString) < 4: 
       #return keyString
@@ -216,8 +216,8 @@ def _generateKeyString(row, col):
    
 def graphicalMap(out, hardware):
    
-   rows = _kaleidoscope.matrixRows()
-   cols = _kaleidoscope.matrixCols()
+   rows = kaleidoscope.matrixRows()
+   cols = kaleidoscope.matrixCols()
    
    keyStrings = []
    

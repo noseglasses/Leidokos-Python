@@ -7,7 +7,7 @@
 [st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
 [st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
 
-[Python API documentation](https://noseglasses.github.io/Leidokos-Python/API/index.html)
+[Python API documentation](https://capeleidokos.github.io/Leidokos-Python/API/index.html)
 
 # Leidokos-Python
 Leidokos-Python is a Python scriptable Kaleidoscope firmware simulator.
@@ -42,12 +42,12 @@ from kaleidoscope import *
 
 import sys
 
-test = Test()
-test.debug = True
+driver = TestDriver()
+driver.debug = True
 
 # The assertions are evaluated in the next loop cycle
 #
-test.queueGroupedReportAssertions([ 
+driver.queueGroupedReportAssertions([ 
       ReportNthInCycle(1), 
       ReportNthCycle(1),
       ReportKeyActive(keyA()),
@@ -56,15 +56,15 @@ test.queueGroupedReportAssertions([
       DumpReport()
    ])
 
-test.keyDown(2, 1)
+driver.keyDown(2, 1)
 
-test.scanCycle()
+driver.scanCycle()
 
-test.keyUp(2, 1)
+driver.keyUp(2, 1)
 
-test.scanCycles(2)
+driver.scanCycles(2)
 
-test.skipTime(200)
+driver.skipTime(200)
 ```
 
 The test deliberately fails. It's console output (stdout) is the following.

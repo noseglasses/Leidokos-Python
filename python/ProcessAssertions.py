@@ -19,8 +19,8 @@
 #
 # For documentation style see http://www.sphinx-doc.org/en/stable/ext/napoleon.html
 
-import _kaleidoscope
-from _kaleidoscope import *
+import kaleidoscope
+from kaleidoscope import *
 from _Assertion import _Assertion
 from _Assertion import ReportNthCycle
 
@@ -40,10 +40,10 @@ class CycleHasNReports(_Assertion):
       return "There were %d keyboard reports in cycle" % self.nReports
 
    def _actualState(self):
-      return "%d keyboard reports" % self._getTest().nReportsInCycle
+      return "%d keyboard reports" % self._getTestDriver().nReportsInCycle
    
    def _evalInternal(self, dummy):
-      return self._getTest().nReportsInCycle == self.nReports
+      return self._getTestDriver().nReportsInCycle == self.nReports
    
 class NReportsGenerated(_Assertion):
    """ Asserts that there was a specific number of keyboard reports generated
@@ -59,17 +59,17 @@ class NReportsGenerated(_Assertion):
       
    # Override the _setTest method to enable setting 
    # the startNReports once the reference to the parent
-   # test is available
+   # test driver is available
    #
-   def _setTest(self, test):
-      _Assertion._setTest(self, test)
-      self.startNReports = self._getTest().nKeyboardReports
+   def _setTestDriver(self, testDriver):
+      _Assertion._setTestDriver(self, testDriver)
+      self.startNReports = self._getTestDriver().nKeyboardReports
    
    def _description(self):
       return "There were %d keyboard reports in cycle" % self.nReports
    
    def _reportsGenerated(self):
-      return self._getTest().nKeyboardReports - self.startNReports
+      return self._getTestDriver().nKeyboardReports - self.startNReports
    
    def _actualState(self):
       return "%d keyboard reports" % self._reportsGenerated()
@@ -100,10 +100,10 @@ class LayerIsActive(_Assertion):
       return "Is %d. layer active" % self.layer
 
    def _actualState(self):
-      return "%d. layer is active" % _kaleidoscope.Layer.top()
+      return "%d. layer is active" % kaleidoscope.Layer.top()
    
    def _evalInternal(self, dummy):
-      return _kaleidoscope.top() == self.layer
+      return kaleidoscope.top() == self.layer
    
 class LayerIsInactive(_Assertion):
    """ Asserts that a given layer is currently not active (not the current top layer).
@@ -120,10 +120,10 @@ class LayerIsInactive(_Assertion):
       return "Is %d. layer inactive" % self.layer
 
    def _actualState(self):
-      return "%d. layer is active" % _kaleidoscope.Layer.top()
+      return "%d. layer is active" % kaleidoscope.Layer.top()
    
    def _evalInternal(self, dummy):
-      return _kaleidoscope.top() != self.layer
+      return kaleidoscope.top() != self.layer
    
 class TimeElapsedGreater(_Assertion):
    """ Asserts that that time that elapsed is greater than a given time in [ms].
