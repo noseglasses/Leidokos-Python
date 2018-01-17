@@ -16,65 +16,71 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# The build system variable KALEIDOSCOPE_MODULE_REPO_PATHS 
-# can contain a list of repo paths or alternatively a directory
-# that is parent to a number of such repository. File search for 
-# .python-wrapper files is in any case recursive.
+# This function is called by Leidokos-CMake as a hook
 #
-set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" 
-   CACHE STRING 
-   "A list of paths that are recursively searched for files with \
-extension .python-wrapper .")
+function(after_KALEIDOSCOPE_HARDWARE_BASE_PATH_defined)
 
-set(repo_paths "${KALEIDOSCOPE_MODULE_REPO_PATHS}")
-
-# A list of repo paths can also be defined in a file whose filename
-# is provided through the variable KALEIDOSCOPE_MODULE_REPO_PATHS_FILE
-#
-set(KALEIDOSCOPE_MODULE_REPO_PATHS_FILE ""
-   CACHE FILEPATH 
-   "A text file that contains a list of paths (one per line) that \
-are recursively searched for files with extension .python-wrapper .")
-
-if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
-
-   file(READ "${file}" contents)
-
-   # Convert file contents into a CMake list (where each element in the list
-   # is one line of the file)
+   # The build system variable KALEIDOSCOPE_MODULE_REPO_PATHS 
+   # can contain a list of repo paths or alternatively a directory
+   # that is parent to a number of such repository. File search for 
+   # .python-wrapper files is in any case recursive.
    #
-   string(REGEX REPLACE ";" "\\\\;" contents "${contents}")
-   string(REGEX REPLACE "\n" ";" contents "${contents}")
-   
-   list(APPEND repo_paths "${contents}")
-endif()
+   set(KALEIDOSCOPE_MODULE_REPO_PATHS "${KALEIDOSCOPE_HARDWARE_BASE_PATH}" 
+      CACHE STRING 
+      "A list of paths that are recursively searched for files with \
+   extension .python-wrapper .")
 
-function(scan_repo 
-   repo_path_
-)
-   # Find all wrapper files
+   set(repo_paths "${KALEIDOSCOPE_MODULE_REPO_PATHS}")
+
+   # A list of repo paths can also be defined in a file whose filename
+   # is provided through the variable KALEIDOSCOPE_MODULE_REPO_PATHS_FILE
    #
-   file(GLOB_RECURSE wrapper_files "${repo_path_}/*.python-wrapper")
-   
-   # Generate symbolic links, named# .python-wrapper.cpp for
-   # every wrapper file found
-   #
-   foreach(wrapper_file ${wrapper_files})
-   
-      set(cpp_file "${wrapper_file}.cpp")
+   set(KALEIDOSCOPE_MODULE_REPO_PATHS_FILE ""
+      CACHE FILEPATH 
+      "A text file that contains a list of paths (one per line) that \
+   are recursively searched for files with extension .python-wrapper .")
+
+   if(EXISTS "${KALEIDOSCOPE_MODULE_REPO_PATHS_FILE}")
+
+      file(READ "${file}" contents)
+
+      # Convert file contents into a CMake list (where each element in the list
+      # is one line of the file)
+      #
+      string(REGEX REPLACE ";" "\\\\;" contents "${contents}")
+      string(REGEX REPLACE "\n" ";" contents "${contents}")
       
-      if(NOT EXISTS "${cpp_file}")
-         generate_link("${wrapper_file}" "${cpp_file}")
-      endif()
+      list(APPEND repo_paths "${contents}")
+   endif()
+
+   function(scan_repo 
+      repo_path_
+   )
+      # Find all wrapper files
+      #
+      file(GLOB_RECURSE wrapper_files "${repo_path_}/*.python-wrapper")
+      
+      # Generate symbolic links, named# .python-wrapper.cpp for
+      # every wrapper file found
+      #
+      foreach(wrapper_file ${wrapper_files})
+      
+         set(cpp_file "${wrapper_file}.cpp")
+         
+         if(NOT EXISTS "${cpp_file}")
+            generate_link("${wrapper_file}" "${cpp_file}")
+         endif()
+      endforeach()
+   endfunction()
+
+   if("${repo_paths}" STREQUAL "")
+      message(FATAL_ERROR "No repo information found. Neither via KALEIDOSCOPE_MODULE_REPO_PATHS nor KALEIDOSCOPE_MODULE_REPO_PATHS_FILE.")
+   endif()
+
+   message("repo_paths = ${repo_paths}")
+
+   foreach(repo_path ${repo_paths})
+      scan_repo("${repo_path}")
    endforeach()
+   
 endfunction()
-
-if("${repo_paths}" STREQUAL "")
-   message(FATAL_ERROR "No repo information found. Neither via KALEIDOSCOPE_MODULE_REPO_PATHS nor KALEIDOSCOPE_MODULE_REPO_PATHS_FILE.")
-endif()
-
-message("repo_paths = ${repo_paths}")
-
-foreach(repo_path ${repo_paths})
-   scan_repo("${repo_path}")
-endforeach()
