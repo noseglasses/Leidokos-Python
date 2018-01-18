@@ -26,6 +26,8 @@
 import kaleidoscope
 from kaleidoscope import *
 
+from leidokos import *
+
 import argparse
 import sys
 
