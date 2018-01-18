@@ -1,7 +1,7 @@
-_kaleidoscope module
+kaleidoscope module
 ====================
 
-.. automodule:: _kaleidoscope
+.. automodule:: kaleidoscope
     :members:
     :undoc-members:
     :show-inheritance:

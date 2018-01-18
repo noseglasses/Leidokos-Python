@@ -160,9 +160,7 @@ static void exportPython() {
       .def(self > Key_())
       .def(self < Key_())
       
-      .add_property("keyCode", 
-                    make_getter(&Key_::keyCode),
-                    make_setter(&Key_::keyCode),
+      .def_readwrite("keyCode", &Key_::keyCode,
          "The key code"
        )
       
@@ -177,9 +175,7 @@ static void exportPython() {
          "   keyCode (uint8_t): The key code."
       )
       
-      .add_property("flags", 
-                    make_getter(&Key_::flags),
-                    make_setter(&Key_::flags),
+      .def_readwrite("flags", &Key_::flags,
          "The flags value"
        )
       .def("getFlags", make_getter(&Key_::flags),
@@ -193,9 +189,7 @@ static void exportPython() {
          "   flags (uint8_t): The flags."
       )
       
-      .add_property("raw", 
-                    make_getter(&Key_::raw),
-                    make_setter(&Key_::raw),
+      .def_readwrite("raw", &Key_::raw,
          "The raw value"
        )
       .def("getRaw", make_getter(&Key_::raw),

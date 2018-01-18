@@ -44,18 +44,23 @@ typedef void (*PluginFinalizationCallback)();
 typedef std::vector<PluginFinalizationCallback> PluginFinalizationCallbacks;
 PluginFinalizationCallbacks &pluginFinalizationCallbacks();
 
-#define LEIDOKOS_PYTHON_PACKAGE_NAME _kaleidoscope
+#define LEIDOKOS_PYTHON_PACKAGE_NAME kaleidoscope
 
 #define __STRINGIZE(S) #S
 #define STRINGIZE(S) __STRINGIZE(S)
 
-#define LEIDOKOS_PYTHON_MODULE_CONTENT(MODULE_NAME) \
+#define CONCAT(S1, S2) S1##S2
+
+#define __LEIDOKOS_PYTHON_MODULE_CONTENT(MODULE_NAME, COUNTER) \
    \
    namespace py = boost::python; \
-   std::string nested_name = py::extract<std::string>(py::scope().attr("__name__") + "." #MODULE_NAME); \
-   py::object nested_module(py::handle<>(py::borrowed(PyImport_AddModule(nested_name.c_str())))); \
-   py::scope().attr(#MODULE_NAME) = nested_module; \
-   py::scope parent = nested_module;
+   std::string CONCAT(nested_name, COUNTER) = py::extract<std::string>(py::scope().attr("__name__") + "." #MODULE_NAME); \
+   py::object CONCAT(nested_module, COUNTER)(py::handle<>(py::borrowed(PyImport_AddModule(CONCAT(nested_name, COUNTER).c_str())))); \
+   py::scope().attr(#MODULE_NAME) = CONCAT(nested_module, COUNTER); \
+   py::scope CONCAT(parent, COUNTER) = CONCAT(nested_module, COUNTER);
+   
+#define LEIDOKOS_PYTHON_MODULE_CONTENT(MODULE_NAME) \
+   __LEIDOKOS_PYTHON_MODULE_CONTENT(MODULE_NAME, __COUNTER__)
 
 #define LEIDOKOS_PYTHON_EXPORT( \
                REGISTRATION_FUNCTION_PTR, \
@@ -63,10 +68,10 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
 ) \
    \
    static bool __registerModule() { \
-      pluginRegistrationCallbacks().push_back(REGISTRATION_FUNCTION_PTR); \
+      ::leidokos::python::pluginRegistrationCallbacks().push_back(REGISTRATION_FUNCTION_PTR); \
       auto finFuncPtr = FINALIZATION_FUNCTION_PTR; \
       if(finFuncPtr) { \
-         pluginFinalizationCallbacks().push_back(finFuncPtr); \
+         ::leidokos::python::pluginFinalizationCallbacks().push_back(finFuncPtr); \
       } \
       return true; \
    }\

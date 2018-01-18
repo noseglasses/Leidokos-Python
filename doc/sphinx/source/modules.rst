@@ -4,7 +4,7 @@ python
 .. toctree::
    :maxdepth: 4
 
+   leidokos
    kaleidoscope
-   _kaleidoscope
-   _kaleidoscope.hid
-   _kaleidoscope.ranges
+   kaleidoscope.hid
+   kaleidoscope.ranges

@@ -18,18 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-import kaleidoscope
-
-from kaleidoscope import *
+import leidokos
+from leidokos import *
 
 import sys
 
-test = Test()
-test.debug = True
+driver = TestDriver()
+driver.debug = True
 
 # The assertions are evaluated in the next loop cycle
 #
-test.queueGroupedReportAssertions([ 
+driver.queueGroupedReportAssertions([ 
       ReportNthInCycle(1), 
       ReportNthCycle(1),
       ReportKeyActive(keyA()),
@@ -38,12 +37,12 @@ test.queueGroupedReportAssertions([
       DumpReport()
    ])
 
-test.keyDown(2, 1)
+driver.keyDown(2, 1)
 
-test.scanCycle()
+driver.scanCycle()
 
-test.keyUp(2, 1)
+driver.keyUp(2, 1)
 
-test.scanCycles(2)
+driver.scanCycles(2)
 
-test.skipTime(20)
+driver.skipTime(20)

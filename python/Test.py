@@ -22,12 +22,10 @@
 import weakref
 import sys
 import os
-#import random
-#import operator
 import importlib
 
-import _kaleidoscope
-from _kaleidoscope import *
+import kaleidoscope
+from kaleidoscope import *
 from _indentation import *
 
 def _removeItemsFromList(fromList, removalList):
@@ -69,7 +67,7 @@ class _TimedStream(object):
    def writeN(self, string, indentationString = ""):
       self.write(string, indentationString, outputTime = False)
       
-class Test(object):
+class TestDriver(object):
    """ The main test object that controls everything.
    
    Attributes:
@@ -80,7 +78,8 @@ class Test(object):
    def __init__(self, 
                 out = sys.stdout, 
                 debug = False, 
-                cycleDuration = 5):
+                cycleDuration = 5,
+                noExit = False):
       
       self.assertionsPassed = True
       self.nReportsInCycle = 0
@@ -91,6 +90,8 @@ class Test(object):
       self.cycleDuration = cycleDuration
       self.cycleId = 0
       self.time = 0
+      
+      self.scanCyclesDefaultCount = 5
       
       # The preferred output
       #
@@ -103,29 +104,31 @@ class Test(object):
       
       self.debug = debug
       
-      _kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
+      kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
    
-      _kaleidoscope.init()
+      kaleidoscope.init()
       
       self.initHardware()
       
       self._headerText()
       
-      try:
-         __NO_EXIT__
-      except NameError:
-         self.noExit = True
-      else:
-         self.noExit = False
+      self.noExit = noExit
+      #try:
+         #__NO_EXIT__
+      #except NameError:
+         #self.noExit = True
+      #else:
+         #self.noExit = False
       
    def __del__(self):
       
-      _kaleidoscope.finalize()
+      kaleidoscope.finalize()
       
       self._footerText()
       
       if not self._checkStatus():
-         self._error("Terminating with exit code 1")
+         if not self.noExit:
+            self._error("Terminating with exit code 1")
          
    def setOutputStream(self, out):
       """ Sets an output stream that is used for all formatted output.
@@ -137,7 +140,7 @@ class Test(object):
       
    def initHardware(self):
       
-      #hardwareIDString = _kaleidoscope.getHardwareIDString()
+      #hardwareIDString = kaleidoscope.getHardwareIDString()
       hardwareModuleName = ("Hardware-Model01")
       
       hardwareModule = importlib.import_module(hardwareModuleName)
@@ -159,7 +162,7 @@ class Test(object):
       self.out.writeN("Leidokos-Python\n")
       self.out.writeN("\n")
       self.out.writeN("author: noseglasses (https://github.com/noseglasses, shinynoseglasses@gmail.com)\n")
-      self.out.writeN("version: %s\n" % _kaleidoscope.getVersionString())
+      self.out.writeN("version: %s\n" % kaleidoscope.getVersionString())
       self.out.writeN("\n")
       self.out.writeN("cycle duration: %f\n" % self.cycleDuration)
       self.out.writeN("################################################################################\n")
@@ -193,7 +196,7 @@ class Test(object):
          self._configureReportAssertion(assertion)
          
    def _configureReportAssertion(self, assertion):
-      assertion._setTest(self)
+      assertion._setTestDriver(self)
       assertion.typeKeyword = "Report"
       
    def queueReportAssertion(self, assertion):
@@ -321,7 +324,7 @@ class Test(object):
       
       self.out.write("+ Activating key (%d, %d)\n" % (row, col))
       
-      _kaleidoscope.keyDown(row, col)
+      kaleidoscope.keyDown(row, col)
       
    def keyUp(self, row, col):
       """ Registers a key up event. Make sure that the key was registered
@@ -332,10 +335,10 @@ class Test(object):
          col (int): The keyboard key col.
       """
       self.out.write("- Releasing key (%d, %d)\n" % (row, col))
-      _kaleidoscope.keyUp(row, col)
+      kaleidoscope.keyUp(row, col)
       
    def isKeyPressed(self, row, col):
-      return _kaleidoscope.isKeyPressed(row, col)
+      return kaleidoscope.isKeyPressed(row, col)
    
    def tap(self, row, col):
       """ Registers tap of a key.
@@ -344,19 +347,19 @@ class Test(object):
          row (int): The keyboard key row.
          col (int): The keyboard key col.
       """
-      _kaleidoscope.tap(row, col)
+      kaleidoscope.tap(row, col)
 
    def clearAllKeys(self):
       """ Clears all keys that are currently active (down). """
       self.out.write("- Clearing all keys\n")
-      _kaleidoscope.clearAllKeys()
+      kaleidoscope.clearAllKeys()
       
    def _configureCycleAssertion(self, assertion):
-      assertion._setTest(self)
+      assertion._setTestDriver(self)
       assertion.typeKeyword = "Cycle"
       
    def _configureTemporaryAssertion(self, assertion):
-      assertion._setTest(self)
+      assertion._setTestDriver(self)
       assertion.typeKeyword = "Temporary cycle"
       
    def queueCycleAssertions(self, assertionList):
@@ -437,7 +440,7 @@ class Test(object):
          for assertion in onStopAssertionList:
             self._configureTemporaryAssertion(assertion)
       
-      _kaleidoscope.scanCycle()
+      kaleidoscope.scanCycle()
       
       if self.nReportsInCycle == 0:
          if not onlyLogReports:
@@ -447,7 +450,7 @@ class Test(object):
       
       self.time += self.cycleDuration
       
-      _kaleidoscope.setMillis(self.time)
+      kaleidoscope.setMillis(self.time)
       
       if onStopAssertionList and len(onStopAssertionList) > 0:
          self.out.write("Processing %d cycle assertions on stop\n" % len(onStopAssertionList), assertionGroupIndent)
@@ -463,7 +466,7 @@ class Test(object):
          self.out.write("Processing %d permanent cycle assertions\n" % len(self.permanentCycleAssertions), assertionGroupIndent)
          self._processCycleAssertions(self.permanentCycleAssertions)
       
-   def scanCycles(self, n, onStopAssertionList = None, cycleAssertionList = None):
+   def scanCycles(self, n = 0, onStopAssertionList = None, cycleAssertionList = None):
       """ Executes a number of scan cycles and processes assertions afterwards.
       
       Args:
@@ -474,6 +477,9 @@ class Test(object):
          cycleAssertionList (list): A list of assertions that are executed
             after every cycle.
       """
+      
+      if n == 0:
+         n = self.scanCyclesDefaultCount
       
       self.out.write("Running %d scan cycles\n" % n)
       
@@ -494,7 +500,7 @@ class Test(object):
       """ Skips a given amount of time by executing cycles and processes assertions afterwards.
       
       Important:
-         Make sure to set the cycleDuration property of the Test class 
+         Make sure to set the cycleDuration property of the TestDriver class 
          to a non zero value in [ms] before calling this method.
       
       Args:
@@ -544,7 +550,7 @@ class Test(object):
       
       for assertion in assertionList:
          
-         #assertion._setTest(self)
+         #assertion._setTestDriver(self)
          
          assertionPassed = assertion._eval(self)
          
@@ -586,9 +592,24 @@ class Test(object):
          msg (string): The header message.
       """
       self.out.write("########################################################\n")
-      self.out.write("~ %s ~\n" % msg)
+      self.out.write("%s\n" % msg)
       self.out.write("########################################################\n")
       
    def graphicalMap(self):
       import GraphicalMap
       GraphicalMap.graphicalMap(self.out, self.hardware)
+      
+   def _initKeyboard(self):
+      """ Resets the keyboard to initial state.
+      """
+      kaleidoscope.clearAllKeys()
+      hid.initializeKeyboard()
+      
+   def runTest(self, methodName):
+      
+      assert len(self.queuedReportAssertions) == 0
+      assert len(self.queuedCycleAssertions) == 0
+      
+      self._initKeyboard()
+      getattr(self, methodName)()
+      
