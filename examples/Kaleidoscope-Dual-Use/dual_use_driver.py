@@ -78,12 +78,12 @@ class DualUse(object):
          new_key = self.specialAction(spec_index)
     
          if new_key.getRaw() != keyNoKey().getRaw():
-            handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
+            kaleidoscope.handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
 
    def inject(self, key, key_state):
       # Note: 255 sets the unknown keyswitch location
       #
-      eventHandlerHook(key, 255, 255, key_state)
+      self.eventHandlerHook(key, 255, 255, key_state)
 
    def eventHandlerHook(self, mapped_key, row, col, key_state):
       
@@ -119,7 +119,7 @@ class DualUse(object):
 
                new_key = Key(m, KEY_FLAGS())
 
-               handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
+               kaleidoscope.handleKeyswitchEvent(new_key, row, col, IS_PRESSED() | INJECTED())
                hid.sendKeyboardReport()
             else:
                if (spec_index >= 8):
@@ -183,8 +183,8 @@ class DualUseTestDriver(TestDriver):
       
    def run(self):
 
-      self.checkDualUsePrimaryFunction()
-      self.checkDualUseSecondaryFunction()
+      self.runTest("checkDualUsePrimaryFunction")
+      self.runTest("checkDualUseSecondaryFunction")
       
    def checkDualUseSecondaryFunction(self):
       
@@ -231,8 +231,8 @@ class DualUseTestDriver(TestDriver):
 
 def main():
     
-   test = DualUseTest()
-   test.debug = True
+   testDriver = DualUseTestDriver()
+   testDriver.debug = True
    
    parser = argparse.ArgumentParser( 
       description = 
@@ -248,21 +248,18 @@ def main():
    
    if args.use_python_implementation:
       
-      test.log("Using Python implementation of DualUse")
+      testDriver.log("Using Python implementation of DualUse")
       
-      dualUse = DualUseTestDriver()
+      dualUse = DualUse()
 
       Kaleidoscope_.useEventHandlerHook(dualUse)
    
    else:
-      test.log("Using C++ implementation of DualUse")
+      testDriver.log("Using C++ implementation of DualUse")
       
-   test.run()
+   testDriver.run()
    
-   test.graphicalMap()
-   
-   return test
+   testDriver.graphicalMap()
                    
 if __name__ == "__main__":
-   global test
-   test = main()
+   main()

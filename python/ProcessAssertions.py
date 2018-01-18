@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#  -*- coding: utf-8 -*-
 # -*- mode: Python -*-
 # Leidokos-Python -- Wraps Kaleidoscope modules' c++
 #    code to be available in Python programs.
@@ -37,7 +37,7 @@ class CycleHasNReports(_Assertion):
       self.nReports = nReports
    
    def _description(self):
-      return "There were %d keyboard reports in cycle" % self.nReports
+      return "%d keyboard reports expected in cycle" % self.nReports
 
    def _actualState(self):
       return "%d keyboard reports" % self._getTestDriver().nReportsInCycle
@@ -66,7 +66,7 @@ class NReportsGenerated(_Assertion):
       self.startNReports = self._getTestDriver().nKeyboardReports
    
    def _description(self):
-      return "There were %d keyboard reports in cycle" % self.nReports
+      return "%d keyboard reports expected" % self.nReports
    
    def _reportsGenerated(self):
       return self._getTestDriver().nKeyboardReports - self.startNReports
