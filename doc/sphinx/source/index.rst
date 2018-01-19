@@ -1,4 +1,4 @@
-This Is Leidokos-Python's application programming interface documentation.
+This is Leidokos-Python's application programming interface documentation.
 
 Contents:
 

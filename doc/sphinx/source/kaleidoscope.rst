@@ -1,5 +1,5 @@
 kaleidoscope module
-===================
+====================
 
 .. automodule:: kaleidoscope
     :members:
