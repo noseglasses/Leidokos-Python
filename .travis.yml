@@ -34,6 +34,12 @@ jobs:
          - git clone -b regression_testing --recursive https://github.com/CapeLeidokos/Arduino-Boards.git hardware/keyboardio/avr
          - cd hardware/keyboardio/avr
          - git submodule status
+         - cd libraries
+         - git clone $TRAVIS_BUILD_DIR
+         - cd Leikokos-Python
+         - git checkout $TRAVIS_COMMIT
+         - git submodule sync
+         - git submodule update --init --recursive
          - cd $HOME
          - mkdir kbw_build
          - cd kbw_build
