@@ -35,11 +35,7 @@ jobs:
          - cd hardware/keyboardio/avr
          - git submodule status
          - cd libraries
-         - git clone $TRAVIS_BUILD_DIR
-         - cd Leikokos-Python
-         - git checkout $TRAVIS_COMMIT
-         - git submodule sync
-         - git submodule update --init --recursive
+         - cp -a $TRAVIS_BUILD_DIR .
          - cd $HOME
          - mkdir kbw_build
          - cd kbw_build

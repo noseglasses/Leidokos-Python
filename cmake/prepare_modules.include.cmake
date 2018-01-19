@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+include("${CMAKE_SOURCE_DIR}/cmake/generate_symlink.macros.cmake")
+
 # This function is called by Leidokos-CMake as a hook
 #
 function(after_KALEIDOSCOPE_HARDWARE_BASE_PATH_defined)
