@@ -23,6 +23,11 @@
 // The Kaleidoscope core
 #include "Kaleidoscope.h"
 
+// Even though we do not access dual use in this sketch, we need 
+// the macro CTL_T to be defined.
+//
+#include "Kaleidoscope-DualUse.h"
+
 enum { QWERTY }; // layers
 
 /* This comment temporarily turns off astyle's indent enforcement
