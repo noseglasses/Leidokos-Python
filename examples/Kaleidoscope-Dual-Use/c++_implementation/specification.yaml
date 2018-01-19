@@ -1,0 +1,6 @@
+---
+   # Inform the build system to checkout and update firmware submodule Kaleidoscope-DualUse
+   modules:
+      - url:
+        commit:
+        name: Kaleidoscope-DualUse
