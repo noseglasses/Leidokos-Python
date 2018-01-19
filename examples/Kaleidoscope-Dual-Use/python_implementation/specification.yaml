@@ -1,3 +1,12 @@
 ---
    # To enable use of the Python implementation of the DualUse plugin, we pass the flag -p
-   driver_cmd_line_flags: -p
+   driver_cmd_line_flags: -p   
+   
+   # Even though we do not link the Kaleidoscope-DualUse C++ module, 
+   # we need it to be present to be able to include a header that
+   # defines CTL_T
+   #
+   modules:
+      - url:
+        commit:
+        name: Kaleidoscope-DualUse
