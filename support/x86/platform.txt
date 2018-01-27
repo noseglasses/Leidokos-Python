@@ -34,10 +34,10 @@ compiler.size.cmd=echo >/dev/null
 build.extra_flags=
 
 # These can be overridden in platform.local.txt
-compiler.c.extra_flags=-Wno-unused-parameter -Wno-unused-variable -Wno-type-limits
+compiler.c.extra_flags=-Wno-unused-parameter -Wno-unused-variable -Wno-type-limits -Wno-missing-braces
 compiler.c.elf.extra_flags=
 compiler.S.extra_flags=
-compiler.cpp.extra_flags=-Woverloaded-virtual -Wno-unused-parameter -Wno-unused-variable -Wno-type-limits
+compiler.cpp.extra_flags=-Woverloaded-virtual -Wno-unused-parameter -Wno-unused-variable -Wno-type-limits -Wno-missing-braces
 compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=

@@ -179,6 +179,12 @@ include_directories(
 macro(kaleidoscope_set_binary_basename_hook 
    basename_var_
 )
+   # Important: On MacOS python modules are bundles (extension .so not .dylib)
+   #
+   if(CMAKE_HOST_APPLE)
+      set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+   endif()
+   
    set(${basename_var_} "kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
 endmacro()
 
@@ -205,6 +211,10 @@ set(ARDUINO_SDK_VERSION "1.8.5")
 set(ARDUINO_SDK_VERSION_MAJOR 1)
 set(ARDUINO_SDK_VERSION_MINOR 8)
 set(ARDUINO_SDK_VERSION_PATCH 5)
+
+# Disable device upload which is not required for virtual builds
+#
+set(LEIDOKOS_CMAKE_NO_DEVICE_UPLOAD TRUE)
 
 # Include the Leidokos-CMake build system
 #

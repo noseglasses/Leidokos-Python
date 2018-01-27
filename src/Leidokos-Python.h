@@ -70,7 +70,7 @@ PluginFinalizationCallbacks &pluginFinalizationCallbacks();
    static bool __registerModule() { \
       ::leidokos::python::pluginRegistrationCallbacks().push_back(REGISTRATION_FUNCTION_PTR); \
       auto finFuncPtr = FINALIZATION_FUNCTION_PTR; \
-      if(finFuncPtr) { \
+      if((bool)finFuncPtr) { \
          ::leidokos::python::pluginFinalizationCallbacks().push_back(finFuncPtr); \
       } \
       return true; \
