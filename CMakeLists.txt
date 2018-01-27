@@ -206,6 +206,10 @@ set(ARDUINO_SDK_VERSION_MAJOR 1)
 set(ARDUINO_SDK_VERSION_MINOR 8)
 set(ARDUINO_SDK_VERSION_PATCH 5)
 
+# Disable device upload which is not required for virtual builds
+#
+set(LEIDOKOS_CMAKE_NO_DEVICE_UPLOAD TRUE)
+
 # Include the Leidokos-CMake build system
 #
 include("${CMAKE_SOURCE_DIR}/3rd_party/Leidokos-CMake/CMakeLists.txt")
