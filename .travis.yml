@@ -2,6 +2,7 @@ dist: trusty
 sudo: required
 os:
  - linux
+ - osx
  
 # Only test direct pushes to master
 #
@@ -26,7 +27,7 @@ jobs:
          - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
       
     - stage: build API documentation
-      if: branch = master
+      if: (branch = master) AND (env(TRAVIS_OS_NAME) = linux)
       script:
          # Generates and installs the Python API to gh_pages
          - cd $HOME
