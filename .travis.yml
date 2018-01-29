@@ -16,11 +16,11 @@ before_install:
    - Leidokos-Testing/travis/before_install.sh
    
 # Make the script phase a noop
-script: true
+#script: true
     
 jobs:
   include:
-    - stage: test
+    - stage: script
       script:
          - cd $HOME
          - mkdir ktest
