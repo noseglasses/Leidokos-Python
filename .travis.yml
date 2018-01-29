@@ -1,5 +1,6 @@
 dist: trusty
 sudo: required
+language: generic
 os:
  - linux
  - osx
@@ -14,13 +15,10 @@ before_install:
    - cd $HOME
    - git clone --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
    - Leidokos-Testing/travis/before_install.sh
-   
-# Make the script phase a noop
-#script: true
     
 jobs:
   include:
-    - stage: script
+    - stage: test
       script:
          - cd $HOME
          - mkdir ktest
