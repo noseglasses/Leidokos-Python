@@ -14,8 +14,6 @@ before_install:
    - cd $HOME
    - git clone --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
    - Leidokos-Testing/travis/before_install.sh
-
-script: skip
     
 jobs:
   include:
