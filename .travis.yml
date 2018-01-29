@@ -16,21 +16,17 @@ before_install:
    - git clone --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
    - Leidokos-Testing/travis/before_install.sh
   
-stages:
-  - test
-  - build_API_documentation
-  
+script:
+   - cd $HOME
+   - mkdir ktest
+   - cd ktest
+   - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
+   
 jobs:
   include:
-    - stage: test
-      script:
-         - cd $HOME
-         - mkdir ktest
-         - cd ktest
-         - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
-      
     - stage: build_API_documentation
-      if: (branch = master) AND (env(TRAVIS_OS_NAME) = linux)
+      if: (branch = master)
+      os: linux
       script:
          # Generates and installs the Python API to gh_pages
          - cd $HOME
