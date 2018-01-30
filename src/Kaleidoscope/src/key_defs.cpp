@@ -126,6 +126,14 @@ static const char *modifierKeyToName(const Key &key) {
    return modifierKeycodeToName(key.keyCode);
 }
 
+static boost::shared_ptr<Key> makeKeyRaw(uint16_t raw) {
+   return boost::shared_ptr<Key>( new Key{ .raw = raw } );
+}
+
+static boost::shared_ptr<Key> makeKey_KeyCodeAndFlags(uint8_t keyCode, uint8_t flags) {
+   return boost::shared_ptr<Key>( new Key{ .keyCode = keyCode, .flags = flags } );
+}
+
 static void exportPython() {
    
    using namespace boost::python;
@@ -134,18 +142,16 @@ static void exportPython() {
       "Provides functionality to deal with and to represent keys.",
       boost::python::init< >()
    )
-      .def(boost::python::init<uint8_t, uint8_t>(
+      .def("__init__", boost::python::make_constructor(&makeKey_KeyCodeAndFlags),                      
            "Initializes the key.\n\n"
            "Args:\n"
            "   keyCode (uint8_t): The key code.\n"
            "   flags (uint8_t): The flags value."
-            )
        )
-      .def(boost::python::init<uint16_t>(
+      .def("__init__", boost::python::make_constructor(&makeKeyRaw),
            "Initializes the key.\n\n"
            "Args:\n"
            "   raw (uint16_t): The raw value of the key."
-         )
        )
       .def(self == uint16_t())
       .def(self == Key_())
