@@ -62,4 +62,6 @@ notifications:
     on_failure: always
     
 cache:
-ccache: true
+  ccache: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
