@@ -171,7 +171,7 @@ for [Leidokos-CMake](https://github.com/CapeLeidokos/Leidokos-CMake.git), e.g.
 make
 ```
 
-This will create a library `kaleidoscope.so` or `kaleidoscope.dll` in 
+This will create a library `kaleidoscope.so`, `kaleidoscope.dylib` or `kaleidoscope.dll` in 
 the build directory that is actually a Python module.
 
 3. Run an example firmware test
@@ -241,7 +241,7 @@ module. Both files' paths must be made known to Python via the environment
 variable `PYTHONPATH`, e.g. as
 
 ```bash
-export PYTHONPATH=<path to kaleidoscope.so>:<Leidokos-Python repo path>/python:$PYTHONPATH
+export PYTHONPATH=<path to kaleidoscope dynamic library>:<Leidokos-Python repo path>/python:$PYTHONPATH
 ```
 You can then run one of the examples or your own python test script, e.g.
 ```bash
