@@ -179,6 +179,12 @@ include_directories(
 macro(kaleidoscope_set_binary_basename_hook 
    basename_var_
 )
+   # Important: On MacOS python modules are bundles (extension .so not .dylib)
+   #
+   if(CMAKE_HOST_APPLE)
+      set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+   endif()
+   
    set(${basename_var_} "kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
 endmacro()
 
