@@ -1,7 +1,9 @@
 dist: trusty
 sudo: required
+language: generic
 os:
  - linux
+ - osx
  
 # Only test direct pushes to master
 #
@@ -13,20 +15,26 @@ before_install:
    - cd $HOME
    - git clone --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
    - Leidokos-Testing/travis/before_install.sh
-
-script: skip
-    
+  
+script:
+   - cd $HOME
+   - mkdir ktest
+   - cd ktest
+   - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
+   - echo "firmware 1 configure"
+   - cat /Users/travis/ktest/firmware/1/build/leidokos-testing.configure.log.txt
+   - echo "firmware 1 build"
+   - cat /Users/travis/ktest/firmware/1/build/leidokos-testing.build.log.txt
+   - echo "firmware 2 configure"
+   - cat /Users/travis/ktest/firmware/2/build/leidokos-testing.configure.log.txt
+   - echo "firmware 2 build"
+   - cat /Users/travis/ktest/firmware/2/build/leidokos-testing.build.log.txt
+   
 jobs:
   include:
-    - stage: test
-      script:
-         - cd $HOME
-         - mkdir ktest
-         - cd ktest
-         - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
-      
-    - stage: build API documentation
-      if: branch = master
+    - stage: build_API_documentation
+      if: (branch = master)
+      os: linux
       script:
          # Generates and installs the Python API to gh_pages
          - cd $HOME
@@ -62,4 +70,6 @@ notifications:
     on_failure: always
     
 cache:
-ccache: true
+  ccache: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
