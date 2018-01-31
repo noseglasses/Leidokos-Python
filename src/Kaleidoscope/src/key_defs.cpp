@@ -127,11 +127,13 @@ static const char *modifierKeyToName(const Key &key) {
 }
 
 static boost::shared_ptr<Key> makeKeyRaw(uint16_t raw) {
-   return boost::shared_ptr<Key>( new Key{ .raw = raw } );
+   boost::shared_ptr<Key> tmp( new Key );
+   tmp->raw = raw;
+   return tmp;
 }
 
 static boost::shared_ptr<Key> makeKey_KeyCodeAndFlags(uint8_t keyCode, uint8_t flags) {
-   return boost::shared_ptr<Key>( new Key{ .keyCode = keyCode, .flags = flags } );
+   return boost::shared_ptr<Key>( new Key{ {.keyCode = keyCode, .flags = flags }} );
 }
 
 static void exportPython() {
