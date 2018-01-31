@@ -21,6 +21,14 @@ script:
    - mkdir ktest
    - cd ktest
    - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
+   - echo "firmware 1 configure"
+   - cat /Users/travis/ktest/firmware/1/build/leidokos-testing.configure.log.txt
+   - echo "firmware 1 build"
+   - cat /Users/travis/ktest/firmware/1/build/leidokos-testing.build.log.txt
+   - echo "firmware 2 configure"
+   - cat /Users/travis/ktest/firmware/2/build/leidokos-testing.configure.log.txt
+   - echo "firmware 2 build"
+   - cat /Users/travis/ktest/firmware/2/build/leidokos-testing.build.log.txt
    
 jobs:
   include:
