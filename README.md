@@ -1,13 +1,25 @@
-![status][st:experimental] [![Build Status][travis:image]][travis:status]
+![status][st:experimental]
+[![Build Status][travis:linux:image]][travis:linux:target]
+[![Build Status][travis:MacOS:image]][travis:MacOS:target]
+[![Latest version][version:image]][version:target]
 
-[travis:image]: https://travis-ci.org/CapeLeidokos/Leidokos-Python.svg?branch=master
-[travis:status]: https://travis-ci.org/CapeLeidokos/Leidokos-Python
+[![Python API documentation][python:api:image]][python:api:target]
 
-[st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=flat&colorA=44cc11&colorB=494e52
-[st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=flat&colorA=e05d44&colorB=494e52
-[st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=flat&colorA=dfb317&colorB=494e52
+[travis:linux:image]: https://img.shields.io/travis/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge&label=Linux&branch=master
+[travis:linux:target]: https://travis-ci.org/CapeLeidokos/Leidokos-Python
 
-[Python API documentation](https://capeleidokos.github.io/Leidokos-Python/API/index.html)
+[travis:MacOS:image]: https://img.shields.io/travis/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge&label=Mac&branch=master
+[travis:MacOS:target]: https://travis-ci.org/CapeLeidokos/Leidokos-Python
+
+[version:image]: https://img.shields.io/github/release/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge
+[version:target]: https://github.com/CapeLeidokos/Leidokos-Python/releases
+
+[st:stable]: https://img.shields.io/badge/stable-✔-black.svg?style=for-the-badge&colorA=44cc11&colorB=494e52
+[st:broken]: https://img.shields.io/badge/broken-X-black.svg?style=for-the-badge&colorA=e05d44&colorB=494e52
+[st:experimental]: https://img.shields.io/badge/experimental----black.svg?style=for-the-badge&colorA=dfb317&colorB=494e52
+
+[python:api:image]: https://img.shields.io/badge/Python-API-ff69b4.svg?style=for-the-badge
+[python:api:target]: https://capeleidokos.github.io/Leidokos-Python/API/index.html
 
 # Leidokos-Python
 Leidokos-Python is a Python scriptable Kaleidoscope firmware simulator.
