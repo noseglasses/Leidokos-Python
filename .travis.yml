@@ -29,7 +29,7 @@ script:
 jobs:
   include:
     - stage: build_API_documentation
-      if: (branch = master)
+      if: (branch = master) AND (env(TRAVIS_PULL_REQUEST) != false)
       os: linux
       script:
          # Generates and installs the Python API to gh_pages
@@ -41,8 +41,8 @@ jobs:
          - cd libraries
          - cp -a $TRAVIS_BUILD_DIR .
          - cd $HOME
-         - mkdir kbw_build
-         - cd kbw_build
+         - mkdir api_doc_build
+         - cd api_doc_build
          - cmake --version
          - cmake
                -DKALEIDOSCOPE_FIRMWARE_SKETCH=$HOME/hardware/keyboardio/avr/libraries/Model01-Firmware/Model01-Firmware.ino
@@ -54,7 +54,7 @@ jobs:
       deploy:
          provider: pages
          skip_cleanup: true
-         local_dir: doc/kaleidoscope
+         local_dir: $HOME/api_doc_build/doc/kaleidoscope
          github_token: $GITHUB_API_KEY
          on:
             branch: master
