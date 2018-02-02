@@ -54,7 +54,8 @@ jobs:
       deploy:
          provider: pages
          skip_cleanup: true
-         local_dir: $HOME/api_doc_build/doc/kaleidoscope
+         # The following directory is interpreted relative to /home/travis/build/CapeLeidokos/Leidokos-Python
+         local_dir: ../../../api_doc_build/doc/kaleidoscope
          github_token: $GITHUB_API_KEY
          on:
             branch: master
