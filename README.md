@@ -1,4 +1,4 @@
-[!status][st:experimental]
+[!status][st:stable]
 [![Build Status][travis:linux:image]][travis:linux:target]
 [![Build Status][travis:MacOS:image]][travis:MacOS:target]
 [![Latest version][version:image]][version:target]
