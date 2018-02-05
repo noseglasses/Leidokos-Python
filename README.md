@@ -54,10 +54,8 @@ of the firmware.
 
 ```python
 import kaleidoscope
-
 from kaleidoscope import *
-
-import sys
+from leidokos import *
 
 driver = TestDriver()
 driver.debug = True
