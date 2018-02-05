@@ -1,4 +1,4 @@
-![status][st:experimental]
+[!status][st:experimental]
 [![Build Status][travis:linux:image]][travis:linux:target]
 [![Build Status][travis:MacOS:image]][travis:MacOS:target]
 [![Latest version][version:image]][version:target]
@@ -46,6 +46,8 @@ Leidokos-Python is an essential part of the CapeLeidokos build, develop and test
 <img src="https://github.com/CapeLeidokos/CapeLeidokos/blob/master/CapeLeidokos.svg?sanitize=true">
 
 # Example usage
+For the impatient let's start with a usage example.
+
 Below you see the python code of the example `examples/test_kaleidoscope.py` that is
 provided as part of the project source repository. It tests some functionality
 of the firmware.
@@ -139,71 +141,86 @@ Testing done
 
 # A virtual keyboard
 
-A keyboard firmware is an endless program that reacts in real time on user input.
-The real time aspect makes it sometimes very difficult to debug or test certain
-aspects of a firmware where timing is very important. On a real hardware it is sometimes necessary to hid several keys in a well defined order to trigger a specific behavior (e.g. to reproduce a bug). This can require skills that only a professional pianist would have.
+A keyboard firmware is basically a program that consists of an endless loop that reacts in real time on user input.
+
+The real time aspect is essential for an input device. It can makes it very difficult to reproduce failure scenarios. To debug or test certain aspects of a firmware the timing of input is very important. On a real hardware it can sometimes even be necessary to hit several keys in a well defined order and with a well defined timing to trigger a specific behavior. This can  in some cases require supernatural skills or at least those of a professional pianist.
 
 This is where Leidokos-Python comes in quite handy.
 
 ## Reproducible key sequences
 Leidokos-Python enables an exact and reproducible simulation of
-the firmware input in terms of key-action sequences (presses and releases). Once setup the sequence can be repeated as often as necessary while debugging and changing the firmware code.
+the firmware input in terms of key-action sequences (presses and releases) with precise timing. Once setup, a sequence can be repeated as often as necessary while debugging and optimizing the firmware code.
 
-## Virtual scan cycles
-Key-actions alone would not suffice to simulate the behavior of a real keyboard run.
-The firmware is essentially an endless loop where every cycle checks the current state of the keyboard matrix and triggers events by calling hook functions (scan cycle).
+## Timing  & scan cycles
+One loop cycle of the main keyboard firmware loop is called a scan cycle. In every cycle the current state of the keyboard matrix is checked for changes. Specific events are triggered by by calling hook functions that can be defined as part of plugins or the firmware core.
 
-The actual timing in the simulation is define by specifying how many keyboard scan cycles do elapse between key actions. Leidokos-Python allows to specify counts of scan cycles but also amounts of time that are supposed to elapse while virtual firmware is performing can cycles. The latter is possible if there is an estimate of the time a single scan cycle takes to execute on the real hardware (typically in the order of few milliseconds). Leidokos-Python automatically computes the number of cycles that match a given time interval.
+A keyboard scan cycle of the real keyboard has a specific duration, typically in the order of a low number of milliseconds. Typically, between two key-actions, a number of scan cycles elapse.
+Therefore, the number of scan cycles that elapse is a natural meassure that is required to be sepecified when defining virtual firmware runs.
+
+Apart from elapsing scan cycles, Leidokos-Python allows to specify amounts of time that elapse between consecutive key-actions. The latter requires an estimate of the duration of a single scan cycle's executing on the real hardware. Leidokos-Python automatically computes the number of cycles that match a given time interval.
 
 ## Runtime assertions
-As a reaction on key actions, the firmware generates USB HID reports. These reports are the firmware's output data. It is therefore important to carefully observe the firmware's
-I/O behavior. To simplify this, Leidokos-Python provides a large set of
+Commonly, as a reaction on key-actions, the firmware generates USB HID reports that are send to the host computer. These reports are the firmware's output data.
+
+To verify correct behavior of the firmware, it is important to carefully observe the firmware's
+I/O behavior. As part of its Python API, Leidokos-Python provides a large set of
 runtime assertions that can be used to define exactly what output is expected as a reaction on specific key-events. Assertions are grouped in report assertions and process assertions.
 
 ### Report assertions
-A report assertion basically verifies specific properties of a key report, e.g. must contain a certain key or modifier or must not contain. Any combinations are possible.
-Report assertions can be grouped and queued. Whenever a report is generated by the keyboard firmware, the next group of assertions is taken form the queue, applied to the report and then discarded.
-When assertions fail, errors are reported.
+A report assertion verifies specific properties of a key report. It e.g. requires that a report must contain a specific key or modifier or that it must not contain one of those. Any combinations of positive or negative assertions are possible.
+Report assertions can be grouped and are queued. Whenever a report is generated by the keyboard firmware, the next group of assertions is taken form a global queue, casted on the report and then discarded.
+If assertions fail, errors are reported.
 
 ### Process assertions
-Process assertions are there to ensure correct timing. This is the main difference when compared to report assertions which are agnostic to the concept of time.
-A process assertion can e.g. check if between two control points of the test run a specific number of reports have been generated.
+Process assertions ensure correct timing.
+A process assertion can e.g. ensure that a given number of HID reports have been generated between two control points of as test run.
 
-## Python inter-operation with the firmware
-By means of Python export, the firmware and all of its plugins can make symbols (functions and variables) available to Python. This means that you can actually call firmware functions from the python side. This can be very valuable when writing tests to assert specific properties or to control the firmware state but also to
-play with the firmware without touching the C++ code. The latter allows for much faster development cycles.
+## Seamless interaction between Python and C++
+Leidokos-Python allows the firmware and all of its plugins to make symbols (functions and variables) available to Python. This means that you can actually call C++ firmware functions from the Python side. This can be very valuable when writing tests to assert specific properties or to control the firmware state but also to
+play with the firmware without touching the C++ code. Staying on the Python side can allow for much faster development cycles.
 
 ## Virtual plugins
-Leidokos-Python by itself exports most symbols of the Kaleidoscope core as Python code. This enables to implement whole plugins as Python code for virtual prototyping.
-It is much faster to develop a new algorithm in Python than in C++ due to the absence of compile and upload.
+Most of the functions and some of the global variables defined by Kaleidoscope's firmware core are exported to Python as part of Leidokos-Pythons standard API. This enables an implementation of whole plugins written in Python and, thus, virtual prototyping.
+As most programmers will agree, it is much faster to develop new algorithms in Python than it is in C++. This is mainly due to the absence of a compile stage. With Leidokos-Python is is, moreover, due to the absence of firmware device upload.
 
 ## Test driven development
-You have a new idea and want to write a Kaleidoscope plugin to realize it.
-Why not use test driven development. The following process can drastically shorten development times.
+You have a new fancy firmware idea and want to write a Kaleidoscope plugin to realize it.
+Why not use test driven development? The following process can drastically shorten development times.
 
 1. Define a set of tests with Leidokos-Python.
-2. Develop the plugin's algorithm as Python code.
-3. Run the virtual firmware and debug your code until all your tests pass.
+2. Develop the plugin's algorithm by writing Python code.
+3. Run the virtual firmware and debug your Python plugin until all your tests pass.
 4. Port the plugin's Python code to C++.
 5. Run the test series again with the C++ version of the new plugin.
 6. Upload and test on the real hardware.
 7. Use and maintain the already existing tests for regression testing with [Leidokos-Testing](https://github.com/CapeLeidokos/Leidokos-Testing).
 
 ## Debugging
-Most people develop firmware software in change-compile-upload-test cycles.
-In such a scenario, the only way to debug is passing back `printf`-type output to the host system or to use other type of feedback, like LEDs or sounds to report the state of the device. But how to debug e.g. segmentation faults?
+Most people develop firmware in change-compile-upload-test cycles.
+In such a scenario, the only way to debug is passing back `printf`-type output to the host system or to use other types of feedback, like LEDs signals or sounds to report the state of the device. This can help in some cases, but how to debug segmentation faults?
 
-Using Leidokos-Python using a debugger is very simple. Just run the whole python process in your favorite debugger. This enables you to debug the firmware code as if it was a host program. Leidokos-Python's programmable tests enable an exact reproducibility of errors.
+On the other hand, using Leidokos-Python with a debugger is very simple. Just run the whole Python process in your favorite debugger. This allows you to debug the firmware code as if it was an ordinary host program. Leidokos-Python's programmable tests thereby enable an exact reproducibility of errors.
+
+## LED and keymap visualization
+Apart from USB HID reports, there are other things that might happen as a reaction on key-actions. A keyboard of course has its own state. Parts of this state are more or less visible.
+Some keyboards are equipped with per-key LEDs. It is, thus, important to visualize the
+state of the LED matrix of the virtual keyboard.
+
+Another thing that is usually not displayed but would be very nice to be displayed is the currently active keymap, i.e. the keys' current meaning. This is a point where a virtual keyboard has a clear advantage as it is fairly simple to display the current keymap for debugging purposes.
+
+`examples/Kaleidoscope-Heatmap` demonstrates how the virtual keymap and LED visualization may be used to visualize a keyboard heatmap. First an example text is typed on the virtual keyboard. Then, the resulting heatmap that is generated by plugin `Kaleidoscope-Heatmap` is visualized.
+
+![Keyboard heatmap](https://github.com/CapeLeidokos/Leidokos-Python/images/lorem_imsum_heatmap.png)
 
 # Usage
 
+Leidokos-Python's build process of the virtual Kaleidoscope firmware is a two stage process (stages 1 and 2 below). First you configure the CMake build system, then you build (compile and link) the firmware. The CMake build system must be configured only once. Later, when developing and performing change-test cycles, only the build stage needs to be repeated.
+
 The following explanation of the Python module build
-assumes that a firmware setup has already been established in a directory `<sketchbook_dir>`,
+assumes that the firmwares source code has already been downloaded to a directory `<sketchbook_dir>`,
 as described in the [Kaleidoscope Wiki](https://github.com/keyboardio/Kaleidoscope/wiki/Keyboardio-Model-01-Introduction).
 
-This example works on GNU/Linux and MacOS.
-
-__Important:__ During development, you would only repeat steps 2. and 3. in a change-test cycles.
+The example shell commands below work on GNU/Linux and MacOS.
 
 ## 1. Configure the CMake build system
 
@@ -430,10 +447,9 @@ For a real example have a look on the `testing/example_test` directory of CapeLe
 // Here we generate accessor functions for MouseKeys's members.
 
 #define EXPORT_PROPERTY(NAME, DESCRIPTION)                                     \
-   .add_static_property(                                                       \
+   .def_readwrite(                                                             \
       #NAME,                                                                   \
-      make_getter(&MouseKeys_::NAME),                                          \
-      make_setter(&MouseKeys_::NAME),                                          \
+      &MouseKeys_::NAME,                                                       \
       DESCRIPTION                                                              \
    )
 
@@ -459,46 +475,46 @@ static void exportPython() {
       //
       // friend void exportPython();
       //
-      .EXPORT_PROPERTY(speed,
+      EXPORT_PROPERTY(speed,
          "The mouse speed"
-       )
-      .EXPORT_PROPERTY(speedDelay,
+      )
+      EXPORT_PROPERTY(speedDelay,
          "The mouse speed delay"
-       )
-      .EXPORT_PROPERTY(accelSpeed,
+      )
+      EXPORT_PROPERTY(accelSpeed,
          "The mouse acceleration speed"
-       )
-      .EXPORT_PROPERTY(accelDelay,
+      )
+      EXPORT_PROPERTY(accelDelay,
          "The mouse acceleration delay"
-       )
-      .EXPORT_PROPERTY(wheelSpeed,
+      )
+      EXPORT_PROPERTY(wheelSpeed,
          "The mouse wheel speed"
-       )
-      .EXPORT_PROPERTY(wheelDelay,
+      )
+      EXPORT_PROPERTY(wheelDelay,
          "The mouse wheel delay"
-       )
-      .EXPORT_PROPERTY(mouseMoveIntent,
+      )
+      EXPORT_PROPERTY(mouseMoveIntent,
          "The mouse intent"
-       )
-      .EXPORT_PROPERTY(endTime,
+      )
+      EXPORT_PROPERTY(endTime,
          "The mouse end time"
-       )
-      .EXPORT_PROPERTY(accelEndTime,
+      )
+      EXPORT_PROPERTY(accelEndTime,
          "The mouse acceleration end time"
-       )
-      .EXPORT_PROPERTY(wheelEndTime,
+      )
+      EXPORT_PROPERTY(wheelEndTime,
          "The mouse wheel end time"
-       )
+      )
 
        // Export a static method.
        //
       .def("scrollWheel", &MouseKeys_::scrollWheel,
          "Scrolls the mouse wheel\n\n"
          "Args:\n"
-         "   keyCode (uint8_t): The scroll wheel key code.")
-         .staticmethod("scrollWheel")
+         "   keyCode (uint8_t): The scroll wheel key code."
+      ).staticmethod("scrollWheel")
 
-      // Note: To export a non static method, just ommit the .staticmethod(...)
+      // Note: To export a non static method, just omit the .staticmethod(...)
       //       statement.
    ;
 }
@@ -508,3 +524,6 @@ LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
 } // namespace kaleidoscope
 } // namespace mouse_keys
 ```
+
+For more examples on how to export C++ class inventory, have a look at the C++ files in
+`Leidokos-Python/src/Kaleidoscope/src` that contain the code responsible for the export of Kaleidoscope's core symbols. 
