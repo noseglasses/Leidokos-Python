@@ -7,6 +7,15 @@ configuration:
 #environment:
   #APPVEYOR_SAVE_CACHE_ON_ERROR: true
   
+init:
+  - cmd: |
+      set CC=C:\msys64\usr\bin\gcc.exe
+      set CXX=C:\msys64\usr\bin\g++.exe
+
+      rem Use msys2 for all Unix-Like binaries
+      rem
+      set PATH=C:\msys64\usr\bin;%PATH%
+       
 install:
   - cmd: |
       cd C:\projects
