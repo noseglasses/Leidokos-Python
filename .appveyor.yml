@@ -11,7 +11,7 @@ init:
   - cmd: |
       cd %BASE_DIR%
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
-      %BASE_DIR%\Leidokos-Testing\appveyor\init.bat
+      call %BASE_DIR%\Leidokos-Testing\appveyor\init.bat
       
 build: Script
 
@@ -20,5 +20,5 @@ build_script:
       cd %BASE_DIR%
       mkdir ktest
       cd ktest
-      %BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat
+      call %BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat
   
