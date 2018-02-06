@@ -12,7 +12,7 @@ install:
       cd C:\projects
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
       cd Leidokos-Testing\appveyor
-      call "C:\projects\Leidokos-Testing\appveyor\init.bat"
+      cmd /c "C:\projects\Leidokos-Testing\appveyor\init.bat"
       
 build: Script
 
@@ -22,5 +22,5 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      call "C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
+      cmd /c "C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
   
