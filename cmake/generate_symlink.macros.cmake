@@ -28,6 +28,7 @@ function(generate_link
          # Windows without administrative privileges.
          # Copy the file as a workaround.
          #  
+         message("Copying ${target_} to ${link_}")
          execute_process(
             COMMAND "${CMAKE_COMMAND}" copy
                "${target_}"
@@ -35,7 +36,7 @@ function(generate_link
          )
       else()
    
-#       message("Generating symbolic link ${link_} -> ${target_}")
+         message("Generating symbolic link ${link_} -> ${target_}")
          execute_process(
             COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
          )
