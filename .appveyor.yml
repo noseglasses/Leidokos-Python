@@ -9,19 +9,19 @@ environment:
   
 init:
   - cmd: |
-      cd %BASE_DIR%
+      cd %APPVEYOR_BUILD_FOLDER%
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
       cd Leidokos-Testing\appveyor
       dir
-      cd %BASE_DIR%
-      cmd.exe /c '%BASE_DIR%\Leidokos-Testing\appveyor\init.bat'
+      cd %APPVEYOR_BUILD_FOLDER%
+      "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
       
 build: Script
 
 build_script:
   - cmd: |
-      cd %BASE_DIR%
+      cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      cmd.exe /c "%BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
+      "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
   
