@@ -4,8 +4,8 @@ configuration:
   #- Debug
   - Release
   
-environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+#environment:
+  #APPVEYOR_SAVE_CACHE_ON_ERROR: true
   
 init:
   - cmd: |
@@ -13,8 +13,6 @@ init:
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
       cd Leidokos-Testing\appveyor
       call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
-      C:\msys64\usr\bin\pacman -Ql mingw-w64-x86_64-python3
-      C:\msys64\usr\bin\pacman -Ql mingw-w64-x86_64-boost
       
 build: Script
 
