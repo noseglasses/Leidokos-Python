@@ -7,7 +7,7 @@ configuration:
 #environment:
   #APPVEYOR_SAVE_CACHE_ON_ERROR: true
   
-init:
+install:
   - cmd: |
       cd C:\projects
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
