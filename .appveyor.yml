@@ -14,7 +14,7 @@ init:
       cd Leidokos-Testing\appveyor
       dir
       cd %BASE_DIR%
-      call "%BASE_DIR%\Leidokos-Testing\appveyor\init.bat"
+      cmd.exe /c "%BASE_DIR%\Leidokos-Testing\appveyor\init.bat"
       
 build: Script
 
@@ -23,5 +23,5 @@ build_script:
       cd %BASE_DIR%
       mkdir ktest
       cd ktest
-      call "%BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
+      cmd.exe /c "%BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
   
