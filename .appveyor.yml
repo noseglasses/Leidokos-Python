@@ -15,11 +15,14 @@ init:
       dir
       cd %APPVEYOR_BUILD_FOLDER%
       call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
+      cd C:\msys64\usr\lib
+      dir
       
 build: Script
 
 build_script:
   - cmd: |
+      echo "Running build phase"
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
