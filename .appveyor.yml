@@ -12,11 +12,9 @@ init:
       cd %APPVEYOR_BUILD_FOLDER%
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
       cd Leidokos-Testing\appveyor
-      dir
-      cd %APPVEYOR_BUILD_FOLDER%
       call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
-      cd C:\msys64\usr\bin
-      dir
+      C:\msys64\usr\bin\pacman -Ql mingw-w64-x86_64-python3
+      C:\msys64\usr\bin\pacman -Ql mingw-w64-x86_64-boost
       
 build: Script
 
