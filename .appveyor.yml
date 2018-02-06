@@ -14,7 +14,7 @@ init:
       cd Leidokos-Testing\appveyor
       dir
       cd %APPVEYOR_BUILD_FOLDER%
-      "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
+      call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
       
 build: Script
 
@@ -23,5 +23,5 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
+      call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat"
   
