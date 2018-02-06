@@ -29,6 +29,9 @@ function(generate_link
          # Copy the file as a workaround.
          #  
          message("Copying ${target_} to ${link_}")
+         get_filename_component(target_dir "${link_}" DIRECTORY)
+         file(MAKE_DIRECTORY "${target_dir}")
+         
          execute_process(
             COMMAND "${CMAKE_COMMAND}" copy
                "${target_}"
