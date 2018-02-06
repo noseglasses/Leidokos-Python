@@ -1,0 +1,24 @@
+platform:
+  - x64
+configuration:
+  #- Debug
+  - Release
+  
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  
+init:
+  - cmd: |
+      cd %BASE_DIR%
+      git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
+      %BASE_DIR%\Leidokos-Testing\appveyor\init.bat
+      
+build: Script
+
+build_script:
+  - cmd: |
+      cd %BASE_DIR%
+      mkdir ktest
+      cd ktest
+      %BASE_DIR%\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat
+  
