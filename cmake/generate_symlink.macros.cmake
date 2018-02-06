@@ -22,9 +22,29 @@ function(generate_link
 )
    if(NOT EXISTS "${link_}")
    
+      if(CMAKE_HOST_WIN32)
+      
+         # There is no way to generate symlinks on 
+         # Windows without administrative privileges.
+         # Copy the file as a workaround.
+         #
+         if(IS_DIRECTORY "${target_}")
+            set(copy_command copy_directory)
+         else()
+            set(copy_command copy)
+         endif()
+         
+         execute_process(
+            COMMAND "${CMAKE_COMMAND}" ${copy_command}
+               "${target_}"
+               "${link_}"
+         )
+      else()
+   
 #       message("Generating symbolic link ${link_} -> ${target_}")
-      execute_process(
-         COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
-      )
+         execute_process(
+            COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
+         )
+      endif()
    endif()
 endfunction()
