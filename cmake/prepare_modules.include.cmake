@@ -70,7 +70,21 @@ function(after_KALEIDOSCOPE_HARDWARE_BASE_PATH_defined)
          set(cpp_file "${wrapper_file}.cpp")
          
          if(NOT EXISTS "${cpp_file}")
-            generate_link("${wrapper_file}" "${cpp_file}")
+
+            if(CMAKE_HOST_WIN32)
+            
+               # There is no way to generate symlinks on 
+               # Windows without administrative privileges.
+               # Copy the file as a workaround.
+               #
+               execute_process(
+                  COMMAND "${CMAKE_COMMAND}" copy
+                     "${wrapper_file}"
+                     "${cpp_file}"
+               )
+            else()
+               generate_link("${wrapper_file}" "${cpp_file}")
+            endif()
          endif()
       endforeach()
    endfunction()
