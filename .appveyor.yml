@@ -4,6 +4,7 @@ configuration:
   #- Debug
   - Release
   
+  
 #environment:
   #APPVEYOR_SAVE_CACHE_ON_ERROR: true
   
