@@ -9,8 +9,8 @@ configuration:
   
 init:
   - cmd: |
-      set CC=C:\msys64\usr\bin\gcc.exe
-      set CXX=C:\msys64\usr\bin\g++.exe
+      set CC=C:\msys64\mingw64\bin\gcc.exe
+      set CXX=C:\msys64\mingw64\bin\g++.exe
 
       rem Use msys2 for all Unix-Like binaries
       rem
