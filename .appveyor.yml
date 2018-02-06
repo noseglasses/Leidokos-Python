@@ -11,7 +11,7 @@ init:
   - cmd: |
       cd %BASE_DIR%
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
-      cd Leidokos-Testing
+      cd Leidokos-Testing\appveyor
       dir
       cd %BASE_DIR%
       call "%BASE_DIR%\Leidokos-Testing\appveyor\init.bat"
