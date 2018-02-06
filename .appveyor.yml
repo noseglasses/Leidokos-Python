@@ -15,7 +15,7 @@ init:
       dir
       cd %APPVEYOR_BUILD_FOLDER%
       call "%APPVEYOR_BUILD_FOLDER%\Leidokos-Testing\appveyor\init.bat"
-      cd C:\msys64\usr\lib
+      cd C:\msys64\usr\lib64
       dir
       
 build: Script
