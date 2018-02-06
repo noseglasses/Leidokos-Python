@@ -14,7 +14,7 @@ init:
 
       rem Use msys2 for all Unix-Like binaries
       rem
-      set PATH=C:\msys64\usr\bin;%PATH%
+      set PATH=C:\msys64\mingw64\bin;%PATH%
        
 install:
   - cmd: |
