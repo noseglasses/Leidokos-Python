@@ -14,7 +14,7 @@ init:
       cd Leidokos-Testing\appveyor
       dir
       cd %BASE_DIR%
-      cmd.exe /c "%BASE_DIR%\Leidokos-Testing\appveyor\init.bat"
+      cmd.exe /c '%BASE_DIR%\Leidokos-Testing\appveyor\init.bat'
       
 build: Script
 
