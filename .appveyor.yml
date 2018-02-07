@@ -35,6 +35,5 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      rem echo "" | runas /user:Administator "cmd /c C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat" || EXIT /B 1
       cmd /c "C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat" || EXIT /B 1
   
