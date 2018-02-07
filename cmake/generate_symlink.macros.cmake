@@ -50,12 +50,25 @@ function(generate_link
          
          execute_process(
             COMMAND mklink.exe ${flag} "${link_}" "${target_}" 
+            RESULT_VARIABLE result
+            OUTPUT_VARIABLE output
+            ERROR_VARIABLE error
          )
       else()
    
          execute_process(
             COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
+            RESULT_VARIABLE result
+            OUTPUT_VARIABLE output
+            ERROR_VARIABLE error
          )
       endif()
+      
+      if(NOT result EQUAL 0)
+         message("Failed generating link ${link_} -> ${target_}")
+         message("result = ${result}")
+         message("output = ${output}")
+         message("error = ${error}")
+         message(FATAL_ERROR "Bailing out.")
    endif()
 endfunction()
