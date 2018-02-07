@@ -48,8 +48,11 @@ function(generate_link
             set(flag "/H")
          endif()
          
+         file(TO_NATIVE_PATH "${link_}" link_native)
+         file(TO_NATIVE_PATH "${target_}" target_native)
+         
          execute_process(
-            COMMAND mklink.exe ${flag} "${link_}" "${target_}" 
+            COMMAND mklink.exe ${flag} "${link_native}" "${target_native}" 
             RESULT_VARIABLE result
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
