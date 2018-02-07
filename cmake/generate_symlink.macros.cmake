@@ -70,5 +70,6 @@ function(generate_link
          message("output = ${output}")
          message("error = ${error}")
          message(FATAL_ERROR "Bailing out.")
+      endif()
    endif()
 endfunction()
