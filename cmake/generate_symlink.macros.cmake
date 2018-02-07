@@ -38,11 +38,24 @@ function(generate_link
 #                "${link_}"
 #          )
 #       else()
+      message("Generating link ${link_} -> ${target_}")
+      
+      if(CMAKE_HOST_WIN32)
+      
+         if(IS_DIRECTORY "${target_}")
+            set(flag "/J")
+         else()
+            set(flag "/H")
+         endif()
+         
+         execute_process(
+            COMMAND mklink.exe ${flag} "${link_}" "${target_}" 
+         )
+      else()
    
-         message("Generating symbolic link ${link_} -> ${target_}")
          execute_process(
             COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target_}" "${link_}"
          )
-#       endif()
+      endif()
    endif()
 endfunction()
