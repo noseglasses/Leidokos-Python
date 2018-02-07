@@ -10,6 +10,10 @@ configuration:
   
 init:
   - cmd: |
+  
+      rem Activate the administrator account
+      net user Administrator /active:yes
+      
       set CC=C:\msys64\mingw64\bin\gcc.exe
       set CXX=C:\msys64\mingw64\bin\g++.exe
 
@@ -31,5 +35,5 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      cmd /c "C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat" || EXIT /B 1
+      runas /user:Administator "cmd /c C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat" || EXIT /B 1
   
