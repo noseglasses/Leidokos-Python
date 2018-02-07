@@ -48,6 +48,12 @@ function(generate_link
             set(flag "/H")
          endif()
          
+         get_filename_component(link_location "${link_}" DIRECTORY)
+         
+         if(NOT EXISTS "${link_location}")
+            file(MAKE_DIRECTORY "${link_location}")
+         endif()
+         
          file(TO_NATIVE_PATH "${link_}" link_native)
          file(TO_NATIVE_PATH "${target_}" target_native)
          
