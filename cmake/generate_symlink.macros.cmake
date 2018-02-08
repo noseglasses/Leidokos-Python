@@ -59,6 +59,13 @@ function(generate_link
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
          )
+         if(NOT result EQUAL 0)
+            message("Failed generating link ${link_native} -> ${target_native}")
+            message("result = ${result}")
+            message("output = ${output}")
+            message("error = ${error}")
+            message(FATAL_ERROR "Bailing out.")
+         endif()
       else()
    
          execute_process(
@@ -67,14 +74,14 @@ function(generate_link
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
          )
-      endif()
       
-      if(NOT result EQUAL 0)
-         message("Failed generating link ${link_} -> ${target_}")
-         message("result = ${result}")
-         message("output = ${output}")
-         message("error = ${error}")
-         message(FATAL_ERROR "Bailing out.")
+         if(NOT result EQUAL 0)
+            message("Failed generating link ${link_} -> ${target_}")
+            message("result = ${result}")
+            message("output = ${output}")
+            message("error = ${error}")
+            message(FATAL_ERROR "Bailing out.")
+         endif()
       endif()
    endif()
 endfunction()
