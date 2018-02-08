@@ -50,3 +50,13 @@ set(libraries_link_name "${CMAKE_SOURCE_DIR}/support/x86/libraries")
 set(libraries_target 
    "${KALEIDOSCOPE_ARDUINO_SKETCHBOOK_DIR}/hardware/keyboardio/avr/libraries")
 generate_link("${libraries_target}" "${libraries_link_name}")
+
+set(cores_link_name "${CMAKE_SOURCE_DIR}/support/x86/cores")
+set(cores_target
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/support/x86/cores")
+generate_link("${cores_target}" "${cores_link_name}")
+   
+set(variants_link_name "${CMAKE_SOURCE_DIR}/support/x86/variants")
+set(variants_target
+   "${CMAKE_SOURCE_DIR}/3rd_party/Kaleidoscope-Hardware-Virtual/support/x86/variants")
+generate_link("${variants_target}" "${variants_link_name}")
