@@ -54,7 +54,7 @@ function(generate_link
          string(REPLACE "/" "\\" target_native "${target_native}")
          
          execute_process(
-            COMMAND cmd /c mklink.exe ${flag} "\"${link_native}\"" "\"${target_native}\"" 
+            COMMAND cmd /c mklink ${flag} "${link_native}" "${target_native}" 
             RESULT_VARIABLE result
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
