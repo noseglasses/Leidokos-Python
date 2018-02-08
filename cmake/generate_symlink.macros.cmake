@@ -26,6 +26,8 @@ function(generate_link
       
       if(CMAKE_HOST_WIN32)
       
+         message("Is windows")
+      
          if(IS_DIRECTORY "${target_}")
             set(flag "/J")
 #             set(flag "/D")
