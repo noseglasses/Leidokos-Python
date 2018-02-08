@@ -52,7 +52,7 @@ function(generate_link
          file(TO_NATIVE_PATH "${target_}" target_native)
          
          execute_process(
-            COMMAND mklink.exe ${flag} "${link_native}" "${target_native}" 
+            COMMAND mklink.exe ${flag} "\"${link_native}\"" "\"${target_native}\"" 
             RESULT_VARIABLE result
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
