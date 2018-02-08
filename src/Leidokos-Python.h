@@ -23,7 +23,12 @@
 // Important: Do not change the order of the following headers. Else
 //            there are strange boost symbol related compile errors.
 //
-#include <cmath>
+// #include <cmath>
+
+// This define is necessary to enable build with mingw and gcc 7
+//
+#define _hypot hypot
+
 #include <boost/python.hpp>
 
 // Starting from here, the order of includes does not matter any further.
