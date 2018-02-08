@@ -20,10 +20,13 @@
 #ifndef LEIDOKOS_PYTHON_H
 #define LEIDOKOS_PYTHON_H
 
-// Important: Keep the boost/python.hpp header the first included. Else
+// Important: Do not change the order of the following headers. Else
 //            there are strange boost symbol related compile errors.
 //
+#include <cmath>
 #include <boost/python.hpp>
+
+// Starting from here, the order of includes does not matter any further.
 
 #include "Kaleidoscope-Hardware-Virtual.h"
 #include "Leidokos-Python.h"
@@ -32,6 +35,7 @@
 #include "key_defs.h"
 
 #include <string>
+#include <vector>
 
 namespace leidokos {
 namespace python {
