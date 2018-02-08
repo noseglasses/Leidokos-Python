@@ -49,7 +49,9 @@ function(generate_link
          endif()
          
          file(TO_NATIVE_PATH "${link_}" link_native)
+         string(REPLACE "/" "\\" link_native "${link_native}")
          file(TO_NATIVE_PATH "${target_}" target_native)
+         string(REPLACE "/" "\\" target_native "${target_native}")
          
          execute_process(
             COMMAND mklink.exe ${flag} "\"${link_native}\"" "\"${target_native}\"" 
