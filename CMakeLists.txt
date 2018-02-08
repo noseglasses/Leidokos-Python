@@ -187,6 +187,8 @@ macro(kaleidoscope_set_binary_basename_hook
    #
    if(CMAKE_HOST_APPLE)
       set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+   elseif(CMAKE_HOST_WIN32)
+      set(CMAKE_SHARED_LIBRARY_SUFFIX ".pyd")
    endif()
    
    set(${basename_var_} "kaleidoscope${CMAKE_SHARED_LIBRARY_SUFFIX}")
