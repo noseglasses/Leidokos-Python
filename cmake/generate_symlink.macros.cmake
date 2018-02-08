@@ -56,6 +56,14 @@ function(generate_link
             file(MAKE_DIRECTORY "${link_location}")
          endif()
          
+         if(NOT EXISTS "${target_}")
+            message(FATAL_ERROR "Unable to create link ${link_}, the target ${target_} does not exist")
+         endif()
+         
+         if(NOT IS_DIRECTORY "${link_location}") 
+            message(FATAL_ERROR "Unable to create link ${link_}, the location ${link_location} does not exist")
+         endif()
+         
          file(TO_NATIVE_PATH "${link_}" link_native)
          file(TO_NATIVE_PATH "${target_}" target_native)
          

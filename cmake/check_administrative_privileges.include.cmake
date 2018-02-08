@@ -18,6 +18,8 @@
 
 if(CMAKE_HOST_WIN32)
 
+   message("Testing administrative privileges")
+
    # See https://stackoverflow.com/questions/4051883/batch-script-how-to-check-for-admin-rights#21295806
    #
    execute_process(
@@ -28,5 +30,6 @@ if(CMAKE_HOST_WIN32)
    if(NOT result EQUAL 0)
       message(FATAL_ERROR "On Windows Leidokos-Python configuration phase must be run with administrative privileges. This is necessary to enable the creation of symbolic links which is not possible otherwise.")
    endif()
+   
 endif()
       
