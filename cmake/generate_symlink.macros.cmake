@@ -59,14 +59,16 @@ function(generate_link
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
          )
-         message("Link:")
          execute_process(
             COMMAND cmd /c dir "${link_native}"
+            OUTPUT_VARIABLE out
          )
-         message("Target:")
+         message("Link: ${out}")
          execute_process(
             COMMAND cmd /c dir "${target_native}"
+            OUTPUT_VARIABLE out
          )
+         message("Target: ${out}")
          if(NOT result EQUAL 0)
             message("Failed generating link ${link_native} -> ${target_native}")
             message("result = ${result}")
