@@ -21,30 +21,14 @@ function(generate_link
    link_
 )
    if(NOT EXISTS "${link_}")
-   
-#       if(CMAKE_HOST_WIN32)
-#       
-#          # There is no way to generate symlinks on 
-#          # Windows without administrative privileges.
-#          # Copy the file as a workaround.
-#          #  
-#          message("Copying ${target_} to ${link_}")
-#          get_filename_component(target_dir "${link_}" DIRECTORY)
-#          file(MAKE_DIRECTORY "${target_dir}")
-#          
-#          execute_process(
-#             COMMAND "${CMAKE_COMMAND}" copy
-#                "${target_}"
-#                "${link_}"
-#          )
-#       else()
+
       message("Generating link ${link_} -> ${target_}")
       
       if(CMAKE_HOST_WIN32)
       
          if(IS_DIRECTORY "${target_}")
 #             set(flag "/J")
-            set(flag "/J")
+            set(flag "/D")
          else()
 #             set(flag "/H")
             set(flag)

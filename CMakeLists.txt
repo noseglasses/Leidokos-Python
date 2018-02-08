@@ -18,13 +18,15 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-include("${CMAKE_SOURCE_DIR}/cmake/check_administrative_privileges.include.cmake")
-
 # Generate version information. This initializes a CMake variable
 #   kaleidoscope_PYTHON_git_version
 #   version_cpp_file
 #
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
+
+# On Windows we require administrative privileges to generate symbolic links
+#
+include("${CMAKE_SOURCE_DIR}/cmake/check_administrative_privileges.include.cmake")
 
 # kaleidoscope_cmake_after_configure_platform_hook is called
 # by Leidokos-CMake after the target platform (paths) has been configured.
