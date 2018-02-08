@@ -25,6 +25,8 @@ if(CMAKE_HOST_WIN32)
    execute_process(
       COMMAND fsutil dirty query $ENV{systemdrive}
       RESULT_VARIABLE result
+      OUTPUT_QUIET
+      ERROR_QUIET
    )
    
    if(NOT result EQUAL 0)
