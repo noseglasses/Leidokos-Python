@@ -27,11 +27,11 @@ function(generate_link
       if(CMAKE_HOST_WIN32)
       
          if(IS_DIRECTORY "${target_}")
-#             set(flag "/J")
-            set(flag "/D")
+            set(flag "/J")
+#             set(flag "/D")
          else()
-#             set(flag "/H")
-            set(flag)
+            set(flag "/H")
+#             set(flag)
          endif()
          
          get_filename_component(link_location "${link_}" DIRECTORY)
