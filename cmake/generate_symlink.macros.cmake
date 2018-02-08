@@ -26,8 +26,6 @@ function(generate_link
       
       if(CMAKE_HOST_WIN32)
       
-         message("Is windows")
-      
          if(IS_DIRECTORY "${target_}")
             set(flag "/J")
 #             set(flag "/D")
@@ -60,6 +58,14 @@ function(generate_link
             RESULT_VARIABLE result
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
+         )
+         message("Link:")
+         execute_process(
+            COMMAND cmd /c dir "${link_native}"
+         )
+         message("Target:")
+         execute_process(
+            COMMAND cmd /c dir "${target_native}"
          )
          if(NOT result EQUAL 0)
             message("Failed generating link ${link_native} -> ${target_native}")
