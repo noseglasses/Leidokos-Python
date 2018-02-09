@@ -13,20 +13,14 @@ init:
   
       rem Activate the administrator account
       net user Administrator /active:yes
-      
-      set CC=C:\msys64\mingw64\bin\gcc.exe
-      set CXX=C:\msys64\mingw64\bin\g++.exe
-
-      rem Use msys2 for all Unix-Like binaries
-      rem
-      set PATH=C:\msys64\mingw64\bin;%PATH%
        
 install:
   - cmd: |
       cd C:\projects
       git clone -b windows --recursive https://github.com/CapeLeidokos/Leidokos-Testing.git
       cd Leidokos-Testing\appveyor
-      cmd /c "C:\projects\Leidokos-Testing\appveyor\init.bat" || EXIT /B 1
+
+      C:\msys64\usr\bin\sh C:\projects\Leidokos-Testing\scripts\prepare_system.sh
       
 build: Script
 
@@ -35,5 +29,5 @@ build_script:
       cd %APPVEYOR_BUILD_FOLDER%
       mkdir ktest
       cd ktest
-      cmd /c "C:\projects\Leidokos-Testing\appveyor\test_kaleidoscope_module.bat" || EXIT /B 1
+      C:\msys64\usr\bin\sh C:\projects\Leidokos-Testing\scripts\test_kaleidoscope_module.sh
   
