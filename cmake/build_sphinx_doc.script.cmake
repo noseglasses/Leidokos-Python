@@ -16,7 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-set(ENV{PYTHONPATH} "${kaleidoscope_module_path}:${kaleidoscope_testing_module_path}:$ENV{PYTHONPATH}")
+if(CMAKE_HOST_WIN32)
+   set(path_sep ";")
+else()
+   set(path_sep ":")
+endif()
+
+set(ENV{PYTHONPATH} "${kaleidoscope_module_path}${path_sep}${kaleidoscope_testing_module_path}${path_sep}$ENV{PYTHONPATH}")
 
 execute_process(
    COMMAND "${sphinx_executable}" -b html "${sphinx_configuration_dir}/source" "${sphinx_build_dir}"
