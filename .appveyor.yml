@@ -14,6 +14,10 @@ init:
       rem Activate the administrator account
       net user Administrator /active:yes
        
+      rem Use msys2 for all Unix-Like binaries
+      rem
+      set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin;%PATH%
+      
 install:
   - cmd: |
       cd C:\projects
