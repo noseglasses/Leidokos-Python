@@ -4,7 +4,9 @@ python
 .. toctree::
    :maxdepth: 4
 
-   leidokos
+   KeyReportAssertions
+   ProcessAssertions
+   Test
    kaleidoscope
    kaleidoscope.hid
    kaleidoscope.ranges

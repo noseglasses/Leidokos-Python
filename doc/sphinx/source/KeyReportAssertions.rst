@@ -1,7 +1,7 @@
-leidokos module
+KeyReportAssertions module
 ===============
 
-.. automodule:: leidokos
+.. automodule:: KeyReportAssertions
     :members:
     :undoc-members:
     :show-inheritance:
