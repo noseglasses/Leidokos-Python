@@ -95,7 +95,8 @@ class API
 
 // Also defined by Kaleidoscope-Hardware-Virtual
 //
-void initVariant() __attribute__((weak));
+extern void initVariant() __attribute__((weak));
+void initVariant() {}
 void setup(void);
 
 unsigned long millis(void) {
