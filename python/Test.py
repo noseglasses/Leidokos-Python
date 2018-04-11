@@ -126,7 +126,7 @@ class TestDriver(object):
       
       self._footerText()
       
-      if not self._checkStatus():
+      if not self.checkStatus():
          if not self.noExit:
             self._error("Terminating with exit code 1")
          
@@ -175,7 +175,7 @@ class TestDriver(object):
       self.out.writeN("################################################################################\n")
       self.out.writeN("\n")
       
-   def _checkStatus(self):
+   def checkStatus(self):
       success = True
       if len(self.queuedReportAssertions) > 0:
          self.out.write("!!! Error: There are %d left over assertions in the queue\n" % len(self.queuedReportAssertions))
