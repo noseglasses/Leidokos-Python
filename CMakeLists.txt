@@ -18,6 +18,10 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+if(CMAKE_HOST_APPLE)
+   set(CMAKE_PREFIX_PATH "/usr/local;${CMAKE_PREFIX_PATH}" CACHE STRING "" FORCE)
+endif()
+
 # Generate version information. This initializes a CMake variable
 #   kaleidoscope_PYTHON_git_version
 #   version_cpp_file
@@ -60,7 +64,7 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
    #
    find_package(Boost
       REQUIRED
-      COMPONENTS python
+#       COMPONENTS python
    )
    
    # As we need boost-python 3 to build and FindBoost does not allow 
@@ -79,6 +83,17 @@ macro(kaleidoscope_cmake_after_configure_platform_hook)
        boost_python-py37 
        boost_python-py38 
        boost_python-py39
+       
+       boost_python3 
+       boost_python31 
+       boost_python32 
+       boost_python33 
+       boost_python34 
+       boost_python35 
+       boost_python36 
+       boost_python37 
+       boost_python38 
+       boost_python39
      HINTS ENV PATH /usr/lib /usr/lib/x86_64-linux-gnu
    )
 
