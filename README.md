@@ -322,7 +322,7 @@ Prerequisites can be installed using [homebrew](https://brew.sh/).
 
 ```bash
 brew install ccache
-brew install python3
+brew upgrade python
 brew install boost-python --with-python3 --without-python
 sudo -H pip3 install pyyaml
 sudo -H pip3 install sphinx
