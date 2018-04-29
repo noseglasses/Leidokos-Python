@@ -28,6 +28,10 @@ endif()
 #
 include("${CMAKE_SOURCE_DIR}/cmake/versioning.include.cmake")
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "")
+   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
+endif()
+
 # kaleidoscope_cmake_after_configure_platform_hook is called
 # by Leidokos-CMake after the target platform (paths) has been configured.
 #

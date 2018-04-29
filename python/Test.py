@@ -102,6 +102,12 @@ class TestDriver(object):
       self.queuedCycleAssertions = []
       self.permanentCycleAssertions = []
       
+      # Enable the following flag if you want strict errors to be 
+      # triggered whenever there are keyboard reports for which no
+      # assertions have been specified.
+      #
+      self.errorIfReportWithoutQueuedAssertions = False
+      
       self.debug = debug
       
       kaleidoscope.setKeyboardReportCallback(_KeyboardReportCallbackProxy(self))
@@ -188,6 +194,8 @@ class TestDriver(object):
       if success:
          self.out.write("All tests passed.\n")
          return True
+      else:
+         self._error("Errors occurred\n")
       
       return False
 
@@ -290,6 +298,8 @@ class TestDriver(object):
                      % (self.nKeyboardReports,
                         self.nReportsInCycle,
                         self.cycleId), keyboardReportIndent)
+                     
+      nAssertionsQueued = len(self.queuedReportAssertions)
       
       self.out.write("%d queued report assertions\n" % len(self.queuedReportAssertions), assertionGroupIndent)
       
@@ -302,6 +312,9 @@ class TestDriver(object):
          self.out.write("%d permanent report assertions\n" % len(self.permanentReportAssertions), assertionGroupIndent)
          for assertion in self.permanentReportAssertions:
             self._processReportAssertion(assertion, keyReport)
+            
+      if (nAssertionsQueued == 0) and self.errorIfReportWithoutQueuedAssertions:
+         self._error("Encountered a report without assertions being queued")
          
    def _processReportAssertion(self, assertion, keyReport):
       
