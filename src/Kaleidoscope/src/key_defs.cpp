@@ -68,35 +68,43 @@ constexpr uint8_t RESERVED = B10000000;
 #ifdef LCTRL
 #undef LCTRL
 constexpr Key LCTRL(const Key &k) { 
-   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | CTRL_HELD) });
+   return (Key) { k.keyCode, static_cast<uint8_t>(k.flags | CTRL_HELD) };
 }
 #endif
 
 #ifdef LALT
 #undef LALT
 constexpr Key LALT(const Key &k) { 
-   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | LALT_HELD) });
+   return (Key) { k.keyCode, static_cast<uint8_t>(k.flags | LALT_HELD) };
 }
 #endif
 
 #ifdef RALT
 #undef RALT
 constexpr Key RALT(const Key &k) { 
-   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | RALT_HELD) });
+   return (Key) { k.keyCode, static_cast<uint8_t>(k.flags | RALT_HELD) };
 }
 #endif
 
 #ifdef LSHIFT
 #undef LSHIFT
 constexpr Key LSHIFT(const Key &k) { 
-   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | SHIFT_HELD) });
+   return (Key) { k.keyCode, static_cast<uint8_t>(k.flags | SHIFT_HELD) };
 }
 #endif
 
 #ifdef LGUI
 #undef LGUI
 constexpr Key LGUI(const Key &k) { 
-   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | GUI_HELD) });
+   return (Key) { k.keyCode, static_cast<uint8_t>(k.flags | GUI_HELD) };
+}
+#endif
+
+#ifdef ShiftToLayer
+#undef ShiftToLayer
+constexpr Key ShiftToLayer(uint8_t n) {
+   return (Key){ static_cast<uint8_t>(n + LAYER_SHIFT_OFFSET), 
+                 static_cast<uint8_t>(KEY_FLAGS | SYNTHETIC | SWITCH_TO_KEYMAP) };
 }
 #endif
 
