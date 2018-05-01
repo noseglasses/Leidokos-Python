@@ -22,6 +22,84 @@
 
 #include "key_defs.h"
 
+// Kaleidoscope defines modifier functions that causes problems due to 
+// missing casts
+//
+#ifdef KEY_FLAGS
+#undef KEY_FLAGS
+constexpr uint8_t KEY_FLAGS = B00000000;
+#endif
+
+#ifdef CTRL_HELD
+#undef CTRL_HELD
+constexpr uint8_t CTRL_HELD = B00000001;
+#endif
+
+#ifdef LALT_HELD
+#undef LALT_HELD
+constexpr uint8_t LALT_HELD = B00000010;
+#endif
+
+#ifdef RALT_HELD
+#undef RALT_HELD
+constexpr uint8_t RALT_HELD = B00000100;
+#endif
+
+#ifdef SHIFT_HELD
+#undef SHIFT_HELD
+constexpr uint8_t SHIFT_HELD = B00001000;
+#endif
+
+#ifdef GUI_HELD
+#undef GUI_HELD
+constexpr uint8_t GUI_HELD = B00010000;
+#endif
+
+#ifdef SYNTHETIC
+#undef SYNTHETIC
+constexpr uint8_t SYNTHETIC = B01000000;
+#endif
+
+#ifdef RESERVED
+#undef RESERVED
+constexpr uint8_t RESERVED = B10000000;
+#endif
+
+#ifdef LCTRL
+#undef LCTRL
+constexpr Key LCTRL(const Key &k) { 
+   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | CTRL_HELD) });
+}
+#endif
+
+#ifdef LALT
+#undef LALT
+constexpr Key LALT(const Key &k) { 
+   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | LALT_HELD) });
+}
+#endif
+
+#ifdef RALT
+#undef RALT
+constexpr Key RALT(const Key &k) { 
+   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | RALT_HELD) });
+}
+#endif
+
+#ifdef LSHIFT
+#undef LSHIFT
+constexpr Key LSHIFT(const Key &k) { 
+   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | SHIFT_HELD) });
+}
+#endif
+
+#ifdef LGUI
+#undef LGUI
+constexpr Key LGUI(const Key &k) { 
+   return ((Key) { k.keyCode, static_cast<uint8_t>(k.flags | GUI_HELD) });
+}
+#endif
+
 #define FOR_ALL_HID_MODIFIERS(FUNC) \
 FUNC(LEFT_CONTROL) \
 FUNC(LEFT_SHIFT) \
