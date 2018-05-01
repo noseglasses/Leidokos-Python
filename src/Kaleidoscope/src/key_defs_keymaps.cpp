@@ -21,6 +21,14 @@
 
 #include "key_defs_keymaps.h"
 
+#ifdef ShiftToLayer
+#undef ShiftToLayer
+constexpr Key ShiftToLayer(uint8_t n) {
+   return (Key){ static_cast<uint8_t>(n + LAYER_SHIFT_OFFSET), 
+                 static_cast<uint8_t>(KEY_FLAGS | SYNTHETIC | SWITCH_TO_KEYMAP) };
+}
+#endif
+
 namespace leidokos {
 namespace python {
    

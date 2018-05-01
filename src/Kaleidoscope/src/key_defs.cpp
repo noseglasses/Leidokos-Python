@@ -100,14 +100,6 @@ constexpr Key LGUI(const Key &k) {
 }
 #endif
 
-#ifdef ShiftToLayer
-#undef ShiftToLayer
-constexpr Key ShiftToLayer(uint8_t n) {
-   return (Key){ static_cast<uint8_t>(n + LAYER_SHIFT_OFFSET), 
-                 static_cast<uint8_t>(KEY_FLAGS | SYNTHETIC | SWITCH_TO_KEYMAP) };
-}
-#endif
-
 #define FOR_ALL_HID_MODIFIERS(FUNC) \
 FUNC(LEFT_CONTROL) \
 FUNC(LEFT_SHIFT) \
