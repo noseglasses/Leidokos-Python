@@ -1,0 +1,507 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Test module &#8212; Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-Test">
+<span id="test-module"></span><h1>Test module<a class="headerlink" href="#module-Test" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="Test.TestDriver">
+<em class="property">class </em><code class="descclassname">Test.</code><code class="descname">TestDriver</code><span class="sig-paren">(</span><em>out=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;</em>, <em>debug=False</em>, <em>cycleDuration=5</em>, <em>noExit=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The main test object that controls everything.</p>
+<dl class="attribute">
+<dt id="Test.TestDriver.out">
+<code class="descname">out</code><a class="headerlink" href="#Test.TestDriver.out" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>stream</em> – A stream that should be used for all output using write(…).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Test.TestDriver.debug">
+<code class="descname">debug</code><a class="headerlink" href="#Test.TestDriver.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> – Additional output is generated when set to True. Defaults to False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.addPermanentReportAssertion">
+<code class="descname">addPermanentReportAssertion</code><span class="sig-paren">(</span><em>assertion</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.addPermanentReportAssertion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a permanent report assertion. The assertions thus added will
+be cast on every future keyboard report until removed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertion</strong> (<em>_Assertion</em>) – An assertions to be used permanently.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.addPermanentReportAssertions">
+<code class="descname">addPermanentReportAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.addPermanentReportAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a number of permanent report assertions. The assertions thus added will
+be cast on every future keyboard report until removed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be used permanently.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.checkStatus">
+<code class="descname">checkStatus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.checkStatus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.clearAllKeys">
+<code class="descname">clearAllKeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.clearAllKeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears all keys that are currently active (down).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.description">
+<code class="descname">description</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a description message without time information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> (<em>string</em>) – The description message.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.graphicalMap">
+<code class="descname">graphicalMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.graphicalMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.header">
+<code class="descname">header</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a header log message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> (<em>string</em>) – The header message.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.initHardware">
+<code class="descname">initHardware</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.initHardware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.isKeyPressed">
+<code class="descname">isKeyPressed</code><span class="sig-paren">(</span><em>row</em>, <em>col</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.isKeyPressed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.keyDown">
+<code class="descname">keyDown</code><span class="sig-paren">(</span><em>row</em>, <em>col</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.keyDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a key down event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>int</em>) – The keyboard key row.</li>
+<li><strong>col</strong> (<em>int</em>) – The keyboard key col.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.keyUp">
+<code class="descname">keyUp</code><span class="sig-paren">(</span><em>row</em>, <em>col</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.keyUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a key up event. Make sure that the key was registered
+as active before, using keyDown(…).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>int</em>) – The keyboard key row.</li>
+<li><strong>col</strong> (<em>int</em>) – The keyboard key col.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.log">
+<code class="descname">log</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a log message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> (<em>string</em>) – The log message.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.queueCycleAssertions">
+<code class="descname">queueCycleAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.queueCycleAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queues a number of cycle assertions. Queued assertions will be
+applied at the end of the next cycle and then discarded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be queued.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.queueGroupedReportAssertions">
+<code class="descname">queueGroupedReportAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.queueGroupedReportAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queues a number of report assertions. The assertions will be
+grouped and cast together on a key report. Once casted they will
+all be discarded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to group and queue.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.queueReportAssertion">
+<code class="descname">queueReportAssertion</code><span class="sig-paren">(</span><em>assertion</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.queueReportAssertion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queues a report assertions. The report assertion at the end of
+the queue will be cast on the next key report. Then the respective
+assertion will be discarded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertion</strong> (<em>_Assertion</em>) – The assertion to add to the queue.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.rawLog">
+<code class="descname">rawLog</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.rawLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a log message without time information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msg</strong> (<em>string</em>) – The log message.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.registerPermanentCycleAssertions">
+<code class="descname">registerPermanentCycleAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.registerPermanentCycleAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a number of cycle assertions that are
+applied after every future cycle until removed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be registered.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removeCycleAssertions">
+<code class="descname">removeCycleAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removeCycleAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a number of cycle assertions, both from queued
+and permanent assertions (only if registered).
+Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removePermanentCycleAssertions">
+<code class="descname">removePermanentCycleAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removePermanentCycleAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a number of permanent cycle assertions (only if registered).
+Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removePermanentReportAssertions">
+<code class="descname">removePermanentReportAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removePermanentReportAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a number of permanent report assertions (only if registered).
+Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removeQueuedCycleAssertions">
+<code class="descname">removeQueuedCycleAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removeQueuedCycleAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a number of queued cycle assertions (only if registered).
+Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removeQueuedReportAssertions">
+<code class="descname">removeQueuedReportAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removeQueuedReportAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes assertions from the report assertion queue (only if registered).
+Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.removeReportAssertions">
+<code class="descname">removeReportAssertions</code><span class="sig-paren">(</span><em>assertionList</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.removeReportAssertions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a number of report assertions from both queued and permanent
+assertions (only if registered). Assertions that are not registered are ignored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>assertionList</strong> (<em>list</em>) – A list of assertions to be removed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><em>methodName</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.scanCycle">
+<code class="descname">scanCycle</code><span class="sig-paren">(</span><em>onStopAssertionList=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.scanCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes a scan cycle and processes assertions afterwards.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>onStopAssertionList</strong> (<em>list</em>) – A list of assertions to be executed after
+the next cycle and to be discarded afterwards. Defaults to None.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.scanCycles">
+<code class="descname">scanCycles</code><span class="sig-paren">(</span><em>n=0</em>, <em>onStopAssertionList=None</em>, <em>cycleAssertionList=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.scanCycles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes a number of scan cycles and processes assertions afterwards.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – The number of cycles to execute.</li>
+<li><strong>onStopAssertionList</strong> (<em>list</em>) – A list of assertions to be executed after
+the cycles where executed and to be discarded afterwards. Defaults
+to None.</li>
+<li><strong>cycleAssertionList</strong> (<em>list</em>) – A list of assertions that are executed
+after every cycle.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.setOutputStream">
+<code class="descname">setOutputStream</code><span class="sig-paren">(</span><em>out</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.setOutputStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets an output stream that is used for all formatted output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>out</strong> (<em>stream</em>) – An output stream.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.skipTime">
+<code class="descname">skipTime</code><span class="sig-paren">(</span><em>deltaT</em>, <em>onStopAssertionList=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.skipTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skips a given amount of time by executing cycles and processes assertions afterwards.</p>
+<dl class="docutils">
+<dt>Important:</dt>
+<dd>Make sure to set the cycleDuration property of the TestDriver class
+to a non zero value in [ms] before calling this method.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>deltaT</strong> (<em>float</em>) – A time in [ms] that is supposed to be skipped.</li>
+<li><strong>onStopAssertionList</strong> (<em>list</em>) – A list of assertions to be executed after
+the cycles where executed and to be discarded afterwards. Defaults
+to None.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Test.TestDriver.tap">
+<code class="descname">tap</code><span class="sig-paren">(</span><em>row</em>, <em>col</em><span class="sig-paren">)</span><a class="headerlink" href="#Test.TestDriver.tap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers tap of a key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>int</em>) – The keyboard key row.</li>
+<li><strong>col</strong> (<em>int</em>) – The keyboard key col.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Test.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, noseglasses.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

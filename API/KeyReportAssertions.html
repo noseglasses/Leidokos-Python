@@ -1,0 +1,281 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>KeyReportAssertions module &#8212; Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="keyreportassertions-module">
+<h1>KeyReportAssertions module<a class="headerlink" href="#keyreportassertions-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-KeyReportAssertions"></span><dl class="class">
+<dt id="KeyReportAssertions.DumpReport">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">DumpReport</code><a class="headerlink" href="#KeyReportAssertions.DumpReport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Dumps the current keyboard report.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportAllKeysInactive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportAllKeysInactive</code><a class="headerlink" href="#KeyReportAssertions.ReportAllKeysInactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that all keys are inactive in a key report.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportAllModifiersInactive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportAllModifiersInactive</code><a class="headerlink" href="#KeyReportAssertions.ReportAllModifiersInactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that all modifiers are inactive in a key report.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportAnyKeysActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportAnyKeysActive</code><a class="headerlink" href="#KeyReportAssertions.ReportAnyKeysActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that any keys are active in a key report.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportAnyModifiersActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportAnyModifiersActive</code><a class="headerlink" href="#KeyReportAssertions.ReportAnyModifiersActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that any modifiers are active in a key report.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportEmpty">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportEmpty</code><a class="headerlink" href="#KeyReportAssertions.ReportEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a key report is empty.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportKeyActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportKeyActive</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportKeyActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific key is active in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The key tested for being active.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportKeyInactive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportKeyInactive</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportKeyInactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific key is inactive in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The key tested for being inactive.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportKeycodeActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportKeycodeActive</code><span class="sig-paren">(</span><em>keycode</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportKeycodeActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific keycode is active in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>keycode</strong> (<em>int</em>) – The keycode tested for being active.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportKeycodeInactive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportKeycodeInactive</code><span class="sig-paren">(</span><em>keycode</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportKeycodeInactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific key is inactive in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>keycode</strong> (<em>int</em>) – The key tested for being inactive.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportKeysActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportKeysActive</code><span class="sig-paren">(</span><em>keys</em>, <em>exclusively=True</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportKeysActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific list of keys is active in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>keys</strong> (<em>list</em>) – A list of keys tested for being active.</li>
+<li><strong>exclusively</strong> (<em>boolean</em>) – It True, no other keycodes than the ones supplied
+are tolerated active.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportModifierActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportModifierActive</code><span class="sig-paren">(</span><em>modifier</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportModifierActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific modifier is active in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>modifier</strong> (<em>int</em>) – The modifier tested for being active.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportModifierInactive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportModifierInactive</code><span class="sig-paren">(</span><em>modifier</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportModifierInactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific modifier is inactive in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>modifier</strong> (<em>int</em>) – The modifier tested for being inactive.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportModifiersActive">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportModifiersActive</code><span class="sig-paren">(</span><em>modifierKeys</em>, <em>exclusively=True</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportModifiersActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a specific list of modifiers is active in the keyboard report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>modifierKeys</strong> (<em>list</em>) – A list of modifiers keys tested for being active.</li>
+<li><strong>exclusively</strong> (<em>boolean</em>) – It True, no other modifiers than the ones supplied
+are tolerated active.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportNotEmpty">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportNotEmpty</code><a class="headerlink" href="#KeyReportAssertions.ReportNotEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a key report is notempty.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="KeyReportAssertions.ReportNthInCycle">
+<em class="property">class </em><code class="descclassname">KeyReportAssertions.</code><code class="descname">ReportNthInCycle</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#KeyReportAssertions.ReportNthInCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Assertion._Assertion</span></code></p>
+<p>Asserts that a report is the nth in its current cycle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – The report count.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/KeyReportAssertions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, noseglasses.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,504 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>kaleidoscope.hid module &#8212; Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kaleidoscope-hid-module">
+<h1>kaleidoscope.hid module<a class="headerlink" href="#kaleidoscope-hid-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-kaleidoscope.hid"></span><dl class="function">
+<dt id="kaleidoscope.hid.clickAbsoluteMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">clickAbsoluteMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.clickAbsoluteMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clicks a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons clicked.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void clickAbsoluteMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.clickMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">clickMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.clickMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clicks a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons clicked.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void clickMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.getKeyboardLEDs">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">getKeyboardLEDs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int :<a class="headerlink" href="#kaleidoscope.hid.getKeyboardLEDs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the keyboard LEDs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The LEDs.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">uint8_t</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>unsigned char getKeyboardLEDs()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.initializeAbsoluteMouse">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">initializeAbsoluteMouse</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.initializeAbsoluteMouse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the mouse absolutely.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void initializeAbsoluteMouse()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.initializeConsumerControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">initializeConsumerControl</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.initializeConsumerControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the consumer control.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void initializeConsumerControl()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.initializeKeyboard">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">initializeKeyboard</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.initializeKeyboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the keyboard.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void initializeKeyboard()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.initializeMouse">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">initializeMouse</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.initializeMouse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the mouse.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void initializeMouse()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.initializeSystemControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">initializeSystemControl</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.initializeSystemControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the system control.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void initializeSystemControl()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.isModifierKeyActive">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">isModifierKeyActive</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; bool :<a class="headerlink" href="#kaleidoscope.hid.isModifierKeyActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a modifier is active.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Args:</dt>
+<dd>mappedKey (Key): The mapped key to interpret as modifier.</dd>
+<dt>Returns:</dt>
+<dd>boolean: True if the modifier is active, False otherwise.</dd>
+<dt>C++ signature :</dt>
+<dd>bool isModifierKeyActive(<a href="#id1"><span class="problematic" id="id2">Key_</span></a>)</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>isModifierKeyActive( (Key)arg1) -&gt; bool :</dt>
+<dd><p class="first">Checks if a modifier was active.</p>
+<dl class="last docutils">
+<dt>Args:</dt>
+<dd>mappedKey (Key): The mapped key to interpret as modifier.</dd>
+<dt>Returns:</dt>
+<dd>boolean: True if the modifier was active, False otherwise.</dd>
+<dt>C++ signature :</dt>
+<dd>bool isModifierKeyActive(<a href="#id3"><span class="problematic" id="id4">Key_</span></a>)</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.moveAbsoluteMouseTo">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">moveAbsoluteMouseTo</code><span class="sig-paren">(</span><em>(int)arg1</em>, <em>(int)arg2</em>, <em>(int)arg3</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.moveAbsoluteMouseTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the mouse to a given position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>signed char</em>) – The x position.</li>
+<li><strong>y</strong> (<em>signed char</em>) – The y position.</li>
+<li><strong>wheel</strong> (<em>signed char</em>) – The wheel position.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void moveAbsoluteMouseTo(unsigned short,unsigned short,signed char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.moveMouse">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">moveMouse</code><span class="sig-paren">(</span><em>(int)arg1</em>, <em>(int)arg2</em>, <em>(int)arg3</em>, <em>(int)arg4</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.moveMouse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the mouse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>signed char</em>) – The x movement.</li>
+<li><strong>y</strong> (<em>signed char</em>) – The y movement.</li>
+<li><strong>vWheel</strong> (<em>signed char</em>) – The vertical wheel movement.   hWheel (signed char): The horizontal wheel movement.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void moveMouse(signed char,signed char,signed char,signed char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressAbsoluteMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressAbsoluteMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressAbsoluteMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activates a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons activated.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressAbsoluteMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressConsumerControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressConsumerControl</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressConsumerControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presses a consumer control key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The consumer control key.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressConsumerControl(<a href="#id5"><span class="problematic" id="id6">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressKey">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressKey</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Press a given key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The mapped key to press.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressKey(<a href="#id7"><span class="problematic" id="id8">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activates a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons activated.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressRawKey">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressRawKey</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressRawKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presses a raw key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The mapped key to press.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressRawKey(<a href="#id9"><span class="problematic" id="id10">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.pressSystemControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">pressSystemControl</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.pressSystemControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presses a system control key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The system control key.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void pressSystemControl(<a href="#id11"><span class="problematic" id="id12">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseAbsoluteMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseAbsoluteMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseAbsoluteMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deactivates a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons deactivated.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseAbsoluteMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseAllKeys">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseAllKeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseAllKeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Releases all keys.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseAllKeys()</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseConsumerControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseConsumerControl</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseConsumerControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Releases a consumer control key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The consumer control key.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseConsumerControl(<a href="#id13"><span class="problematic" id="id14">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseKey">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseKey</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release a given key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The mapped key to release.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseKey(<a href="#id15"><span class="problematic" id="id16">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseMouseButtons">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseMouseButtons</code><span class="sig-paren">(</span><em>(int)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseMouseButtons" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deactivates a given set of mouse buttons.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>buttons</strong> (<em>uint8_t</em>) – The buttons deactivated.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseMouseButtons(unsigned char)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseRawKey">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseRawKey</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseRawKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presses a raw key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The mapped key to release.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseRawKey(<a href="#id17"><span class="problematic" id="id18">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.releaseSystemControl">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">releaseSystemControl</code><span class="sig-paren">(</span><em>(Key)arg1</em><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.releaseSystemControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Releases a system control key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mappedKey</strong> (<a class="reference internal" href="kaleidoscope.html#kaleidoscope.Key" title="kaleidoscope.Key"><em>Key</em></a>) – The system control key.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void releaseSystemControl(<a href="#id19"><span class="problematic" id="id20">Key_</span></a>)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="kaleidoscope.hid.sendKeyboardReport">
+<code class="descclassname">kaleidoscope.hid.</code><code class="descname">sendKeyboardReport</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None :<a class="headerlink" href="#kaleidoscope.hid.sendKeyboardReport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flushes any pending keyboard report.</p>
+<dl class="docutils">
+<dt>C++ signature :</dt>
+<dd>void sendKeyboardReport()</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kaleidoscope.hid.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="kaleidoscope.html">Leidokos-Python 52ed6ca1149cacc8cfae39c766d7dd24e15afaff documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, noseglasses.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>
