@@ -1,3 +1,5 @@
+**This project is discontinued due to significant changes in the Kaleidoscope core. See [Kaleidoscope-Simulator](https://github.com/CapeLeidokos/Kaleidoscope-Simulator) for a follow up project with a slightly different focus.**
+
 [!status](https://img.shields.io/badge/stable-✔-black.svg?style=for-the-badge&colorA=44cc11&colorB=494e52)[![Build Status](https://img.shields.io/travis/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge&label=Linux&branch=master)](https://travis-ci.org/CapeLeidokos/Leidokos-Python)[![Build Status](https://img.shields.io/travis/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge&label=Mac&branch=master)](https://travis-ci.org/CapeLeidokos/Leidokos-Python)[![Latest version](https://img.shields.io/github/release/CapeLeidokos/Leidokos-Python.svg?style=for-the-badge)](https://github.com/CapeLeidokos/Leidokos-Python/releases)
 
 [![Python API documentation](https://img.shields.io/badge/Python-API-ff69b4.svg?style=for-the-badge)](https://capeleidokos.github.io/Leidokos-Python/API/index.html)
